@@ -1,0 +1,123 @@
+.sidebar {
+    height: 100%;
+    z-index: 3;
+    padding: 0 0 50px 0;
+    background-color: white;
+    @media (min-width: 576px) {
+        max-width: 375px;
+    }
+    .menuItem {
+        color: #111;
+        padding: 8px 0 8px 36px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+            font-size: 15px;
+            margin: 0;
+        }
+        &:hover {
+            background-color: #eaeded;
+            text-decoration: none;
+            .chevronRight {
+                background-position: -162px 168px;
+            }
+            .chevronArrowLeft{
+                background-position: -162px 146px;
+            }
+        }
+    }
+}
+
+// animation class for showing sidebar
+.showSidebar {
+    animation: showSidebar .5s 1 forwards;
+    @keyframes showSidebar {
+        0% {left: -120%};
+        100%{left: 0}
+    }
+}
+
+// animation class for hiding sidebar
+.hideSidebar {
+    animation: hideSidebar .5s 1 forwards;
+    @keyframes hideSidebar {
+        0% {left: 0};
+        100%{left: -120%}
+    }
+}
+
+// cross icon
+.cross {
+    background-image: url('../../public/images.png');
+    height: 31px;
+    width: 46px;
+    background-position: -175px 168px;
+}
+
+// user icon
+.user {   
+    height: 27px;
+    width: 27px;
+    border-radius: 50%;
+}
+
+// chevron-right icon
+.chevronRight {
+    background-image: url('../../public/images.png');
+    height: 24px;
+    width: 13px;
+    background-position: -133px 168px;
+}
+// chevron-arrow-left icon
+.chevronArrowLeft {
+    background-image: url('../../public/images.png');
+    height: 24px;
+    width: 21px;
+    background-position: -133px 146px;
+}
+
+// chevron-down icon
+.chevronDown {
+    background-image: url('../../public/images.png');
+    height: 18px;
+    width: 13px;
+    background-position: -184px 115px;
+}
+
+.mainMenu {
+    position: absolute;
+    top: 18px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.subMenu {
+    position: absolute;
+    top: 8px;
+    left: 120%;
+    right: -120%;
+    bottom: 0;
+}
+
+.hideToLeft {
+    transition: .3s;
+    position: absolute;
+    left: -120%;
+    right: 120%;
+}
+
+.show {
+    transition: .3s;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.hideToRight {
+    transition: .3s;
+    position: absolute;
+    left: 120%;
+    right: -120%;
+}

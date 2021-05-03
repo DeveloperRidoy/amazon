@@ -1,0 +1,48 @@
+.footer {
+    color: white;
+    a{
+        color: white;
+        &:hover {
+            color: white;
+        }
+    }
+
+
+    // back to top button
+    .backToTop {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        background-color: #3d4754;
+        &:hover {
+            background: #4b5461;
+            cursor: pointer;
+        }
+        h5 {
+            margin-bottom: 0;
+        }
+    }
+
+    // footer logo
+    a.logoContainer {
+    border: none;
+    &:hover {
+        border: none;
+    }
+    .logo {
+        background-image: url('../../public/images.png');
+        height: 33px;
+        width: 104px;
+        background-position: -8px -47px;
+        @media (max-width: 768px) {
+            background-image: url('../../public/images.png');
+            background-position: -8px -87px;
+            height: 27px;
+            width: 82px;
+        }
+    }
+}
+}
+
+
