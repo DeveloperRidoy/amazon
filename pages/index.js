@@ -5,8 +5,10 @@ import Slider from "../components/Slider/Slider";
 import Slider2 from "../components/Slider/Slider2/Slider2";
 import { GlobalContext } from "../context/GlobalContext";
 import styles from "../styles/Home.module.scss";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const Router = useRouter();
   const { state } = useContext(GlobalContext);
 
   return (
@@ -79,7 +81,7 @@ export default function Home() {
                     <span>Toys & Games</span>
                   </div>
                 </div>
-                <Link href="#">
+                <Link href={Router.asPath}>
                   <a>
                     <h5 style={{ marginTop: "35px" }}>Shop now</h5>
                   </a>
@@ -87,10 +89,10 @@ export default function Home() {
               </div>
             </div>
           )}
-          <Card text="Beauty picks" link="#" img="beauty" />
+          <Card text="Beauty picks" link={Router.asPath} img="beauty" />
           <Card
             text="Get fit at home"
-            link="#"
+            link={Router.asPath}
             img="fitness"
             linkText="Explore now"
           />
@@ -127,7 +129,7 @@ export default function Home() {
                   <span>Toys & Games</span>
                 </div>
               </div>
-              <Link href="#">
+              <Link href={Router.asPath}>
                 <a>
                   <h5 style={{ marginTop: "82px" }}>Shop now</h5>
                 </a>
@@ -179,20 +181,24 @@ export default function Home() {
           )}
           <Card
             text="Shop top categories"
-            link="#"
+            link={Router.asPath}
             img="hobby"
             linkText="See more"
           />
-          <Card text="Computers & Accessories" link="#" img="pc&accessories" />
+          <Card
+            text="Computers & Accessories"
+            link={Router.asPath}
+            img="pc&accessories"
+          />
           <Card
             text="AmazonBasics"
-            link="#"
+            link={Router.asPath}
             img="amazonBasics"
             linkText="See more"
           />
           <Card
             text="Find your ideal TV"
-            link="#"
+            link={Router.asPath}
             img="tv"
             linkText="See more"
           />
@@ -200,39 +206,39 @@ export default function Home() {
         <div className="p-3 my-2 bg-white">
           <div className="mb-2">
             <h2 className="d-inline text-dark">Discover Amazon</h2>
-            <Link href="#">
+            <Link href={Router.asPath}>
               <a className="ml-3">
                 <h5 className="d-inline">Click to learn more</h5>
               </a>
             </Link>
           </div>
           <div className="d-flex" style={{ overflowX: "scroll" }}>
-            <Link href="#">
+            <Link href={Router.asPath}>
               <a>
                 <img src="img/globe.png" alt="globe" />
               </a>
             </Link>
-            <Link href="#">
+            <Link href={Router.asPath}>
               <a>
                 <img src="img/money.png" alt="money" />
               </a>
             </Link>
-            <Link href="#">
+            <Link href={Router.asPath}>
               <a>
                 <img src="img/card.png" alt="card" />
               </a>
             </Link>
-            <Link href="#">
+            <Link href={Router.asPath}>
               <a>
                 <img src="img/box.png" alt="box" />
               </a>
             </Link>
-            <Link href="#">
+            <Link href={Router.asPath}>
               <a>
                 <img src="img/track.png" alt="track" />
               </a>
             </Link>
-            <Link href="#">
+            <Link href={Router.asPath}>
               <a>
                 <img src="img/query.png" alt="customer care" />
               </a>
@@ -280,15 +286,23 @@ export default function Home() {
           ]}
         />
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-          <Card text="Shop Laptops & Tablets" link="#" img="laptop" />
-          <Card text="Explore home bedding" link="#" img="bed" />
+          <Card
+            text="Shop Laptops & Tablets"
+            link={Router.asPath}
+            img="laptop"
+          />
+          <Card text="Explore home bedding" link={Router.asPath} img="bed" />
           <Card
             text="Create with strip lights"
-            link="#"
+            link={Router.asPath}
             img="stripeLights"
             linkText="Shop now"
           />
-          <Card text="Shop Laptops & Tablets" link="#" img="laptop" />
+          <Card
+            text="Shop Laptops & Tablets"
+            link={Router.asPath}
+            img="laptop"
+          />
         </div>
         <Slider2
           title="Amazon Top Sellers"
@@ -391,10 +405,14 @@ export default function Home() {
         />
         <Slider2
           title="Inspired by your browsing history"
-          link= {state.loggedIn ?'browsed-products': '/login'}
-          linkText= {!state.loggedIn ? "Sign in to see personalized recommendations": 'See more'}
-          centerText= {!state.loggedIn}
-          linkButton= {!state.loggedIn}
+          link={state.loggedIn ? "browsed-products" : "/login"}
+          linkText={
+            !state.loggedIn
+              ? "Sign in to see personalized recommendations"
+              : "See more"
+          }
+          centerText={!state.loggedIn}
+          linkButton={!state.loggedIn}
           style={{
             padding: "35px 0 0 0",
             display: "flex",

@@ -6,7 +6,10 @@ import { SidebarContext } from "../../context/SidebarContext";
 import Spinner from "../Spinners/Spinner";
 import styles from "./Sidebar.module.scss";
 import SidebarItem from "./SidebarItem/SidebarItem";
-function Sidebar() {
+import { useRouter } from 'next/router';
+
+function Sidebar () {
+  const Router = useRouter();
   const { sidebarSettings, setSidebarSettings } = useContext(SidebarContext);
   const {
     show,
@@ -107,10 +110,10 @@ function Sidebar() {
                 title="Help & Features"
                 links={[
                   { text: "Your Account", link: "/my-account", _id: "1" },
-                  { text: "Language Options", link: "#", _id: "2" },
-                  { text: "Change Region", link: "#", _id: "3" },
+                  { text: "Language Options", _id: "2" },
+                  { text: "Change Region", _id: "3" },
                   state.loggedIn
-                    ? { text: "Log out", link: "#", logOut: true, _id: "4" }
+                    ? { text: "Log out", logOut: true, _id: "4" }
                     : { text: "Log in", link: "/login", _id: "4" },
                 ]}
               />
@@ -125,7 +128,7 @@ function Sidebar() {
               }}
               animate={showSubmenu ? { left: 0 } : { left: "100%" }}
             >
-              <Link href="#">
+              <Link href={Router.asPath}>
                 <a
                   className={`${styles.menuItem} border-bottom py-3 mb-3`}
                   onClick={() => {

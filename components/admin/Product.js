@@ -70,15 +70,25 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
           <div className="d-flex justify-content-end">
             <div
               className="mr-4"
+              tooltip="update product"
               onClick={updateAddPorductOptions}
             >
               <PencilRuler />
             </div>
-            <div className="mr-4" onClick={() => Router.push(`/shop/${product.category.name}/${product.slug}`)}>
+            <div
+              className="mr-4"
+              tooltip="view product"
+              onClick={() =>
+                Router.push(`/shop/${product.category.name}/${product.slug}`)
+              }
+            >
               <Eye />
             </div>
-            <div onClick={() => deleteProduct(product)}>
-              <TrashAlt/>
+            <div
+              tooltip="delete product"
+              onClick={() => deleteProduct(product)}
+            >
+              <TrashAlt />
             </div>
           </div>
         </div>

@@ -2,8 +2,10 @@ import Link from 'next/link';
 import styles from './Slider2.module.scss';
 import {BsChevronRight, BsChevronLeft} from 'react-icons/bs'
 import { useRef } from 'react';
+import { useRouter } from 'next/router';
 
-function Slider2 ({ title = "title", centerText, linkButton, link = "#", linkText = "See more", images }) {
+function Slider2 ({ title = "title", centerText, linkButton, link, linkText = "See more", images }) {
+  const Router = useRouter();
   const imagesContainerRef = useRef(null);
 
   const scrollHorizontal = (ref, direction) => {
@@ -27,7 +29,7 @@ function Slider2 ({ title = "title", centerText, linkButton, link = "#", linkTex
         }
       >
         <h2 className="d-inline text-dark">{title}</h2>
-        <Link href={link}>
+        <Link href={link || Router.asPath}>
           <a
             className="ml-3 text-dark rounded"
             style={
@@ -44,7 +46,7 @@ function Slider2 ({ title = "title", centerText, linkButton, link = "#", linkTex
         {images &&
           images.length > 0 &&
           images.map((img, i) => (
-            <Link href={img.link || "#"} key={i}>
+            <Link href={img.link || Router.asPath} key={i}>
               <a>
                 <img src={img.src} alt={img.alt || `image ${i + 1}`} />
               </a>

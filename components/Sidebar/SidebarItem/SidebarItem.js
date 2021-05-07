@@ -4,8 +4,10 @@ import styles from '../Sidebar.module.scss';
 import Link from "next/link";
 import { GlobalContext } from '../../../context/GlobalContext';
 import axios from 'axios';
+import { useRouter } from 'next/router';
+
 function SidebarItem ({ title, links, seeAllOption, chevron, fullStoreDirectory }) {
-  
+  const Router = useRouter();
   const { sidebarSettings, setSidebarSettings } = useContext(SidebarContext);
 
   const { setState } = useContext(GlobalContext);
@@ -40,7 +42,7 @@ function SidebarItem ({ title, links, seeAllOption, chevron, fullStoreDirectory 
         {links &&
           links.length > 0 &&
           links.map((link) => (
-              <Link href={link.link || "#"}  key={link._id}><a
+              <Link href={Router.asPath}  key={link._id}><a
               className={styles.menuItem}
               onClick={() => stateChange(link)}
               >
@@ -49,7 +51,7 @@ function SidebarItem ({ title, links, seeAllOption, chevron, fullStoreDirectory 
               </a></Link>
           ))}
         {seeAllOption && (
-          <Link href="#"><a className={styles.menuItem}>
+          <Link href={Router.asPath}><a className={styles.menuItem}>
             <div className="d-flex align-items-center">
               <span className="mr-2">See All</span>
               <div className={styles.chevronDown}></div>
@@ -57,7 +59,7 @@ function SidebarItem ({ title, links, seeAllOption, chevron, fullStoreDirectory 
           </a></Link>
         )}
         {fullStoreDirectory && (
-          <Link href="#"><a className={styles.menuItem} >
+          <Link href={Router.asPath}><a className={styles.menuItem} >
             <h4>Full Store Directory</h4>
           </a></Link>
         )}

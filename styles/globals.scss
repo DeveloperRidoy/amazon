@@ -53,3 +53,40 @@ a.logoContainer {
         width: 103px;
     }
 }
+
+// show tooltip on any element with tooltip attribute
+[tooltip] {
+  position: relative;
+}
+[tooltip]::before {
+  content: attr(tooltip);
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  opacity: 0;
+  background-color: black;
+  width: max-content;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  transition: .2s;
+  text-transform: capitalize;
+}
+[tooltip]:hover::before, [tooltip]:hover::after {
+  transform: translate(-50%, 0) scale(1);
+  opacity: 1;
+}
+[tooltip]::after {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, 0);
+  content: '';
+  border-top: 10px solid black;
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid transparent;
+  transition: .2s;
+}

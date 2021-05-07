@@ -11,6 +11,7 @@ import ProductSettings from "../components/admin/ProductSettings";
 import { ORDER_SETTINGS, PRODUCT_SETTINGS, USER_SETTINGS } from "../utils/variables";
 import UserSettings from "../components/admin/UserSettings";
 import OrderSettings from "../components/admin/OrderSettings";
+import axios from 'axios';
 
 export const AdminContext = createContext();
 
@@ -57,8 +58,21 @@ function Admin () {
   }, [fullScreen]);
 
   const LayoutRef = useRef(null)
+
+  const logout = async () => {
+    try {
+      await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/logout`, {withCredentials: true});
+      setState({ ...state, loggedIn: false, user: null, alert: {type: 'success', message: 'Logged out'} });
+    } catch (error) {
+      setState({...state, alert: {type: 'danger', message: error.response?.data?.message || error.message || 'Network Error'}})
+    }
+  }  
+
   return (
-    <AdminContext.Provider value={{ LayoutRef }}>
+    <div>
+      {state.user
+        ? (
+          <AdminContext.Provider value={{ LayoutRef }}>
       <AdminBar
         initial={{ width: adminBar.width }}
         animate={{ width: adminBar.width, transition: { duration: 0.5 } }}
@@ -275,19 +289,15 @@ function Admin () {
                 initial={{ scale: 0 }}
                 animate={showAccountOptions ? { scale: 1 } : { scale: 0 }}
               >
+                <Link href="/">
+                  <a className="mb-3">Home</a>
+                </Link>
                 <Link href="/my-account">
                   <a className="mb-3">Account</a>
                 </Link>
                 <button
                   className="logout"
-                  onClick={() =>
-                    setState({
-                      ...state,
-                      loggedIn: false,
-                      user: null,
-                      alert: { type: "success", message: "Logged Out" },
-                    })
-                  }
+                  onClick={logout}
                 >
                   Logout
                 </button>
@@ -308,6 +318,8 @@ function Admin () {
         </div>
       </Layout>
     </AdminContext.Provider>
+        ) : ''}
+    </div>
   );
 }  
 

@@ -64,7 +64,10 @@ function index () {
   ]);
  
     return (
-      <div className="col py-3">
+      <div>
+        {state.loggedIn && state.user 
+          ? (
+            <div className="col py-3">
         <div style={{ maxWidth: '1000px', margin: '0 auto'}}>
           <h1 className="my-4">Your Account</h1>
           <div className="row align-items-stretch row-cols-1 row-cols-sm-2 row-cols-lg-3">
@@ -121,6 +124,8 @@ function index () {
             ]}
           />
         </div>
+      </div>
+          ): ''}
       </div>
     );
 }

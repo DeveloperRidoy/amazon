@@ -1,10 +1,12 @@
 import styles from './Card2.module.scss';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-function Card2({link="#", title, text, img, style}) {
+function Card2 ({ link, title, text, img, style }) {
+  const Router = useRouter();
     return (
       <div className="col px-3 mb-3" style={style}>
-        <Link href={link}>
+        <Link href={link || Router.asPath}>
           <a className={styles.card}>
             <div className="col">
               <img

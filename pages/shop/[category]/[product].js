@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Product from '../../../components/shop/Product';
 import { GlobalContext } from '../../../context/GlobalContext';
 import Link from 'next/link';
@@ -8,10 +8,12 @@ import Image from 'next/image';
 function ProductPage () {
   const { state } = useContext(GlobalContext);
   const Router = useRouter();
-  const product = state.products.find(product => product.slug === Router.query.product);
-
+  const [product, setProduct] = useState(
+    state.products.find((product) => product.slug === Router.query.product)
+  );
   const similarProducts = state.products.filter((item) => item.slug !== Router.query.product && item.category.name === Router.query.category).filter((product, i) => i <= 4);
 
+  useEffect(() => setProduct(state.products.find(product => product.slug === Router.query.product)), [Router.query.product])
     return (
       <div>
         <ol className="breadcrumb">
@@ -24,14 +26,14 @@ function ProductPage () {
             </Link>
           </li>
         </ol>
-        <div className="d-flex">
+        <div className="row mx-0">
           <div className="col px-0">
             {product 
             ? <Product product={product} />
             : <h3 className="ml-3">No product with this name!</h3>
         }
           </div>
-          <div className="col-2 border-left" style={{ overflowY: "auto" }}>
+          <div className="col-lg-2 border-left" style={{ overflowY: "auto" }}>
             <h5>Similar items</h5>
             {similarProducts.length > 0 &&
               similarProducts.map((product) => (
@@ -44,8 +46,8 @@ function ProductPage () {
                       src={`/img/products/${
                         product.coverPhoto || "product.png"
                       }`}
-                      height=""
-                      width=""
+                      height="100"
+                      width="100"
                       className="mb-2"
                     />
                   </a>

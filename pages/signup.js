@@ -2,26 +2,27 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 import Link from "next/link";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import SubmitButton from "../components/Button/SubmitButton/SubmitButton";
-import styled from 'styled-components';
+import styled from "styled-components";
 
-
-function index () {
+function index() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    photo: ""
+    photo: "",
   });
 
   const [loading, setLoading] = useState(false);
 
-  const {state, setState } = useContext(GlobalContext);
+  const { state, setState } = useContext(GlobalContext);
 
-  useEffect(() => {if (state.loggedIn) return router.replace("/my-account")}, []);
+  useEffect(() => {
+    if (state.loggedIn) return router.replace("/my-account");
+  }, []);
 
   const { name, email, password, confirmPassword } = formData;
   const inputChange = (e) =>
@@ -29,31 +30,40 @@ function index () {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-    
+
   const submitForm = async (e) => {
     e.preventDefault();
     try {
-        e.preventDefault();
-        // see if passwords match
-        if(password !== confirmPassword) return setState((prevState) => ({
+      e.preventDefault();
+      // see if passwords match
+      if (password !== confirmPassword)
+        return setState((prevState) => ({
           ...prevState,
-          alert: { type: "danger", message: 'Passwords do not match. Please try again'},
+          alert: {
+            type: "danger",
+            message: "Passwords do not match. Please try again",
+          },
         }));
 
       setLoading(true);
-      
+
       // send request with data
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API || "api"}/v1/users/signup`,formData, {withCredentials: true});
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/signup`,
+        formData,
+        { withCredentials: true }
+      );
 
       setLoading(false);
       setState((prevState) => ({
         ...prevState,
-        loggedIn: true, user: res.data.data.user,
+        loggedIn: true,
+        user: res.data.data.user,
         alert: { type: "success", message: res.data.message, timeOut: 2000 },
       }));
 
       // redirect to my-account after 2 seconds
-      setTimeout(() => router.push('/my-account'), 2000);
+      setTimeout(() => router.push("/my-account"), 2000);
     } catch (error) {
       setState((prevState) => ({
         ...prevState,
@@ -75,10 +85,7 @@ function index () {
             <div className="logo"></div>
           </a>
         </Link>
-        <form
-          className="p-3 rounded shadow-lg"
-          onSubmit={submitForm}
-        >
+        <form className="p-3 rounded shadow-lg" onSubmit={submitForm}>
           <h1>Sign-up</h1>
           <div className="form-group">
             <label htmlFor="email">Name</label>
@@ -134,12 +141,16 @@ function index () {
               required
             />
           </div>
-          <SubmitButton loading={loading}>
-            Sign up 
-          </SubmitButton>
+          <SubmitButton loading={loading}>Sign up</SubmitButton>
           <p className="mt-3">
             By continuing, you agree to Amazon's{" "}
-            <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>
+            <Link href={Router.asPath}>
+              <a>Conditions of Use</a>
+            </Link>{" "}
+            and{" "}
+            <Link href={Router.asPath}>
+              <a>Privacy Notice</a>
+            </Link>
             .
           </p>
         </form>
@@ -148,9 +159,9 @@ function index () {
           <RegisterLink href="/login">Login to Your Account</RegisterLink>
         </Link>
         <div className="w-75 border-top pt-3 mt-4 d-flex justify-content-around">
-          <Link href="#">Conditions of Use</Link>
-          <Link href="#">Privacy Notice</Link>
-          <Link href="#">Help</Link>
+          <Link href={Router.asPath}>Conditions of Use</Link>
+          <Link href={Router.asPath}>Privacy Notice</Link>
+          <Link href={Router.asPath}>Help</Link>
         </div>
         <p className="mt-3 text-disabled ">
           © 1996-2021, Amazon.com, Inc. or its affiliates

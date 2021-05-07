@@ -2,13 +2,25 @@
     color: white;
     a{
         color: white;
+        background: none;
         border: 1px solid transparent;
         padding: 5px;
+        &:focus {
+            outline: auto;
+        }
     }
     a:hover {
         text-decoration: none;
         border: 1px solid white;
         color: white;
+    }
+    .suggestionsBackdrop {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, .7);
+        z-index: 5;
     }
 }
 
@@ -41,8 +53,44 @@ a.logoContainer {
 }
 
 
-// cart
 .cart {
+    display: flex;
+    align-items: flex-end;
+    margin: 0 5px 0 0;
+    position: relative;
+    &:hover .cartPreview {
+        display: block;
+    }
+    .cartPreview {
+        display: none;
+        position: absolute;
+        z-index: 1;
+        top: 44px;
+        right: 0;
+        width: 250px;
+        padding: 10px;
+        height: max-content;
+        background: white;
+        color: black;
+        box-shadow: 0 0 15px rgba($color: #000000, $alpha: .3);
+        border-radius: 5px;
+         &::before {
+            content: "";
+            position: absolute;
+            top: -19px;
+            right: 30px;
+            height: 0;
+            width: 0;
+            border-top: 10px solid transparent;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid white;
+        }
+    }
+}
+
+// cart
+.cartIcon {
     background-image: url('../../public/images.png');
     height: 33px;
     width: 43px;
@@ -50,7 +98,7 @@ a.logoContainer {
     position: relative;
     .cartCount {
         position: absolute;
-        left: 21px;
+        left: 19px;
         font-size: 17px;
         top: -3px;
         color: #ff9730;
@@ -70,6 +118,25 @@ a.logoContainer {
     width: 100%;
     display: flex;
     height: 37px;
+    position: relative;
+    .suggestions {
+        position: absolute;
+        top: 100%;
+        height: max-content;
+        z-index: 5;
+        background-color: white;
+        color: black;
+        font-size: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, .3);
+        a {
+            color: black;
+            display: block;
+            padding: 5px;
+            &:hover {
+                background-color: rgba(0, 0, 0, .1);
+            }
+        }
+    }
     select {
         background-color: #f3f3f3;
         border-radius: 5px 0 0 5px;
@@ -77,7 +144,6 @@ a.logoContainer {
         border-right: 1px solid rgba(73, 69, 69, .5);
         text-transform: capitalize;
         font-size: 15px;
-        width: 48px;
         &:focus {
             border: 2px solid var(--brand);
         }
@@ -87,9 +153,7 @@ a.logoContainer {
         max-width: 100%;
         border: 0;
         border-right: 1px solid var(--brand);
-        &:focus {
-            border: 2px solid var(--brand);
-        };
+        font-size: 15px;
         @media (max-width: 768px) {
             border-radius: 5px 0 0 5px;
         }
@@ -112,6 +176,9 @@ a.logoContainer {
         border: none;
         &:hover {
             cursor: pointer;
+        }
+        &:focus {
+            transform: scale(.9);
         }
     }
 }
@@ -187,5 +254,61 @@ a.logoContainer {
         .lngChangeOptions {
             display: block;
         }
+    }
+}
+
+
+.account {
+    position: relative;
+    color: white;
+    background: none;
+    border: 1px solid transparent;
+    padding: 5px;
+    &:focus {
+        outline: auto;
+    }
+    .accountOptions {
+        display: none;
+         z-index: 1;
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 0  15px rgba(0, 0, 0, .3);
+        top: 48px;
+        border-radius: 5px;
+        right: -10px;
+        padding: 10px;
+        width: 200px; 
+        a {
+            color: black;
+            font-size: 15px;
+        }
+         li {
+            &:hover {
+                a {
+                    color: rgb(47, 162, 170);
+                }
+            }
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            top: -18px;
+            right: 10px;
+            height: 0;
+            width: 0;
+            border-top: 10px solid transparent;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid white;
+
+        };
+    }
+    &:hover {
+        .accountOptions {
+            display: block;
+        }
+        text-decoration: none;
+        border: 1px solid white;
+        color: white;
     }
 }

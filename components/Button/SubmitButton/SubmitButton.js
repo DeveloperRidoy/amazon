@@ -2,12 +2,13 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 
-function SubmitButton({children, loading, style, className, spinColor= 'black'}) {
+function SubmitButton({children, loading, style, className, spinColor= 'black', onClick}) {
     return (
       <Button
         type="submit"
         style={style || { backgroundColor: " #ffd49d" }}
         className={className}
+        onClick={onClick}
       >
         <span>{children}</span>
         {loading && (
@@ -15,6 +16,7 @@ function SubmitButton({children, loading, style, className, spinColor= 'black'})
             style={{
               borderTop: `2px solid ${spinColor}`,
               borderLeft: `2px solid ${spinColor}`,
+              marginLeft: !children ? 0 : '3px'
             }}
           />
         )}
@@ -46,7 +48,6 @@ const Spinner = styled(motion.div)`
     border-radius: 50%;
     width: 10px;
     height: 10px;
-    margin: 0 0 0 3px;
     -webkit-animation: spin 0.5s linear infinite; /* Safari */
     animation: spin 0.5s linear infinite;
 
