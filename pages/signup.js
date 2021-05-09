@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 import Link from "next/link";
-import { useRouter } from "next/Router";
+import { useRouter } from "next/router";
 import SubmitButton from "../components/Button/SubmitButton/SubmitButton";
 import styled from "styled-components";
 

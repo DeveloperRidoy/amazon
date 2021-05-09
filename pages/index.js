@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Card from "../components/Card/Card";
 import Slider from "../components/Slider/Slider";
 import Slider2 from "../components/Slider/Slider2/Slider2";
