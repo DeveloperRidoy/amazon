@@ -36,12 +36,8 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // routes
-app.use('/api/v1/menus', require(`${__dirname}/api/v1/routes/menus`));
-app.use('/api/v1/users', require(`${__dirname}/api/v1/routes/users`));
-app.use('/api/v1/products', require(`${__dirname}/api/v1/routes/products`));
-app.use('/api/v1/categories', require(`${__dirname}/api/v1/routes/categories`));
-app.use('/api/v1/countries', require(`${__dirname}/api/v1/routes/countries`));
-app.use('/api/v1/colors', require(`${__dirname}/api/v1/routes/colors`));
+const routes = ['menus', 'users', 'products', 'categories', 'countries', 'colors'];
+routes.forEach(route => app.use(`/api/v1/${route}`, require(`${__dirname}/api/v1/routes/${route}`)));
 app.use('/api/v1/create-checkout-session', require(`${__dirname}/api/v1/routes/checkout`))
 
 // 404 response

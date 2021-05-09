@@ -373,7 +373,7 @@ const Nav = () => {
                   className={styles.cartPreview}
                   onClick={(e) => e.preventDefault()}
                 >
-                  <div className="border-bottom">
+                  <div className="border-bottom" style={{overflowY: 'auto', maxHeight: '50vh'}}>
                     {state.user.cart.map((item) => (
                       <div className="d-flex border-bottom mb-2" key={item._id}>
                         <SubmitButton
@@ -452,9 +452,11 @@ const Nav = () => {
               </Link>
             )}
             <Link href="/cart">
-              <a className={styles.cartIcon}>
-                <div className={styles.cartCount}>
-                  {state.user?.cart?.length || 0}
+              <a className={styles.cart}>
+                <div className={styles.cartIcon}>
+                  <div className={styles.cartCount}>
+                    {state.user?.cart?.length || 0}
+                  </div>
                 </div>
               </a>
             </Link>

@@ -1,7 +1,8 @@
 const User = require("../../../mongodb/models/User");
 const catchAsync = require("../../../utils/api/catchAsync");
 const AppError = require("./appError");
-const { deleteDoc, getDoc, updateDoc, getDocs } = require("./handlerFactory");
+const { deleteDoc, getDoc, getDocs } = require("./handlerFactory");
+const bcrypt = require('bcrypt');
 
 // @route          GET /api/v1/users/
 // @desc           Get all users
@@ -21,7 +22,23 @@ exports.deleteUser = deleteDoc(User);
 // @route          PATCH /api/v1/users/:id
 // @desc           Admin updates user
 // @accessibility  Private
-exports.updateUser = updateDoc(User);
+exports.updateUser = catchAsync(async (req, res, next) => {
+  // hash bassword with bcrypt if there is password 
+  if (req.body.password) {
+    req.body.password = await bcrypt.hash(req.body.password, 12);
+    req.body.passwordChangedAt = Date.now() - 2000;
+  }
+
+  // change firstname if there is name 
+  if (req.body.name) { req.body.firstName = req.body.name.split(' ')[0] };
+
+  const user = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { useFindAndModify: false, new: true });
+  
+  return res.json({
+    status: 'success',
+    data: {user}
+  })
+})
 
 // @route          PATCH /api/v1/users/update-me
 // @desc           User updates him/her self
@@ -67,5 +84,19 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   res.json({
     status: 'success',
     message: 'Account Deleted!'
+  })
+})
+
+// @route          GET /api/v1/users/query
+// @desc           Get user by query
+// @accessibility  Private
+
+exports.getUsersByQuery = catchAsync(async (req, res, next) => {
+  const query = {};
+  Object.keys(req.body).forEach(key => query[key] = new RegExp(`${req.body[key]}`, 'i'));
+  const data = await User.find(query);
+  return res.json({
+    status: 'success',
+    data: {[User.collection.name]: data}
   })
 })

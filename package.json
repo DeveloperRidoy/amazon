@@ -6,9 +6,9 @@
     "development": "next dev",
     "build": "next build",
     "start": "next start",
-    "prod": "set NODE_ENV=production & nodemon server",
     "server": "nodemon app",
-    "dev": "concurrently \"npm:development\" \"npm:server\""
+    "dev": "concurrently \"npm:development\" \"npm:server\"",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.14.0",

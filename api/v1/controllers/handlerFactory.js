@@ -2,7 +2,7 @@ const catchAsync = require("../../../utils/api/catchAsync");
 const AppError = require("./appError");
 
 // get all docs
-exports.getDocs = (Model, query) => catchAsync(async (req, res) => {
+exports.getDocs = (Model) => catchAsync(async (req, res) => {
     let limit = 999;
     let page = 1;
     let skip = 0;
@@ -13,9 +13,7 @@ exports.getDocs = (Model, query) => catchAsync(async (req, res) => {
         skip = limit * (page - 1);
     }
    
-    const docs = query
-        ? await Model.find(query)
-        : await Model.find().limit(limit).skip(skip)
+    const docs = await Model.find().limit(limit).skip(skip)
 
     return res.json({
         status: 'success',
@@ -27,11 +25,9 @@ exports.getDocs = (Model, query) => catchAsync(async (req, res) => {
 
 
 // get a doc
-exports.getDoc = (Model, query) => catchAsync(async (req, res, next) => {
+exports.getDoc = (Model) => catchAsync(async (req, res, next) => {
     const docName = Model.collection.name.slice(0, Model.collection.name.length - 1);
-    const doc = query
-        ? await Model.findOne(query)
-        : req[docName] || await Model.findById(req.params.id);
+    const doc = await Model.findById(req.params.id);
 
     if(doc === null) return next(new AppError(404, `${docName} not found`))
     
@@ -61,7 +57,7 @@ exports.updateDoc = (Model) => catchAsync(async (req, res) => {
     const updatedDoc = await Model.findOneAndUpdate(
       { _id: req.params.id },
       { $set: req.body },
-      { new: true, useFindAndModify: false,  runValidators: true, context: 'query' }
+      { new: true, useFindAndModify: false, context: 'query', validateModifiedOnly: true }
     );
   
     return res.json({
@@ -75,9 +71,7 @@ exports.updateDoc = (Model) => catchAsync(async (req, res) => {
 // delete a doc
 exports.deleteDoc = (Model) => catchAsync(async (req, res) => {
     const docName = Model.collection.name.slice(0, Model.collection.name.length - 1);
-    req[docName]
-        ? await req[docName].remove()
-        : await Model.findOneAndDelete({_id: req.params.id})
+    await Model.findOneAndDelete({_id: req.params.id})
     
     return res.json({
         status: 'success',

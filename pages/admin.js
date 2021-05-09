@@ -16,7 +16,7 @@ import axios from 'axios';
 export const AdminContext = createContext();
 
 function Admin () {
-  const router = useRouter();
+  const Router = useRouter();
   const { state, setState } = useContext(GlobalContext);
   const [fullScreen, setFullScreen] = useState(null);
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -34,7 +34,10 @@ function Admin () {
     window.addEventListener('resize', () => setAdminBar({ ...adminBar, width: window.innerWidth < 576 ? window.innerWidth : 300, window: window.innerWidth }));
   }, [])
 
-  useEffect(() => {!state.loggedIn && router.replace('/login')}, [state.loggedIn])
+  useEffect(() => {
+    !state.loggedIn && Router.replace('/login');
+    state.user?.role !== 'ADMIN' && Router.back();
+  }, [state.loggedIn, state.user])
 
   useEffect(async () => {
     const el = document.documentElement;
@@ -70,7 +73,7 @@ function Admin () {
 
   return (
     <div>
-      {state.user
+      {state.user && state.user?.role === 'ADMIN'
         ? (
           <AdminContext.Provider value={{ LayoutRef }}>
       <AdminBar
@@ -331,6 +334,7 @@ const AdminBar = styled(motion.div)`
   overflow: hidden;
   top: 0;
   bottom: 0;
+  left: 0;
   box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2);
   padding: 10px 0;
   z-index: 2;
@@ -354,7 +358,7 @@ const Layout = styled(motion.div)`
   height: 100vh;
   overflow-y: auto;
   .menu {
-    z-index: 3;
+    z-index: 4;
     color: white;
     background: #2c3e50;
     padding: 10px 15px;

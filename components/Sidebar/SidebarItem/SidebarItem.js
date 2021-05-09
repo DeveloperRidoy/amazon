@@ -39,16 +39,17 @@ function SidebarItem ({ title, links, seeAllOption, chevron, fullStoreDirectory 
   return (
       <div className="pb-4">
         <h4 className="pl-5 font-weight-bold">{title}</h4>
-        {links &&
-          links.length > 0 &&
+        {links?.length > 0 &&
           links.map((link) => (
-              <Link href={Router.asPath}  key={link._id}><a
+            <Link href={link.link || Router.asPath} key={link._id}>
+              <a
               className={styles.menuItem}
               onClick={() => stateChange(link)}
               >
                 <p>{link.text}</p>
                 {chevron && <div className={`${styles.chevronRight} mr-4`}></div>}
-              </a></Link>
+              </a>
+            </Link>
           ))}
         {seeAllOption && (
           <Link href={Router.asPath}><a className={styles.menuItem}>

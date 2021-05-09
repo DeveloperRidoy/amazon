@@ -61,7 +61,7 @@ a.logoContainer {
 [tooltip]::before {
   content: attr(tooltip);
   position: absolute;
-  top: -30px;
+  top: -100%;
   left: 50%;
   transform: translate(-50%, 0);
   opacity: 0;
@@ -79,7 +79,7 @@ a.logoContainer {
 }
 [tooltip]::after {
   position: absolute;
-  top: -7px;
+  top: calc(-100% + 22px);
   left: 50%;
   opacity: 0;
   transform: translate(-50%, 0);

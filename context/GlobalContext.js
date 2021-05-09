@@ -65,7 +65,7 @@ const GlobalContextProvider = ({ children }) => {
             top: "10%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            zIndex: 4,
+            zIndex: 5,
           }}
         >
           {alert.message}

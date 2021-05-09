@@ -17,9 +17,9 @@ function index () {
           link: "admin",
           title: "Admin Panel",
           text: "Manage user accounts, products etc from here",
-          img: { src: "/img/users/user.jpg", alt: "admin panel" },
+          img: { src: `/img/users/${state.user.photo || 'user.jpg'}`, alt: "admin panel" },
         },
-        ...cards
+        ...cards,
       ];
       setCards(newCards);
     }

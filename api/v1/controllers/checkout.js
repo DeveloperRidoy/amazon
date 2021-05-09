@@ -23,6 +23,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
         payment_method_types: ['card'],
         line_items,
         mode: 'payment',
+        customer_email: req.user.email,
         success_url: `${process.env.NEXT_PUBLIC_WEBSITE}/shop?alert=your order has been placed&type=success`,
         cancel_url: `${process.env.NEXT_PUBLIC_WEBSITE}/cart?alert=Order cancelled&type=danger`
     })

@@ -2,13 +2,14 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 
-function SubmitButton({children, loading, style, className, spinColor= 'black', onClick}) {
+function SubmitButton({children, loading, style, className, spinColor= 'black', onClick, disabled, type="submit"}) {
     return (
       <Button
-        type="submit"
+        type={type}
         style={style || { backgroundColor: " #ffd49d" }}
         className={className}
         onClick={onClick}
+        disabled={disabled}
       >
         <span>{children}</span>
         {loading && (

@@ -1,6 +1,5 @@
 const express = require("express");
-const Product = require("../../../mongodb/models/Product");
-const { checkDoc, protect, restrictTo } = require("../middleware/global");
+const { protect, restrictTo } = require("../middleware/global");
 const Router = express.Router();
 const {
   getAllProducts,
@@ -20,7 +19,6 @@ Router.route("/")
 Router.get('/product/slug', getProductBySlug)
      
 Router.route("/:id")
-  .all(checkDoc(Product))
   .get(getProduct)
   .patch(protect, restrictTo(ADMIN), uploadPhotos, resizePhotos(), updateProduct)
   .delete(protect, deleteProduct);

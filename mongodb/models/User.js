@@ -99,7 +99,6 @@ userSchema.pre('save', async function (next) {
 // pre find
 userSchema.pre(/^find/, function (next) {
     this.populate(['cart.product', 'cart.color', 'cart.shippingCountry'])
-    
     next()
 })   
 

@@ -1,5 +1,4 @@
 const express = require("express");
-const Category = require("../../../mongodb/models/Category");
 const {
   getAllCategories,
   getCategory,
@@ -8,7 +7,6 @@ const {
   getCategoryBySlug,
   deleteCategory,
 } = require("../controllers/Categories");
-const { checkDoc } = require("../middleware/global");
 const Router = express.Router();
 
 Router.route("/")
@@ -16,7 +14,6 @@ Router.route("/")
 .post(addCategory);
 
 Router.route("/:id")
-  .all(checkDoc(Category))
   .get(getCategory)
   .patch(updateCategory)
   .delete(deleteCategory);

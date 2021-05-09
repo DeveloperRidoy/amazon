@@ -20,23 +20,27 @@ const StyledStar = styled.span`
 `;
 
 // custom font_awesome icon
-export const FaIcon = ({children, fontSize= 17, color= 'black', boxShadow= '0 0 15px rgba(0, 0, 0, .3)', padding= '5px 10px', cursor='pointer', borderRadius= '5px', margin= 0}) => {
+export const FaIcon = ({children, fontSize= 17, color= 'black', boxShadow= '0 0 15px rgba(0, 0, 0, .3)', padding= '5px 10px', cursor='pointer', borderRadius= '5px', margin= 0, className}) => {
     return (
         <StyledFaIcon
-            style={{ fontSize, color, boxShadow, padding, cursor, borderRadius, margin }}
-            whileTap={{scale: .9}}
+          style={{ fontSize, color, boxShadow, padding, cursor, borderRadius, margin }}
+          whileTap={{ scale: .9 }}
+          className={className}
+          
         >
         {children}
       </StyledFaIcon>
     );
 }
-const StyledFaIcon = styled(motion.div)``
+const StyledFaIcon = styled(motion.div)`
+  border: none;
+`
 
 // view
-export const Eye = () => <FaIcon><FaEye/></FaIcon>
+export const Eye = ({fontSize, className}) => <FaIcon fontSize={fontSize} className={className} ><FaEye/></FaIcon>
 
 // PencilRuler 
-export const PencilRuler = () => <FaIcon><FaPencilRuler/></FaIcon>
+export const PencilRuler = ({fontSize, className}) => <FaIcon fontSize={fontSize} className={className}  ><FaPencilRuler/></FaIcon>
 
 // trashAlt
-export const TrashAlt = () => <FaIcon><FaTrashAlt/></FaIcon>
+export const TrashAlt = ({fontSize, className}) => <FaIcon fontSize={fontSize} className={className} ><FaTrashAlt/></FaIcon>

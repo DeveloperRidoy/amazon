@@ -2,12 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/Router";
 import SubmitButton from "../components/Button/SubmitButton/SubmitButton";
 import styled from "styled-components";
 
 function index() {
-  const router = useRouter();
+  const Router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,7 +21,7 @@ function index() {
   const { state, setState } = useContext(GlobalContext);
 
   useEffect(() => {
-    if (state.loggedIn) return router.replace("/my-account");
+    if (state.loggedIn) return Router.replace("/my-account");
   }, []);
 
   const { name, email, password, confirmPassword } = formData;
@@ -63,7 +63,7 @@ function index() {
       }));
 
       // redirect to my-account after 2 seconds
-      setTimeout(() => router.push("/my-account"), 2000);
+      setTimeout(() => Router.push("/my-account"), 2000);
     } catch (error) {
       setState((prevState) => ({
         ...prevState,

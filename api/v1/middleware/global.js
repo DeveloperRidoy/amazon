@@ -3,20 +3,6 @@ const AppError = require("../controllers/appError");
 const jwt = require('jsonwebtoken');
 const User = require("../../../mongodb/models/User");
 
-// check if doc exists
-exports.checkDoc = (Model) => catchAsync(async (req, res, next) => {
-    // check if id is in correct format
-    if (req.params.id.length !== 24) return next(new AppError(400, 'invalid id'));
-    const doc = await Model.findById(req.params.id);
-
-    // attach the doc in the req to use in the next middleware
-    const docName = Model.collection.name.slice(0, Model.collection.name.length - 1);
-    req[docName] = doc;
-
-    // go to next middleware
-    next();
-}
-)
 
 // restrict request based on user role
 exports.restrictTo = (...roles) => (req, res, next) => {
@@ -42,7 +28,7 @@ exports.checkDuplicateDoc = (Model, query) => catchAsync(async (req, res, next) 
 })
 
 
-// protect next middlewares form signed out users
+// protect next middlewares from signed out users
 exports.protect = catchAsync(async (req, res, next) => {
   // (1) see if token was provided
   const token = req.cookies['user-auth-token']
@@ -66,7 +52,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // (5) inject user in the req for next middleware
   req.user = user;
-
   // (6) proceed to next middleware
   next();
 })
