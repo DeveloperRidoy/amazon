@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useRouter } from 'next/router'
 import styled from "styled-components";
-import {  createContext, useContext, useEffect, useRef, useState } from "react";
+import {  createContext, createRef, useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { FaUserCog, FaBoxOpen, FaUser, FaDollarSign } from "react-icons/fa";
 import { BsSearch, BsArrowsFullscreen, BsFullscreenExit, BsBellFill, BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
@@ -14,6 +14,8 @@ import OrderSettings from "../components/admin/OrderSettings";
 import axios from 'axios';
 
 export const AdminContext = createContext();
+
+export const LayoutRef = createRef(null)
 
 function Admin () {
   const Router = useRouter();
@@ -59,8 +61,6 @@ function Admin () {
           : ""
       : "";
   }, [fullScreen]);
-
-  const LayoutRef = useRef(null)
 
   const logout = async () => {
     try {

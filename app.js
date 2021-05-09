@@ -34,8 +34,8 @@ app.use(compression());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-
-// routes
+    
+// routes 
 const routes = ['menus', 'users', 'products', 'categories', 'countries', 'colors'];
 routes.forEach(route => app.use(`/api/v1/${route}`, require(`${__dirname}/api/v1/routes/${route}`)));
 app.use('/api/v1/create-checkout-session', require(`${__dirname}/api/v1/routes/checkout`))

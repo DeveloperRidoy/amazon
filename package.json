@@ -5,7 +5,7 @@
   "scripts": {
     "development": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "server": "nodemon app",
     "dev": "concurrently \"npm:development\" \"npm:server\"",
     "heroku-postbuild": "npm run build"
