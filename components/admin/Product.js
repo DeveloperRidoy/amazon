@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import { Eye, PencilRuler, Star, TrashAlt } from "../icons";
 import { motion } from "framer-motion";
 import { useContext } from 'react';
@@ -49,10 +48,10 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
     <div className="col mb-3">
       <StyledProduct className="col d-flex flex-column flex-md-row align-items-center">
         <div>
-          <Image
+          <img
             src={`/img/products/${product.coverPhoto || "product.png"}`}
-            height="200"
-            width="200"
+            height="150"
+            width="150"
           />
         </div>
         <div className="col-md-8 col-lg-10 py-4">
@@ -67,16 +66,16 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
               <i>${product.price}</i>
             </b>
           </h5>
-          <div className="d-flex justify-content-end">
+          <div className="d-flex w-100 justify-content-end">
             <div
-              className="mr-4"
+              className="mr-3"
               tooltip="update product"
               onClick={updateAddPorductOptions}
             >
               <PencilRuler />
             </div>
             <div
-              className="mr-4"
+              className="mr-3"
               tooltip="view product"
               onClick={() =>
                 Router.push(`/shop/${product.category.name}/${product.slug}`)
@@ -85,6 +84,7 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
               <Eye />
             </div>
             <div
+              className="mr-3"
               tooltip="delete product"
               onClick={() => deleteProduct(product)}
             >

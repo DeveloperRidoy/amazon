@@ -9,7 +9,7 @@ function Card({text, img, link, linkText= 'Shop now'}) {
             <Link href={link}>
               <a>
                 <img
-                  src={`img/categories/${img}.jpg`}
+                  src={`/img/categories/${img}.jpg`}
                   alt="beauty"
                   style={{ width: "100%", height: "280px", objectFit: "cover" }}
                 />

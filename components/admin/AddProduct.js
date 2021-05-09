@@ -1,7 +1,6 @@
 import { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { GlobalContext } from "../../context/GlobalContext";
-import Image from "next/image";
 import { readFile, readFiles } from "../../utils/fileReader";
 import { v4 as uid } from 'uuid';
 import axios from "axios";
@@ -363,7 +362,7 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
         </div>
         <div className="mb-3 d-flex align-items-center">
           <WithCross className="mr-3">
-            <Image
+            <img
               height="50"
               width="50"
               className="rounded"
@@ -397,7 +396,7 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
             name="coverPhoto"
             id="coverPhoto"
             className="form-control-file"
-            accept="image/*"
+            accept="img/*"
             onChange={uploadProductPhoto}
             required={!productData.editId}
           />
@@ -407,7 +406,7 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
             {productData.photosSrc?.length > 0 ? (
               productData.photosSrc.map((src, i) => (
                 <WithCross key={i} className="mr-3">
-                  <Image
+                  <img
                     height="50"
                     width="50"
                     className="rounded mr-2"
@@ -437,7 +436,7 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
             ) : productData.photosPreview?.length > 0 ? (
               productData.photosPreview.map((preview, i) => (
                 <WithCross key={i} className="mr-3">
-                  <Image
+                  <img
                     height="50"
                     width="50"
                     className="rounded mr-2"
@@ -465,7 +464,7 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
                 </WithCross>
               ))
             ) : (
-              <Image
+              <img
                 height="50"
                 width="50"
                 className="rounded"
@@ -482,7 +481,7 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
             name="photos"
             id="photos"
             className="form-control-file"
-            accept="image/*"
+            accept="img/*"
             onChange={(e) => uploadProductPhotos(e, 3)}
           />
         </div>

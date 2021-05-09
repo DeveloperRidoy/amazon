@@ -87,40 +87,40 @@ function index () {
             title="Inspired by your browsing history"
             linkText=""
             images={[
-              { src: "img/categories/beauty/1.jpg" },
-              { src: "img/categories/beauty/2.jpg" },
-              { src: "img/categories/beauty/3.jpg" },
-              { src: "img/categories/beauty/4.jpg" },
-              { src: "img/categories/beauty/5.jpg" },
-              { src: "img/categories/beauty/6.jpg" },
-              { src: "img/categories/beauty/7.jpg" },
-              { src: "img/categories/beauty/8.jpg" },
-              { src: "img/categories/beauty/9.jpg" },
-              { src: "img/categories/beauty/10.jpg" },
-              { src: "img/categories/beauty/11.jpg" },
-              { src: "img/categories/beauty/12.jpg" },
-              { src: "img/categories/beauty/13.jpg" },
-              { src: "img/categories/beauty/14.jpg" },
+              { src: "/img/categories/beauty/1.jpg" },
+              { src: "/img/categories/beauty/2.jpg" },
+              { src: "/img/categories/beauty/3.jpg" },
+              { src: "/img/categories/beauty/4.jpg" },
+              { src: "/img/categories/beauty/5.jpg" },
+              { src: "/img/categories/beauty/6.jpg" },
+              { src: "/img/categories/beauty/7.jpg" },
+              { src: "/img/categories/beauty/8.jpg" },
+              { src: "/img/categories/beauty/9.jpg" },
+              { src: "/img/categories/beauty/10.jpg" },
+              { src: "/img/categories/beauty/11.jpg" },
+              { src: "/img/categories/beauty/12.jpg" },
+              { src: "/img/categories/beauty/13.jpg" },
+              { src: "/img/categories/beauty/14.jpg" },
             ]}
           />
           <Slider2
             title="Related items you viewed"
             linkText=""
             images={[
-              { src: "img/categories/beauty/1.jpg" },
-              { src: "img/categories/beauty/2.jpg" },
-              { src: "img/categories/beauty/3.jpg" },
-              { src: "img/categories/beauty/4.jpg" },
-              { src: "img/categories/beauty/5.jpg" },
-              { src: "img/categories/beauty/6.jpg" },
-              { src: "img/categories/beauty/7.jpg" },
-              { src: "img/categories/beauty/8.jpg" },
-              { src: "img/categories/beauty/9.jpg" },
-              { src: "img/categories/beauty/10.jpg" },
-              { src: "img/categories/beauty/11.jpg" },
-              { src: "img/categories/beauty/12.jpg" },
-              { src: "img/categories/beauty/13.jpg" },
-              { src: "img/categories/beauty/14.jpg" },
+              { src: "/img/categories/beauty/1.jpg" },
+              { src: "/img/categories/beauty/2.jpg" },
+              { src: "/img/categories/beauty/3.jpg" },
+              { src: "/img/categories/beauty/4.jpg" },
+              { src: "/img/categories/beauty/5.jpg" },
+              { src: "/img/categories/beauty/6.jpg" },
+              { src: "/img/categories/beauty/7.jpg" },
+              { src: "/img/categories/beauty/8.jpg" },
+              { src: "/img/categories/beauty/9.jpg" },
+              { src: "/img/categories/beauty/10.jpg" },
+              { src: "/img/categories/beauty/11.jpg" },
+              { src: "/img/categories/beauty/12.jpg" },
+              { src: "/img/categories/beauty/13.jpg" },
+              { src: "/img/categories/beauty/14.jpg" },
             ]}
           />
         </div>

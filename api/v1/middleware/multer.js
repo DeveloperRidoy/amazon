@@ -16,7 +16,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 //limits 
-const limits = { fileSize: 5 * 1024 * 1024 }; //5mb
+const limits = { fileSize: 5 * 1024 * 1024 }; //5MB
 
 const upload = multer({ storage, fileFilter, limits }); 
 
@@ -57,7 +57,7 @@ exports.resizePhoto = (height = 100, width = 100) => async (req, res, next) => {
   // set photo name
   req.body.photo = `user-${req.user._id}-${Date.now()}.jpeg`;
 
-  try {
+  try {    
     await sharp(req.file.buffer)
       .resize(height, width)
       .toFormat("jpeg")

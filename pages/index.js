@@ -50,7 +50,7 @@ export default function Home() {
                 <div className="row row-cols-2 text-center">
                   <div className="col">
                     <img
-                      src="img/categories/pc.jpg"
+                      src="/img/categories/pc.jpg"
                       alt="computer"
                       className="col"
                     />
@@ -58,7 +58,7 @@ export default function Home() {
                   </div>
                   <div className="col">
                     <img
-                      src="img/categories/ps5.jpg"
+                      src="/img/categories/ps5.jpg"
                       alt="ps5"
                       className="col"
                     />
@@ -66,7 +66,7 @@ export default function Home() {
                   </div>
                   <div className="col">
                     <img
-                      src="img/categories/babyToys.jpg"
+                      src="/img/categories/babyToys.jpg"
                       alt="baby toys"
                       className="col"
                     />
@@ -74,7 +74,7 @@ export default function Home() {
                   </div>
                   <div className="col">
                     <img
-                      src="img/categories/toys&games.jpg"
+                      src="/img/categories/toys&games.jpg"
                       alt="toys & games"
                       className="col"
                     />
@@ -102,19 +102,19 @@ export default function Home() {
               <div className="row row-cols-2 text-center">
                 <div className="col">
                   <img
-                    src="img/categories/pc.jpg"
+                    src="/img/categories/pc.jpg"
                     alt="computer"
                     className="col"
                   />
                   <span>Computer & Accessories</span>
                 </div>
                 <div className="col">
-                  <img src="img/categories/ps5.jpg" alt="ps5" className="col" />
+                  <img src="/img/categories/ps5.jpg" alt="ps5" className="col" />
                   <span>Video Games</span>
                 </div>
                 <div className="col">
                   <img
-                    src="img/categories/babyToys.jpg"
+                    src="/img/categories/babyToys.jpg"
                     alt="baby toys"
                     className="col"
                   />
@@ -122,7 +122,7 @@ export default function Home() {
                 </div>
                 <div className="col">
                   <img
-                    src="img/categories/toys&games.jpg"
+                    src="/img/categories/toys&games.jpg"
                     alt="toys & games"
                     className="col"
                   />
@@ -167,7 +167,7 @@ export default function Home() {
                   style={{ overflow: "hidden" }}
                 >
                   <img
-                    src="img/categories/shipment.jpg"
+                    src="/img/categories/shipment.jpg"
                     alt="beauty"
                     style={{
                       width: "90%",
@@ -215,32 +215,32 @@ export default function Home() {
           <div className="d-flex" style={{ overflowX: "scroll" }}>
             <Link href={Router.asPath}>
               <a>
-                <img src="img/globe.png" alt="globe" />
+                <img src="/img/globe.png" alt="globe" />
               </a>
             </Link>
             <Link href={Router.asPath}>
               <a>
-                <img src="img/money.png" alt="money" />
+                <img src="/img/money.png" alt="money" />
               </a>
             </Link>
             <Link href={Router.asPath}>
               <a>
-                <img src="img/card.png" alt="card" />
+                <img src="/img/card.png" alt="card" />
               </a>
             </Link>
             <Link href={Router.asPath}>
               <a>
-                <img src="img/box.png" alt="box" />
+                <img src="/img/box.png" alt="box" />
               </a>
             </Link>
             <Link href={Router.asPath}>
               <a>
-                <img src="img/track.png" alt="track" />
+                <img src="/img/track.png" alt="track" />
               </a>
             </Link>
             <Link href={Router.asPath}>
               <a>
-                <img src="img/query.png" alt="customer care" />
+                <img src="/img/query.png" alt="customer care" />
               </a>
             </Link>
           </div>
@@ -249,40 +249,40 @@ export default function Home() {
           title="Top Beauty and Personal Care"
           linkText="Shop now"
           images={[
-            { src: "img/categories/beauty/1.jpg" },
-            { src: "img/categories/beauty/2.jpg" },
-            { src: "img/categories/beauty/3.jpg" },
-            { src: "img/categories/beauty/4.jpg" },
-            { src: "img/categories/beauty/5.jpg" },
-            { src: "img/categories/beauty/6.jpg" },
-            { src: "img/categories/beauty/7.jpg" },
-            { src: "img/categories/beauty/8.jpg" },
-            { src: "img/categories/beauty/9.jpg" },
-            { src: "img/categories/beauty/10.jpg" },
-            { src: "img/categories/beauty/11.jpg" },
-            { src: "img/categories/beauty/12.jpg" },
-            { src: "img/categories/beauty/13.jpg" },
-            { src: "img/categories/beauty/14.jpg" },
+            { src: "/img/categories/beauty/1.jpg" },
+            { src: "/img/categories/beauty/2.jpg" },
+            { src: "/img/categories/beauty/3.jpg" },
+            { src: "/img/categories/beauty/4.jpg" },
+            { src: "/img/categories/beauty/5.jpg" },
+            { src: "/img/categories/beauty/6.jpg" },
+            { src: "/img/categories/beauty/7.jpg" },
+            { src: "/img/categories/beauty/8.jpg" },
+            { src: "/img/categories/beauty/9.jpg" },
+            { src: "/img/categories/beauty/10.jpg" },
+            { src: "/img/categories/beauty/11.jpg" },
+            { src: "/img/categories/beauty/12.jpg" },
+            { src: "/img/categories/beauty/13.jpg" },
+            { src: "/img/categories/beauty/14.jpg" },
           ]}
         />
         <Slider2
           title="Best Sellers in Kitchen"
           linkText="Shop now"
           images={[
-            { src: "img/categories/beauty/1.jpg" },
-            { src: "img/categories/beauty/2.jpg" },
-            { src: "img/categories/beauty/3.jpg" },
-            { src: "img/categories/beauty/4.jpg" },
-            { src: "img/categories/beauty/5.jpg" },
-            { src: "img/categories/beauty/6.jpg" },
-            { src: "img/categories/beauty/7.jpg" },
-            { src: "img/categories/beauty/8.jpg" },
-            { src: "img/categories/beauty/9.jpg" },
-            { src: "img/categories/beauty/10.jpg" },
-            { src: "img/categories/beauty/11.jpg" },
-            { src: "img/categories/beauty/12.jpg" },
-            { src: "img/categories/beauty/13.jpg" },
-            { src: "img/categories/beauty/14.jpg" },
+            { src: "/img/categories/beauty/1.jpg" },
+            { src: "/img/categories/beauty/2.jpg" },
+            { src: "/img/categories/beauty/3.jpg" },
+            { src: "/img/categories/beauty/4.jpg" },
+            { src: "/img/categories/beauty/5.jpg" },
+            { src: "/img/categories/beauty/6.jpg" },
+            { src: "/img/categories/beauty/7.jpg" },
+            { src: "/img/categories/beauty/8.jpg" },
+            { src: "/img/categories/beauty/9.jpg" },
+            { src: "/img/categories/beauty/10.jpg" },
+            { src: "/img/categories/beauty/11.jpg" },
+            { src: "/img/categories/beauty/12.jpg" },
+            { src: "/img/categories/beauty/13.jpg" },
+            { src: "/img/categories/beauty/14.jpg" },
           ]}
         />
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
@@ -307,100 +307,100 @@ export default function Home() {
         <Slider2
           title="Amazon Top Sellers"
           images={[
-            { src: "img/categories/beauty/1.jpg" },
-            { src: "img/categories/beauty/2.jpg" },
-            { src: "img/categories/beauty/3.jpg" },
-            { src: "img/categories/beauty/4.jpg" },
-            { src: "img/categories/beauty/5.jpg" },
-            { src: "img/categories/beauty/6.jpg" },
-            { src: "img/categories/beauty/7.jpg" },
-            { src: "img/categories/beauty/8.jpg" },
-            { src: "img/categories/beauty/9.jpg" },
-            { src: "img/categories/beauty/10.jpg" },
-            { src: "img/categories/beauty/11.jpg" },
-            { src: "img/categories/beauty/12.jpg" },
-            { src: "img/categories/beauty/13.jpg" },
-            { src: "img/categories/beauty/14.jpg" },
+            { src: "/img/categories/beauty/1.jpg" },
+            { src: "/img/categories/beauty/2.jpg" },
+            { src: "/img/categories/beauty/3.jpg" },
+            { src: "/img/categories/beauty/4.jpg" },
+            { src: "/img/categories/beauty/5.jpg" },
+            { src: "/img/categories/beauty/6.jpg" },
+            { src: "/img/categories/beauty/7.jpg" },
+            { src: "/img/categories/beauty/8.jpg" },
+            { src: "/img/categories/beauty/9.jpg" },
+            { src: "/img/categories/beauty/10.jpg" },
+            { src: "/img/categories/beauty/11.jpg" },
+            { src: "/img/categories/beauty/12.jpg" },
+            { src: "/img/categories/beauty/13.jpg" },
+            { src: "/img/categories/beauty/14.jpg" },
           ]}
         />
         <Slider2
           title="Must have Wireless Products"
           linkText="Shop now"
           images={[
-            { src: "img/categories/beauty/1.jpg" },
-            { src: "img/categories/beauty/2.jpg" },
-            { src: "img/categories/beauty/3.jpg" },
-            { src: "img/categories/beauty/4.jpg" },
-            { src: "img/categories/beauty/5.jpg" },
-            { src: "img/categories/beauty/6.jpg" },
-            { src: "img/categories/beauty/7.jpg" },
-            { src: "img/categories/beauty/8.jpg" },
-            { src: "img/categories/beauty/9.jpg" },
-            { src: "img/categories/beauty/10.jpg" },
-            { src: "img/categories/beauty/11.jpg" },
-            { src: "img/categories/beauty/12.jpg" },
-            { src: "img/categories/beauty/13.jpg" },
-            { src: "img/categories/beauty/14.jpg" },
+            { src: "/img/categories/beauty/1.jpg" },
+            { src: "/img/categories/beauty/2.jpg" },
+            { src: "/img/categories/beauty/3.jpg" },
+            { src: "/img/categories/beauty/4.jpg" },
+            { src: "/img/categories/beauty/5.jpg" },
+            { src: "/img/categories/beauty/6.jpg" },
+            { src: "/img/categories/beauty/7.jpg" },
+            { src: "/img/categories/beauty/8.jpg" },
+            { src: "/img/categories/beauty/9.jpg" },
+            { src: "/img/categories/beauty/10.jpg" },
+            { src: "/img/categories/beauty/11.jpg" },
+            { src: "/img/categories/beauty/12.jpg" },
+            { src: "/img/categories/beauty/13.jpg" },
+            { src: "/img/categories/beauty/14.jpg" },
           ]}
         />
         <Slider2
           title="Best Sellers in Baby"
           linkText="Shop now"
           images={[
-            { src: "img/categories/beauty/1.jpg" },
-            { src: "img/categories/beauty/2.jpg" },
-            { src: "img/categories/beauty/3.jpg" },
-            { src: "img/categories/beauty/4.jpg" },
-            { src: "img/categories/beauty/5.jpg" },
-            { src: "img/categories/beauty/6.jpg" },
-            { src: "img/categories/beauty/7.jpg" },
-            { src: "img/categories/beauty/8.jpg" },
-            { src: "img/categories/beauty/9.jpg" },
-            { src: "img/categories/beauty/10.jpg" },
-            { src: "img/categories/beauty/11.jpg" },
-            { src: "img/categories/beauty/12.jpg" },
-            { src: "img/categories/beauty/13.jpg" },
-            { src: "img/categories/beauty/14.jpg" },
+            { src: "/img/categories/beauty/1.jpg" },
+            { src: "/img/categories/beauty/2.jpg" },
+            { src: "/img/categories/beauty/3.jpg" },
+            { src: "/img/categories/beauty/4.jpg" },
+            { src: "/img/categories/beauty/5.jpg" },
+            { src: "/img/categories/beauty/6.jpg" },
+            { src: "/img/categories/beauty/7.jpg" },
+            { src: "/img/categories/beauty/8.jpg" },
+            { src: "/img/categories/beauty/9.jpg" },
+            { src: "/img/categories/beauty/10.jpg" },
+            { src: "/img/categories/beauty/11.jpg" },
+            { src: "/img/categories/beauty/12.jpg" },
+            { src: "/img/categories/beauty/13.jpg" },
+            { src: "/img/categories/beauty/14.jpg" },
           ]}
         />
         <Slider2
           title="Our favorite Toys"
           linkText="Shop now"
           images={[
-            { src: "img/categories/beauty/1.jpg" },
-            { src: "img/categories/beauty/2.jpg" },
-            { src: "img/categories/beauty/3.jpg" },
-            { src: "img/categories/beauty/4.jpg" },
-            { src: "img/categories/beauty/5.jpg" },
-            { src: "img/categories/beauty/6.jpg" },
-            { src: "img/categories/beauty/7.jpg" },
-            { src: "img/categories/beauty/8.jpg" },
-            { src: "img/categories/beauty/9.jpg" },
-            { src: "img/categories/beauty/10.jpg" },
-            { src: "img/categories/beauty/11.jpg" },
-            { src: "img/categories/beauty/12.jpg" },
-            { src: "img/categories/beauty/13.jpg" },
-            { src: "img/categories/beauty/14.jpg" },
+            { src: "/img/categories/beauty/1.jpg" },
+            { src: "/img/categories/beauty/2.jpg" },
+            { src: "/img/categories/beauty/3.jpg" },
+            { src: "/img/categories/beauty/4.jpg" },
+            { src: "/img/categories/beauty/5.jpg" },
+            { src: "/img/categories/beauty/6.jpg" },
+            { src: "/img/categories/beauty/7.jpg" },
+            { src: "/img/categories/beauty/8.jpg" },
+            { src: "/img/categories/beauty/9.jpg" },
+            { src: "/img/categories/beauty/10.jpg" },
+            { src: "/img/categories/beauty/11.jpg" },
+            { src: "/img/categories/beauty/12.jpg" },
+            { src: "/img/categories/beauty/13.jpg" },
+            { src: "/img/categories/beauty/14.jpg" },
           ]}
         />
         <Slider2
           title="Men's Dress Shirts under $30"
           linkText="Shop now"
           images={[
-            { src: "img/categories/beauty/1.jpg" },
-            { src: "img/categories/beauty/2.jpg" },
-            { src: "img/categories/beauty/3.jpg" },
-            { src: "img/categories/beauty/4.jpg" },
-            { src: "img/categories/beauty/5.jpg" },
-            { src: "img/categories/beauty/6.jpg" },
-            { src: "img/categories/beauty/7.jpg" },
-            { src: "img/categories/beauty/8.jpg" },
-            { src: "img/categories/beauty/9.jpg" },
-            { src: "img/categories/beauty/10.jpg" },
-            { src: "img/categories/beauty/11.jpg" },
-            { src: "img/categories/beauty/12.jpg" },
-            { src: "img/categories/beauty/13.jpg" },
-            { src: "img/categories/beauty/14.jpg" },
+            { src: "/img/categories/beauty/1.jpg" },
+            { src: "/img/categories/beauty/2.jpg" },
+            { src: "/img/categories/beauty/3.jpg" },
+            { src: "/img/categories/beauty/4.jpg" },
+            { src: "/img/categories/beauty/5.jpg" },
+            { src: "/img/categories/beauty/6.jpg" },
+            { src: "/img/categories/beauty/7.jpg" },
+            { src: "/img/categories/beauty/8.jpg" },
+            { src: "/img/categories/beauty/9.jpg" },
+            { src: "/img/categories/beauty/10.jpg" },
+            { src: "/img/categories/beauty/11.jpg" },
+            { src: "/img/categories/beauty/12.jpg" },
+            { src: "/img/categories/beauty/13.jpg" },
+            { src: "/img/categories/beauty/14.jpg" },
           ]}
         />
         <Slider2
@@ -420,20 +420,20 @@ export default function Home() {
             justifyContent: "center",
           }}
           images={[
-            { src: "img/categories/beauty/1.jpg" },
-            { src: "img/categories/beauty/2.jpg" },
-            { src: "img/categories/beauty/3.jpg" },
-            { src: "img/categories/beauty/4.jpg" },
-            { src: "img/categories/beauty/5.jpg" },
-            { src: "img/categories/beauty/6.jpg" },
-            { src: "img/categories/beauty/7.jpg" },
-            { src: "img/categories/beauty/8.jpg" },
-            { src: "img/categories/beauty/9.jpg" },
-            { src: "img/categories/beauty/10.jpg" },
-            { src: "img/categories/beauty/11.jpg" },
-            { src: "img/categories/beauty/12.jpg" },
-            { src: "img/categories/beauty/13.jpg" },
-            { src: "img/categories/beauty/14.jpg" },
+            { src: "/img/categories/beauty/1.jpg" },
+            { src: "/img/categories/beauty/2.jpg" },
+            { src: "/img/categories/beauty/3.jpg" },
+            { src: "/img/categories/beauty/4.jpg" },
+            { src: "/img/categories/beauty/5.jpg" },
+            { src: "/img/categories/beauty/6.jpg" },
+            { src: "/img/categories/beauty/7.jpg" },
+            { src: "/img/categories/beauty/8.jpg" },
+            { src: "/img/categories/beauty/9.jpg" },
+            { src: "/img/categories/beauty/10.jpg" },
+            { src: "/img/categories/beauty/11.jpg" },
+            { src: "/img/categories/beauty/12.jpg" },
+            { src: "/img/categories/beauty/13.jpg" },
+            { src: "/img/categories/beauty/14.jpg" },
           ]}
         />
       </div>

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Star } from "../icons";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -15,7 +14,7 @@ function ProductPreview ({ product }) {
                 className="p-3 col-lg-10 shadow-lg"
                 onClick={() => Router.push(`/shop/${product.category.name}/${product.slug}`)}
             >
-                <Image
+                <img
                     src={`/img/products/${product.coverPhoto || "product.png"}`}
                     height="150px"
                     width="150px"

@@ -5,7 +5,6 @@ import {  createContext, createRef, useContext, useEffect, useState } from "reac
 import { GlobalContext } from "../context/GlobalContext";
 import { FaUserCog, FaBoxOpen, FaUser, FaDollarSign } from "react-icons/fa";
 import { BsSearch, BsArrowsFullscreen, BsFullscreenExit, BsBellFill, BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
-import Image from "next/image";
 import Link from "next/link";
 import ProductSettings from "../components/admin/ProductSettings";
 import { ORDER_SETTINGS, PRODUCT_SETTINGS, USER_SETTINGS } from "../utils/variables";
@@ -278,7 +277,7 @@ function Admin () {
                 setShowAccountOptions(!showAccountOptions);
               }}
             >
-              <Image
+              <img
                 src={`/img/users/${
                   state.user?.photo ? state.user.photo : "user.jpg"
                 }`}

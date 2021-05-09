@@ -26,7 +26,7 @@ Router.post("/query", restrictTo(ADMIN), getUsersByQuery);
 
 Router.route('/:id')
     .get(getUser)
-    .patch(restrictTo(ADMIN), updateUser)
+    .patch(restrictTo(ADMIN), uploadPhoto, resizePhoto(), updateUser)
     .delete(restrictTo(ADMIN), deleteUser)
- 
+
 module.exports = Router;

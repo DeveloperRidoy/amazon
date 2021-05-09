@@ -41,7 +41,7 @@ function SidebarItem ({ title, links, seeAllOption, chevron, fullStoreDirectory 
         <h4 className="pl-5 font-weight-bold">{title}</h4>
         {links?.length > 0 &&
           links.map((link) => (
-            <Link href={link.link || Router.asPath} key={link._id}>
+            <Link href={link.link === '#' ? Router.asPath : link.link || Router.asPath} key={link._id}>
               <a
               className={styles.menuItem}
               onClick={() => stateChange(link)}

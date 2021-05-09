@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { GlobalContext } from "../../context/GlobalContext";
 import BreadCrumb from "../../components/Breadcrumb/BreadCrumb";
 import SubmitButton from "../../components/Button/SubmitButton/SubmitButton";
-import Image from 'next/image';
 import styled from 'styled-components';
 import axios from 'axios';
 import { readFile } from '../../utils/fileReader';
@@ -136,7 +135,7 @@ function index () {
           >
             <div className="form-group d-flex align-items-center">
               <div className="col p-0">
-                <Image
+                <img
                   src={formData.photoPreview || `/img/users/${
                     state.user?.photo ? state.user.photo : "user.jpg"
                   }`}

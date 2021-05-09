@@ -100,7 +100,7 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
       {!expand ? (
         <div className="d-flex align-items-center">
           <img
-            src={`img/users/${user.photo || "user.jpg"}`}
+            src={`/img/users/${user.photo || "user.jpg"}`}
             alt={user.name}
             className="rounded-circle"
             height={60}
@@ -139,7 +139,7 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
         <StyledForm onSubmit={updateUser} className="col">
           <div className="form-group d-flex align-items-center">
             <img
-              src={`img/users/${user.photo || "user.jpg"}`}
+              src={`/img/users/${user.photo || "user.jpg"}`}
               alt={user.name}
               style={{ height: 50, width: 50, borderRadius: "50%" }}
             />

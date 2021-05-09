@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from 'react';
 import Product from '../../../components/shop/Product';
 import { GlobalContext } from '../../../context/GlobalContext';
 import Link from 'next/link';
-import Image from 'next/image';
 
 function ProductPage () {
   const { state } = useContext(GlobalContext);
@@ -42,7 +41,7 @@ function ProductPage () {
                   key={product._id}
                 >
                   <a>
-                    <Image
+                    <img
                       src={`/img/products/${
                         product.coverPhoto || "product.png"
                       }`}

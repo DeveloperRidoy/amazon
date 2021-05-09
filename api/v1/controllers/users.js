@@ -29,7 +29,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     req.body.passwordChangedAt = Date.now() - 2000;
   }
 
-  // change firstname if there is name 
+  // change firstname if there is name
   if (req.body.name) { req.body.firstName = req.body.name.split(' ')[0] };
 
   const user = await User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { useFindAndModify: false, new: true });

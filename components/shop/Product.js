@@ -1,5 +1,4 @@
 import { Star } from "../icons";
-import Image from 'next/image';
 import { useContext, useEffect, useState } from "react";
 import styled from 'styled-components';
 import { FaPlus, FaMinus, FaArrowRight } from 'react-icons/fa';
@@ -74,7 +73,7 @@ function Product ({ product }) {
               setCurrentPhoto({ ...currentPhoto, photo: product.coverPhoto })
             }
           >
-            <Image
+            <img
               src={`/img/products/${product.coverPhoto}`}
               height="50px"
               width="50px"
@@ -88,7 +87,7 @@ function Product ({ product }) {
                 key={i}
                 onMouseOver={() => setCurrentPhoto({ ...currentPhoto, photo })}
               >
-                <Image
+                <img
                   src={`/img/products/${photo}`}
                   height="50px"
                   width="50px"
@@ -97,7 +96,7 @@ function Product ({ product }) {
             ))}
         </div>
         <div className="text-center">
-          <Image
+          <img
             src={`/img/products/${
               currentPhoto.photo || product.coverPhoto || "product.png"
             }`}
