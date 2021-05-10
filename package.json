@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next export",
-    "start": "next start -p $PORT",
-    "development": "next dev",
-    "server": "nodemon app",
-    "dev": "concurrently \"npm:development\" \"npm:server\""
+    "build": "next build",
+    "start": "next start",
+    "dev": "next dev",
+    "server": "nodemon app"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.14.0",
