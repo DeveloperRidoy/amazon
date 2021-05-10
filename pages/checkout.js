@@ -40,10 +40,7 @@ function Checkout() {
       e.preventDefault();
       const stripe = await stripePromise;
       const data = { cart: state.user.cart, billingData };
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/create-checkout-session`,
-        data
-      );
+      const res = await axios.post(`/api/v1/create-checkout-session`, data);
 
       // redirect to strip checkout page
       const result = await stripe.redirectToCheckout({

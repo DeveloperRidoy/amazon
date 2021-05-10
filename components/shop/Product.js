@@ -66,10 +66,9 @@ function Product({ product }) {
         ...state.user.cart.filter((item) => item.product._id !== product._id),
       ];
 
-      const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/update-me`,
-        { cart: updatedCart }
-      );
+      const res = await axios.patch(`/api/v1/users/update-me`, {
+        cart: updatedCart,
+      });
 
       setProductInfo({ ...productInfo, loading: false, viewCart: true });
       setState({

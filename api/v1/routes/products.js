@@ -8,7 +8,7 @@ const {
   deleteProduct,
   addProduct,
   getProductBySlug,
-} = require("../controllers/Products");
+} = require("../controllers/products");
 const { ADMIN } = require("../../../utils/variables");
 const { uploadPhotos, resizePhotos } = require("../middleware/multer");
 

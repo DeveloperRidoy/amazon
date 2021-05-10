@@ -24,10 +24,9 @@ function Cart() {
     try {
       setLoading(true);
 
-      const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/update-me`,
-        { cart: cartState }
-      );
+      const res = await axios.patch(`/api/v1/users/update-me`, {
+        cart: cartState,
+      });
 
       setState({
         ...state,

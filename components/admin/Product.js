@@ -18,9 +18,7 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
     try {
       if (!confirm("Delete this product permanently?")) return;
 
-      const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/products/${product._id}`
-      );
+      const res = await axios.delete(`/api/v1/products/${product._id}`);
 
       setState({
         ...state,

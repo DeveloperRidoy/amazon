@@ -65,9 +65,7 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
   const deleteUser = async () => {
     try {
       if (!confirm("Permanently delete this user?")) return;
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/${user._id}`
-      );
+      await axios.delete(`/api/v1/users/${user._id}`);
       const breadCrumbs = [];
       const updatedUsers = filteredUsers.users.filter(
         (prevUser) => prevUser._id !== user._id
