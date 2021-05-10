@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "start": "node server/server",
+    "start": "node server",
     "dev": "next dev",
     "test": "next start",
-    "server": "nodemon --quiet server/server.js"
+    "server": "nodemon --quiet server"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.14.0",
