@@ -6,7 +6,7 @@ const {
   updateCountry,
   getCountryBySlug,
   deleteCountry,
-} = require("../controllers/Countries");
+} = require("../controllers/countries");
 const Router = express.Router();
 
 Router.route("/").get(getAllCountries).post(addCountry);

@@ -6,7 +6,7 @@ const {
   updateCategory,
   getCategoryBySlug,
   deleteCategory,
-} = require("../controllers/Categories");
+} = require("../controllers/categories");
 const Router = express.Router();
 
 Router.route("/")
