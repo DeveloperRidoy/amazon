@@ -8,26 +8,29 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { FaArrowRight, FaTimes } from "react-icons/fa";
 import { cloneDeep } from "lodash";
 import axios from "axios";
-import SubmitButton from '../Button/SubmitButton/SubmitButton';
+import SubmitButton from "../Button/SubmitButton/SubmitButton";
 
 const Nav = () => {
   const Router = useRouter();
   const { sidebarSettings, setSidebarSettings } = useContext(SidebarContext);
   const { state, setState } = useContext(GlobalContext);
-  const [removeCartLoading, setRemoveCartLoading] = useState({ loading: false, id: null });
+  const [removeCartLoading, setRemoveCartLoading] = useState({
+    loading: false,
+    id: null,
+  });
   const searchWidthHelper = createRef(null);
   const searchWidthHelperOption = createRef(null);
   const searchTextRef = createRef(null);
   const [suggestions, setSuggestions] = useState([]);
   const [searchForm, setSearchForm] = useState({
-    searchInput: '',
-    searchCategory: 'All'
+    searchInput: "",
+    searchCategory: "All",
   });
 
   useEffect(() => {
-    setSearchForm({ ...searchForm, searchInput: '' });
+    setSearchForm({ ...searchForm, searchInput: "" });
     setSuggestions([]);
-  }, [Router.route])
+  }, [Router.route]);
 
   useEffect(() => {
     if (Router.query.alert && Router.query.type) {
@@ -36,15 +39,21 @@ const Nav = () => {
         alert: { type: Router.query.type, message: Router.query.alert },
       });
     }
-  }, [Router.query])
+  }, [Router.query]);
 
   useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.body.style.overflowY = suggestions.length > 0 ? 'hidden' : 'auto';
+    if (typeof document !== "undefined") {
+      document.body.style.overflowY =
+        suggestions.length > 0 ? "hidden" : "auto";
     }
-  }, [suggestions.length])
+  }, [suggestions.length]);
 
-  const inputChange = e => setSearchForm({ ...searchForm, [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value });
+  const inputChange = (e) =>
+    setSearchForm({
+      ...searchForm,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    });
 
   const cartTotal = () => {
     let total = 0;
@@ -55,21 +64,19 @@ const Nav = () => {
   };
   const removeFromCart = async (item, id) => {
     try {
-      setRemoveCartLoading({loading: true, id});
+      setRemoveCartLoading({ loading: true, id });
       const updatedCart = cloneDeep(state.user.cart).filter(
         (cartItem) => cartItem._id !== item._id
       );
 
-      const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/update-me`,
-        { cart: updatedCart },
-        { withCredentials: true }
-      );
+      const res = await axios.patch(`/api/v1/users/update-me`, {
+        cart: updatedCart,
+      });
 
-      setRemoveCartLoading({loading: false, id: null});
+      setRemoveCartLoading({ loading: false, id: null });
       setState({ ...state, user: res.data.data.user });
     } catch (error) {
-      setRemoveCartLoading({loading: false, id: null})
+      setRemoveCartLoading({ loading: false, id: null });
       setState({
         ...state,
         alert: {
@@ -80,23 +87,24 @@ const Nav = () => {
     }
   };
 
-  const searchProduct = e => {
+  const searchProduct = (e) => {
     e.preventDefault();
     Router.push(
       `/shop${
-      searchForm.searchCategory !== "All"
-        ? `?category=${searchForm.searchCategory}`
-        : ''
-      }${searchForm.searchInput !== ""
-        ? searchForm.searchCategory === 'All'
-          ? `?product=${searchForm.searchInput}`
-          : `&product=${searchForm.searchInput}`
-        : ''
+        searchForm.searchCategory !== "All"
+          ? `?category=${searchForm.searchCategory}`
+          : ""
+      }${
+        searchForm.searchInput !== ""
+          ? searchForm.searchCategory === "All"
+            ? `?product=${searchForm.searchInput}`
+            : `&product=${searchForm.searchInput}`
+          : ""
       }`
     );
-  }
+  };
 
-  const suggestionsBySearchInput = e => {
+  const suggestionsBySearchInput = (e) => {
     inputChange(e);
     if (e.target.value === "") {
       return setSuggestions([]);
@@ -117,16 +125,28 @@ const Nav = () => {
             product.category.name === searchForm.searchCategory
       )
     );
-  }
+  };
 
   const logout = async () => {
     try {
-      await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/logout`, {withCredentials: true});
-      setState({ ...state, loggedIn: false, user: null, alert: {type: 'success', message: 'Logged out'} });
+      await axios.get(`/api/v1/users/logout`);
+      setState({
+        ...state,
+        loggedIn: false,
+        user: null,
+        alert: { type: "success", message: "Logged out" },
+      });
     } catch (error) {
-      setState({...state, alert: {type: 'danger', message: error.response?.data?.message || error.message || 'Network Error'}})
+      setState({
+        ...state,
+        alert: {
+          type: "danger",
+          message:
+            error.response?.data?.message || error.message || "Network Error",
+        },
+      });
     }
-  }
+  };
 
   return (
     <div
@@ -304,7 +324,9 @@ const Nav = () => {
           </div>
           <button
             className={`col ${styles.account}`}
-            onClick={() => Router.push(state.loggedIn ? "/my-account" : "/login")}
+            onClick={() =>
+              Router.push(state.loggedIn ? "/my-account" : "/login")
+            }
           >
             <div style={{ whiteSpace: "nowrap" }}>
               Hello, {state.loggedIn ? state.user.firstName : "Sign in"}
@@ -322,7 +344,10 @@ const Nav = () => {
               </div>
             </div>
             {state.loggedIn && state.user && (
-              <div className={styles.accountOptions} onClick={e => e.stopPropagation()}>
+              <div
+                className={styles.accountOptions}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <ul className="list-group">
                   {state.user?.role === "ADMIN" && (
                     <li className="list-group-item">
@@ -373,7 +398,10 @@ const Nav = () => {
                   className={styles.cartPreview}
                   onClick={(e) => e.preventDefault()}
                 >
-                  <div className="border-bottom" style={{overflowY: 'auto', maxHeight: '50vh'}}>
+                  <div
+                    className="border-bottom"
+                    style={{ overflowY: "auto", maxHeight: "50vh" }}
+                  >
                     {state.user.cart.map((item) => (
                       <div className="d-flex border-bottom mb-2" key={item._id}>
                         <SubmitButton

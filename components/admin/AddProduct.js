@@ -2,15 +2,19 @@ import { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { GlobalContext } from "../../context/GlobalContext";
 import { readFile, readFiles } from "../../utils/fileReader";
-import { v4 as uid } from 'uuid';
+import { v4 as uid } from "uuid";
 import axios from "axios";
-import SubmitButton from '../Button/SubmitButton/SubmitButton';
-import { FaTimesCircle } from 'react-icons/fa'
+import SubmitButton from "../Button/SubmitButton/SubmitButton";
+import { FaTimesCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { AdminContext } from "../../pages/admin";
 
-function AddProduct ({ className, setShowAddProduct, productData, setProductData }) {
-  
+function AddProduct({
+  className,
+  setShowAddProduct,
+  productData,
+  setProductData,
+}) {
   const { LayoutRef } = useContext(AdminContext);
   const { state, setState } = useContext(GlobalContext);
   const specNAmeRef = useRef(null);
@@ -33,12 +37,16 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
   // upload multiple photos
   const uploadProductPhotos = async (e, limit) => {
     try {
-      const files = e.target.files; 
+      const files = e.target.files;
       const filesArr = Object.values(files);
-      if (limit >= filesArr.length) { limit = filesArr.length };
+      if (limit >= filesArr.length) {
+        limit = filesArr.length;
+      }
       const photosPreview = await readFiles(files, limit);
-      const photos = {}
-      Object.keys(files).filter(key => Number(key) < limit).forEach(key => photos[key] = files[key])
+      const photos = {};
+      Object.keys(files)
+        .filter((key) => Number(key) < limit)
+        .forEach((key) => (photos[key] = files[key]));
       setProductData({ ...productData, photos, photosPreview });
     } catch (error) {
       setState({ ...state, alert: { type: "danger", message: error.message } });
@@ -48,13 +56,13 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
   // input change handler
   const inputChange = (e) => {
     setProductData({
-      ...productData, [e.target.name]: e.target.type === 'checkbox'
-        ? e.target.checked
-        : e.target.value
+      ...productData,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
     });
-  }
+  };
 
-  // add spec 
+  // add spec
   const addSpec = () => {
     specNAmeRef.current.focus();
     setProductData({
@@ -62,78 +70,102 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
       specName: "",
       specValue: "",
       specs: [
-        { id: uid(), name: productData.specName, value: productData.specValue },...productData.specs
+        { id: uid(), name: productData.specName, value: productData.specValue },
+        ...productData.specs,
       ],
     });
-  }
-    
+  };
+
   // remove spec
-  const removeSpec = spec => {
-    const updatedSpecs = [...productData.specs.filter(item => item._id ? item._id !== spec._id : item.id !== spec.id)];
+  const removeSpec = (spec) => {
+    const updatedSpecs = [
+      ...productData.specs.filter((item) =>
+        item._id ? item._id !== spec._id : item.id !== spec.id
+      ),
+    ];
     setProductData({ ...productData, specs: updatedSpecs });
-  }   
+  };
 
   // update spec
   const updateSpec = (spec, property, value) => {
     const updatedSpecs = [...productData.specs];
-    const updateIndex = updatedSpecs.findIndex(item => item._id ? item._id === spec._id : item.id === spec.id);
+    const updateIndex = updatedSpecs.findIndex((item) =>
+      item._id ? item._id === spec._id : item.id === spec.id
+    );
     updatedSpecs[updateIndex][property] = value;
-    setProductData({ ...productData, specs: updatedSpecs })
-  }
+    setProductData({ ...productData, specs: updatedSpecs });
+  };
 
   // submit productdata form
   const formSubmit = async (e) => {
     e.preventDefault();
     try {
-      setformLading(true)
+      setformLading(true);
 
-      //(1) filter unnecessary information and create new data 
+      //(1) filter unnecessary information and create new data
       const filteredData = Object.keys(productData).filter(
         (key) =>
           key !== "specName" &&
           key !== "specValue" &&
           key !== "photosPreview" &&
           key !== "coverPhotoPreview" &&
-          key !== 'id' &&
-          key !== '_id' &&
-          key !== 'createdAt'
+          key !== "id" &&
+          key !== "_id" &&
+          key !== "createdAt"
       );
-      
+
       const data = {};
-      filteredData.forEach(key => data[key] = JSON.stringify(productData[key]));
-    
+      filteredData.forEach(
+        (key) => (data[key] = JSON.stringify(productData[key]))
+      );
+
       //(3) create new FormData with the filtered data
       const formData = new FormData();
-      Object.keys(data).forEach(key => formData.append(key, data[key]));
+      Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
       //(4) separate the photos files array into separate file with the name of photos
-      productData.photosPreview?.length > 0 && Object.keys(productData.photos).forEach(key => formData.append('photos', productData.photos[key]));
-      
+      productData.photosPreview?.length > 0 &&
+        Object.keys(productData.photos).forEach((key) =>
+          formData.append("photos", productData.photos[key])
+        );
+
       // (5) append coverPhoto
-      productData.coverPhotoPreview && formData.append('coverPhoto', productData.coverPhoto);
- 
+      productData.coverPhotoPreview &&
+        formData.append("coverPhoto", productData.coverPhoto);
+
       //(6) send request with formData
-      const res = productData.editId 
-        ? await axios.patch(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/products/${productData.editId}`, formData, {withCredentials: true})
-        : await axios.post(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/products`, formData, { withCredentials: true });
+      const res = productData.editId
+        ? await axios.patch(`/api/v1/products/${productData.editId}`, formData)
+        : await axios.post(`/api/v1/products`, formData);
       setState({
-        ...state,         
+        ...state,
         alert: { type: "success", message: res.data.message },
         products: productData.editId
-          ? [res.data.data.product, ...state.products.filter(product => product._id !== res.data.data.product._id)]
+          ? [
+              res.data.data.product,
+              ...state.products.filter(
+                (product) => product._id !== res.data.data.product._id
+              ),
+            ]
           : [res.data.data.product, ...state.products],
       });
 
       //(7) cleanup after finishing request
-      setformLading(false)
+      setformLading(false);
       setShowAddProduct(false);
       LayoutRef.current.scrollTo(0, 0);
     } catch (error) {
-      setformLading(false)
-      setState({ ...state, alert: { type: 'danger', message: error.response?.data?.message || error.message } }) 
+      setformLading(false);
+      setState({
+        ...state,
+        alert: {
+          type: "danger",
+          message: error.response?.data?.message || error.message,
+        },
+      });
     }
-  };   
-      
+  };
+
   return (
     <div className={className}>
       <Form encType="multipart/form-data" onSubmit={formSubmit}>
@@ -306,9 +338,7 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
             value={productData.category}
             onChange={inputChange}
           >
-            <option value="">
-              Select A Category
-            </option>
+            <option value="">Select A Category</option>
             {state.categories?.length > 0 &&
               state.categories.map((category) => (
                 <option key={category._id} value={category._id}>
@@ -557,7 +587,10 @@ function AddProduct ({ className, setShowAddProduct, productData, setProductData
           </div>
           {productData.specs.length > 0 &&
             productData.specs.map((spec) => (
-              <div className="d-flex aling-items-center mt-3" key={spec.id || spec._id}>
+              <div
+                className="d-flex aling-items-center mt-3"
+                key={spec.id || spec._id}
+              >
                 <input
                   type="text"
                   name={spec.name}
@@ -643,6 +676,5 @@ const WithCross = styled.div`
     cursor: pointer;
     background: white;
     border-radius: 50%;
-
   }
 `;

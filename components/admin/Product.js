@@ -1,14 +1,13 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import { Eye, PencilRuler, Star, TrashAlt } from "../icons";
 import { motion } from "framer-motion";
-import { useContext } from 'react';
-import { AdminContext } from '../../pages/admin';
-import { GlobalContext } from '../../context/GlobalContext';
-import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useContext } from "react";
+import { AdminContext } from "../../pages/admin";
+import { GlobalContext } from "../../context/GlobalContext";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const Product = ({ product, setShowAddProduct, setProductData }) => {
-
   const Router = useRouter();
 
   const { LayoutRef } = useContext(AdminContext);
@@ -17,16 +16,28 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
 
   const deleteProduct = async (product) => {
     try {
-      if (!confirm('Delete this product permanently?')) return;
-      
-      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/products/${product._id}`, { withCredentials: true });
+      if (!confirm("Delete this product permanently?")) return;
 
-      setState({ ...state, products: state.products.filter(prod => prod._id !== product._id), alert: {type: 'success', message: res.data.message} });
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API || "api"}/v1/products/${product._id}`
+      );
 
+      setState({
+        ...state,
+        products: state.products.filter((prod) => prod._id !== product._id),
+        alert: { type: "success", message: res.data.message },
+      });
     } catch (error) {
-      setState({ ...state, alert: { type: 'danger', message: error.response?.data.message || error.message || 'Network Error' } });
+      setState({
+        ...state,
+        alert: {
+          type: "danger",
+          message:
+            error.response?.data.message || error.message || "Network Error",
+        },
+      });
     }
-  }
+  };
 
   const updateAddPorductOptions = () => {
     setShowAddProduct(true);
@@ -42,7 +53,7 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
       ),
       category: product.category._id,
     });
-  }
+  };
 
   return (
     <div className="col mb-3">
@@ -95,10 +106,9 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
       </StyledProduct>
     </div>
   );
-
-}
+};
 const StyledProduct = styled(motion.div)`
-  box-shadow: 0 0 15px rgba(0, 0, 0, .3);
-`
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+`;
 
 export default Product;

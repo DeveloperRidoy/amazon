@@ -5,41 +5,43 @@ import Spinner from "../components/Spinners/Spinner";
 export const GlobalContext = createContext();
 
 const GlobalContextProvider = ({ children }) => {
-
   const [state, setState] = useState({
-      alert: {
-        type: null,
-        message: null
-        },
-      loading: true,
-      loggedIn: false,
-      user: {
-        name: null,
-        email: null,
-        role: null,
-        photo: null,
-        _id: null
+    alert: {
+      type: null,
+      message: null,
+    },
+    loading: true,
+    loggedIn: false,
+    user: {
+      name: null,
+      email: null,
+      role: null,
+      photo: null,
+      _id: null,
     },
     products: [],
     categories: [],
     colors: [],
-    countries: []
-    });
-    const { alert, loading } = state;
-  
-    useEffect(() => {
-        alert && alert.type && alert.message && setTimeout(() => {
-            setState({ ...state, alert: null });
-        }, alert.timeOut || 5000)
-    }, [alert])
+    countries: [],
+  });
+  const { alert, loading } = state;
 
-  useEffect( async () => {
+  useEffect(() => {
+    alert &&
+      alert.type &&
+      alert.message &&
+      setTimeout(() => {
+        setState({ ...state, alert: null });
+      }, alert.timeOut || 5000);
+  }, [alert]);
+
+  useEffect(async () => {
     try {
-      const userRes = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth`, {withCredentials: true});
-      const productsRes = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/products`, {withCredentials: true});
-      const categoryRes = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/categories`, {withCredentials: true});
-      const countryRes = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/countries`, {withCredentials: true});
-      const colorRes = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/colors`, { withCredentials: true });
+      const userRes = await axios.get(`/api/v1/users/auth`);
+      const productsRes = await axios.get(`/api/v1/products`);
+      const categoryRes = await axios.get(`/api/v1/categories`);
+      const countryRes = await axios.get(`/api/v1/countries`);
+      const colorRes = await axios.get(`/api/v1/colors`);
       return setState({
         ...state,
         loading: false,
@@ -47,13 +49,17 @@ const GlobalContextProvider = ({ children }) => {
         categories: categoryRes.data.data.categories,
         colors: colorRes.data.data.colors,
         countries: countryRes.data.data.countries,
-        loggedIn: userRes.data.status === 'success' ? true : false,
-        user: userRes.data.status === 'success' ? userRes.data.data.user : null
+        loggedIn: userRes.data.status === "success" ? true : false,
+        user: userRes.data.status === "success" ? userRes.data.data.user : null,
       });
     } catch (error) {
-      setState({ ...state, loading: false, alert: {type: 'danger', message: 'Network Error'} });
+      setState({
+        ...state,
+        loading: false,
+        alert: { type: "danger", message: "Network Error" },
+      });
     }
-    }, [])
+  }, []);
 
   return (
     <GlobalContext.Provider value={{ state, setState }}>
@@ -71,8 +77,7 @@ const GlobalContextProvider = ({ children }) => {
           {alert.message}
         </h4>
       )}
-      {loading
-        ? (
+      {loading ? (
         <Spinner
           style={{
             position: "fixed",
@@ -82,10 +87,9 @@ const GlobalContextProvider = ({ children }) => {
             zIndex: 2,
           }}
         />
-        )
-        : children
-    }
-      
+      ) : (
+        children
+      )}
     </GlobalContext.Provider>
   );
 };

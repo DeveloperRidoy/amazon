@@ -34,18 +34,14 @@ function index() {
       e.preventDefault();
       setLoading(true);
 
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/login`,
-        formData,
-        { withCredentials: true }
-      );
+      const res = await axios.post(`/api/v1/users/login`, formData);
 
       setLoading(false);
 
       setState((prevState) => ({
         ...prevState,
         alert: { type: "success", message: res.data.message, timeOut: 2000 },
-        loggedIn: true, 
+        loggedIn: true,
         user: res.data.data.user,
       }));
       setTimeout(() => Router.push("/my-account"), 1000);

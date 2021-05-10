@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { PencilRuler, TrashAlt } from "../icons";
-import SubmitButton from '../Button/SubmitButton/SubmitButton';
-import axios from 'axios';
+import SubmitButton from "../Button/SubmitButton/SubmitButton";
+import axios from "axios";
 
 const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
   const { state, setState } = useContext(GlobalContext);
@@ -24,36 +24,34 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
     setdata({
       ...data,
       [e.target.name]:
-      e.target.type === "checkbox" ? e.target.checked : e.target.value,
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
     });
 
   const updateUser = async (e) => {
     try {
-        e.preventDefault();
-        const info = { ...data };
-      !info.password && delete info.password
+      e.preventDefault();
+      const info = { ...data };
+      !info.password && delete info.password;
 
       setLoading(true);
-      const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/${user._id}`,
-        info,
-        { withCredentials: true }
-        );
-        setdata({ ...data, password: '' });
-        setLoading(false);
-        setExpand(false);
-        setState({ ...state, user: user._id === state.user._id ? res.data.data.user: state.user, loggedIn: !info.password && !user._id !== state.user._id });
-        setFilteredUsers({
-          ...filteredUsers,
-          users: filteredUsers.users.map((prevUser) =>
-            prevUser._id === user._id
-              ? (prevUser = res.data.data.user)
-              : prevUser
-          ),
-        });
+      const res = await axios.patch(`/api/v1/users/${user._id}`, info);
+      setdata({ ...data, password: "" });
+      setLoading(false);
+      setExpand(false);
+      setState({
+        ...state,
+        user: user._id === state.user._id ? res.data.data.user : state.user,
+        loggedIn: !info.password && !user._id !== state.user._id,
+      });
+      setFilteredUsers({
+        ...filteredUsers,
+        users: filteredUsers.users.map((prevUser) =>
+          prevUser._id === user._id ? (prevUser = res.data.data.user) : prevUser
+        ),
+      });
     } catch (error) {
-        setLoading(false);
-        setState({
+      setLoading(false);
+      setState({
         ...state,
         alert: {
           type: "danger",
@@ -66,10 +64,14 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
 
   const deleteUser = async () => {
     try {
-      if (!confirm('Permanently delete this user?')) return;
-      await axios.delete(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/${user._id}`, { withCredentials: true })
+      if (!confirm("Permanently delete this user?")) return;
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/${user._id}`
+      );
       const breadCrumbs = [];
-      const updatedUsers = filteredUsers.users.filter(prevUser => prevUser._id !== user._id);
+      const updatedUsers = filteredUsers.users.filter(
+        (prevUser) => prevUser._id !== user._id
+      );
       updatedUsers.forEach(
         (user, i) =>
           i < updatedUsers.length / filteredUsers.limit && breadCrumbs.push(i)
@@ -93,7 +95,7 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
         },
       });
     }
-  }
+  };
 
   return (
     <div className="d-flex align-items-center p-3 mb-3 shadow">

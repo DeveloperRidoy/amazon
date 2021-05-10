@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 
 function BreadCrumb () {
     const router = useRouter();
-    console.log(router.route, router.query);
     const routes = router.route.split("/").slice(1);
   return (
     <div>

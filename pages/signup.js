@@ -48,11 +48,7 @@ function index() {
       setLoading(true);
 
       // send request with data
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/signup`,
-        formData,
-        { withCredentials: true }
-      );
+      const res = await axios.post(`/api/v1/users/signup`, formData);
 
       setLoading(false);
       setState((prevState) => ({

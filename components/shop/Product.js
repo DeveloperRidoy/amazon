@@ -1,15 +1,14 @@
 import { Star } from "../icons";
 import { useContext, useEffect, useState } from "react";
-import styled from 'styled-components';
-import { FaPlus, FaMinus, FaArrowRight } from 'react-icons/fa';
-import { GlobalContext } from '../../context/GlobalContext';
-import { useRouter } from 'next/router';
+import styled from "styled-components";
+import { FaPlus, FaMinus, FaArrowRight } from "react-icons/fa";
+import { GlobalContext } from "../../context/GlobalContext";
+import { useRouter } from "next/router";
 import axios from "axios";
-import SubmitButton from '../Button/SubmitButton/SubmitButton';
-import Link from 'next/link';
+import SubmitButton from "../Button/SubmitButton/SubmitButton";
+import Link from "next/link";
 
-function Product ({ product }) {
-
+function Product({ product }) {
   const initialState = {
     stock: product.stock,
     quantity: 0,
@@ -17,49 +16,79 @@ function Product ({ product }) {
     size: null,
     loading: false,
     viewCart: false,
-    viewLogin: false
+    viewLogin: false,
   };
 
   const Router = useRouter();
 
   const { state, setState } = useContext(GlobalContext);
 
-  const [currentPhoto, setCurrentPhoto] = useState({photo: ''})
+  const [currentPhoto, setCurrentPhoto] = useState({ photo: "" });
 
-  const [productInfo, setProductInfo] = useState(initialState) 
+  const [productInfo, setProductInfo] = useState(initialState);
 
-  const inputChange = e => setProductInfo({...productInfo, [e.target.name]: e.target.value})
+  const inputChange = (e) =>
+    setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
 
-  useEffect(() => {setProductInfo(initialState)}, [Router.query.product])
+  useEffect(() => {
+    setProductInfo(initialState);
+  }, [Router.query.product]);
 
-  const addToCart = async e => {
+  const addToCart = async (e) => {
     e.preventDefault();
     if (productInfo.quantity === 0) {
-      setState({ ...state, alert: { type: 'danger', message: 'Please select atleast one item' } })
+      setState({
+        ...state,
+        alert: { type: "danger", message: "Please select atleast one item" },
+      });
       return;
     }
-    
+
     if (!state.user) {
-      setState({ ...state, alert: { type: 'warning', message: 'Please login to add to cart' } });
-      setProductInfo({ ...initialState, viewLogin: true })
+      setState({
+        ...state,
+        alert: { type: "warning", message: "Please login to add to cart" },
+      });
+      setProductInfo({ ...initialState, viewLogin: true });
       return;
     }
 
     try {
-      setProductInfo({ ...productInfo, loading: true })
-      
-      const updatedCart = [{ product: product._id, quantity: productInfo.quantity, color: productInfo.color, size: productInfo.size }, ...state.user.cart.filter(item => item.product._id !== product._id)];
+      setProductInfo({ ...productInfo, loading: true });
 
-      const res = await axios.patch(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/update-me`, { cart: updatedCart }, { withCredentials: true });
-      
-      setProductInfo({...productInfo, loading: false,viewCart: true})
-      setState({ ...state, user: res.data.data.user, alert: {type: 'success', message: 'Added to cart'} });
+      const updatedCart = [
+        {
+          product: product._id,
+          quantity: productInfo.quantity,
+          color: productInfo.color,
+          size: productInfo.size,
+        },
+        ...state.user.cart.filter((item) => item.product._id !== product._id),
+      ];
+
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/update-me`,
+        { cart: updatedCart }
+      );
+
+      setProductInfo({ ...productInfo, loading: false, viewCart: true });
+      setState({
+        ...state,
+        user: res.data.data.user,
+        alert: { type: "success", message: "Added to cart" },
+      });
     } catch (error) {
       setProductInfo(initialState);
-      setState({...state, alert: {type: 'danger', message: error.response?.data?.message || error.message || 'Network Error'}})
+      setState({
+        ...state,
+        alert: {
+          type: "danger",
+          message:
+            error.response?.data?.message || error.message || "Network Error",
+        },
+      });
     }
-    
-  }
+  };
 
   return (
     <div className="col row px-0 pb-5">
@@ -300,15 +329,15 @@ function Product ({ product }) {
       </div>
     </div>
   );
-} 
+}
 
-export default Product
+export default Product;
 
 const PhotoPreview = styled.div`
   :hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, .3)
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   }
-`
+`;
 
 const InputArrowsHidden = styled.input`
   ::-webkit-outer-spin-button,

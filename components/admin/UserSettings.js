@@ -4,7 +4,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { motion } from "framer-motion";
 import SubmitButton from "../Button/SubmitButton/SubmitButton";
 import User from "./User";
-import { LayoutRef } from '../../pages/admin';
+import { LayoutRef } from "../../pages/admin";
 
 const initialData = {
   name: "",
@@ -50,11 +50,7 @@ function UserSettings(e) {
       // state update
       setLoading(true);
       setSearchData({ ...searchData, name: "" });
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/query`,
-        data,
-        { withCredentials: true }
-      );
+      const res = await axios.post(`/api/v1/users/query`, data);
       setLoading(false);
       const breadCrumbs = [];
       res.data.data.users.forEach(
