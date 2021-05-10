@@ -19,8 +19,8 @@ app.prepare()
   .then(() => {
     const server = express();
 
-    // show api requests info
-    server.use(morgan("combined"));
+    // show api requests info in development mode
+    if(dev) server.use(morgan("combined"));
 
     // connnect to dataabase
     connectDb();
