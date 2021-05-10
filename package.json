@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "next dev",
     "test": "next start",
-    "server": "nodemon server.js"
+    "server": "nodemon --quiet server.js"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.14.0",
@@ -40,7 +40,6 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
-    "concurrently": "^6.0.1",
     "morgan": "^1.10.0"
   },
   "engines": {
