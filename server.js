@@ -3,10 +3,10 @@ const next = require('next');
 const dotenv = require('dotenv');
 const connectDb = require('./mongodb/connectDb');
 const AppError = require('./api/v1/controllers/appError');
-const morgan = require('morgan');
 const error = require('./api/v1/middleware/error');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const morgan = require('morgan');
 
 // environmental variables
 dotenv.config({ path: `${__dirname}/.env.local` });
