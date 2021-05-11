@@ -1,4 +1,5 @@
 const multer = require("multer");
+const { FaLessThanEqual } = require("react-icons/fa");
 const sharp = require('sharp');
 const AppError = require('../controllers/appError');
 
@@ -36,10 +37,12 @@ exports.uploadPhotos = (req, res, next) => upload.fields([
   { name: 'coverPhoto', maxCount: 1 },
   {name: 'photos', maxCount: 3}
 ])(req, res, err => {
-  // parse stringified data
-  Object.keys(req.body).forEach(
-    (key) => (req.body[key] = JSON.parse(req.body[key]))
-  );
+  // parse data if stringified
+  try {
+    Object.keys(req.body).forEach(
+      (key) => (req.body[key] = JSON.parse(req.body[key]))
+    );
+  } catch (error) {}
 
   // check if photos were provided
   if (!req.files || Object.keys(req.files).length === 0) return next();

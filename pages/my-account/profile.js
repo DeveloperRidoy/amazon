@@ -10,27 +10,47 @@ import { readFile } from "../../utils/fileReader";
 function index() {
   const router = useRouter();
 
+  useEffect(() => {
+     if (!state.loggedIn) return router.replace("/login");
+   }, []);
+
   const { state, setState } = useContext(GlobalContext);
 
   const [photoLabel, setPhotolabel] = useState("Choose new photo");
 
   const [formData, setFormData] = useState({
-    name: state.user ? state.user.name : "",
-    email: state.user ? state.user.email : "",
+    name: state.user?.name || "",
+    email: state.user?.email || "",
     photo: "",
     photoPreview: "",
-    phone: state.user && state.user.phone ? state.user.phone : "",
+    phone: state.user?.phone || "",
+  });
+
+  const [billingData, setBillingData] = useState({
+    firstName: state.user?.billing?.firstName || "",
+    lastName: state.user?.billing?.lastName || "",
+    companyName: state.user?.billing?.companyName || "",
+    country: state.user?.billing?.country || "",
+    streetAddress1: state.user?.billing?.streetAddress1 || "",
+    streetAddress2: state.user?.billing?.streetAddress2 || "",
+    townOrCity: state.user?.billing?.townOrCity || "",
+    zip: state.user?.billing?.zip || "",
+    phone: state.user?.billing?.phone || "",
+    email: state.user?.billing?.email || ""
   });
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!state.loggedIn) return router.replace("/login");
-  }, []);
+  const [billingLoading, setBillingLoading] = useState(false);
 
-  const { name, email, phone } = formData;
   const inputChange = (e) =>
     setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+
+  const billingInputChange = (e) =>
+    setBillingData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -147,11 +167,24 @@ function index() {
     }
   };
 
+  const submitBillingForm = async (e) => {
+    try {
+      e.preventDefault();
+      setBillingLoading(true);
+      const res = await axios.patch('/api/v1/users/update-me', { billing: billingData });
+      setState({ ...state, user: res.data.data.user , alert: {type: 'success', message: res.data.message}});
+      setBillingData(res.data.data.user.billing);
+      setBillingLoading(false);
+    } catch (error) {
+       setState({ ...state, alert: { type: "danger", message: error.message } });
+    }
+  }
+
   return (
     <div className="p-3">
-      <div className="col-md-6 mx-auto ">
+      <div className="col-md-6 mx-auto">
         <BreadCrumb />
-        <h2 className="mt-5">Update Your Profile</h2>
+        <h2 className="mt-5">Update User Info</h2>
         <form
           className="p-3 rounded shadow-lg border rounded"
           onSubmit={submitForm}
@@ -186,7 +219,7 @@ function index() {
               name="name"
               id="name"
               onChange={inputChange}
-              value={name}
+              value={formData.name}
               required
             />
           </div>
@@ -198,7 +231,7 @@ function index() {
               name="email"
               id="email"
               onChange={inputChange}
-              value={email}
+              value={formData.email}
               required
             />
           </div>
@@ -209,11 +242,138 @@ function index() {
               className="form-control"
               name="phone"
               id="phone"
-              onChange={inputChange}
-              value={phone}
+              onChange={(e) => {
+                let val = e.target.value;
+                if (val.length > 11) e.target.value = val.slice(0, 11);
+                if (val < 0) e.target.value = 0;
+                inputChange(e);
+              }}
+              value={formData.phone}
             />
           </div>
           <SubmitButton loading={loading}>Update</SubmitButton>
+        </form>
+        <h2 className="mt-5">Update Billing Data</h2>
+        <form
+          className="p-3 rounded shadow-lg border rounded"
+          onSubmit={submitBillingForm}
+        >
+          <div className="form-group">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              type="firstName"
+              className="form-control"
+              name="firstName"
+              id="firstName"
+              onChange={billingInputChange}
+              value={billingData.firstName}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              type="lastName"
+              className="form-control"
+              name="lastName"
+              id="lastName"
+              onChange={billingInputChange}
+              value={billingData.lastName}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="companyName">Company Name (optional)</label>
+            <input
+              type="companyName"
+              className="form-control"
+              name="companyName"
+              id="companyName"
+              onChange={billingInputChange}
+              value={billingData.companyName}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="country">Country</label>
+            <select
+              name="country"
+              id="country"
+              className="form-control"
+              value={billingData.country}
+              onChange={billingInputChange}
+            >
+              {state.countries?.map((country) => (
+                <option value={country._id} key={country._id}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="townOrCity">Town Or City</label>
+            <input
+              type="townOrCity"
+              className="form-control"
+              name="townOrCity"
+              id="townOrCity"
+              onChange={billingInputChange}
+              value={billingData.townOrCity}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="streetAddress1">Street address 1</label>
+            <input
+              type="streetAddress1"
+              className="form-control"
+              name="streetAddress1"
+              id="streetAddress1"
+              onChange={billingInputChange}
+              value={billingData.streetAddress1}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="streetAddress2">Street Address 2 (optional)</label>
+            <input
+              type="streetAddress2"
+              className="form-control"
+              name="streetAddress2"
+              id="streetAddress2"
+              onChange={billingInputChange}
+              value={billingData.streetAddress2}
+              
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="billingEmail">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              name="email"
+              id="billingEmail"
+              onChange={billingInputChange}
+              value={billingData.email}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="billingPhone">Phone</label>
+            <input
+              type="number"
+              className="form-control"
+              name="phone"
+              id="billingPhone"
+              onChange={(e) => {
+                let val = e.target.value;
+                if (val.length > 11) e.target.value = val.slice(0, 11);
+                if (val < 0) e.target.value = 0;
+                billingInputChange(e);
+              }}
+              value={billingData.phone}
+            />
+          </div>
+          <SubmitButton loading={billingLoading}>Update</SubmitButton>
         </form>
         <h2 className="mt-5">Update Password</h2>
         <form

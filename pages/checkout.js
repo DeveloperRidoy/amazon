@@ -9,22 +9,25 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
-const initialData = {
-  firstName: "",
-  lastName: "",
-  company: "",
-  country: "",
-  streetAddress1: "",
-  streetAddress2: "",
-  townOrCity: "",
-  zip: "",
-  phone: "",
-  email: "",
-  note: "",
-  saveReference: true,
-};
-function Checkout() {
+function Checkout () {
+
   const { state, setState } = useContext(GlobalContext);
+
+  const initialData = {
+    firstName: state.user?.billing?.firstName || "",
+    lastName: state.user?.billing?.lastName || "",
+    companyName: state.user?.billing?.companyName || "",
+    country: state.user?.billing?.country || "",
+    streetAddress1: state.user?.billing?.streetAddress1 || "",
+    streetAddress2: state.user?.billing?.streetAddress2 || "",
+    townOrCity: state.user?.billing?.townOrCity || "",
+    zip: state.user?.billing?.zip || "",
+    phone: state.user?.billing?.phone || "",
+    email: state.user?.billing?.email || "",
+    note: state.user?.billing?.note || "",
+    saveReference: !state.user?.billing,
+  };
+
 
   const [billingData, setBillingData] = useState(initialData);
 
@@ -38,11 +41,16 @@ function Checkout() {
   const initiateCheckout = async (e) => {
     try {
       e.preventDefault();
+
+      // save billing info if savePreference checked 
+      billingData.saveReference && await axios.patch('/api/v1/users/update-me', {billing: billingData});
+
+      // create stipe checkout session
       const stripe = await stripePromise;
       const data = { cart: state.user.cart, billingData };
       const res = await axios.post(`/api/v1/create-checkout-session`, data);
 
-      // redirect to strip checkout page
+      // redirect to stripe checkout page
       const result = await stripe.redirectToCheckout({
         sessionId: res.data.data.sessionId,
       });
@@ -105,13 +113,13 @@ function Checkout() {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="company">Company name (optional)</label>
+                  <label htmlFor="companyName">Company name (optional)</label>
                   <input
                     type="text"
-                    name="company"
-                    id="company"
+                    name="companyName"
+                    id="companyName"
                     className="form-control form-control-lg"
-                    value={billingData.company}
+                    value={billingData.companyName}
                     onChange={inputChange}
                   />
                 </div>

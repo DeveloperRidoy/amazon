@@ -32,6 +32,12 @@ function index () {
       img: { src: "/img/account/order.png", alt: "orders" },
     },
     {
+      link: "my-account/profile",
+      title: "Your Profile",
+      text: "Manage, add or remove profile",
+      img: { src: "/img/account/profile.png", alt: "profile" },
+    },
+    {
       link: "/my-account/prime",
       title: "Prime",
       text: "View benefits and payment settings",
@@ -48,12 +54,6 @@ function index () {
       title: "Your Payments",
       text: "Manage payment methods & transactions",
       img: { src: "/img/account/payment.png", alt: "payments" },
-    },
-    {
-      link: "my-account/profile",
-      title: "Your Profile",
-      text: "Manage, add or remove profile",
-      img: { src: "/img/account/profile.png", alt: "profile" },
     },
     {
       link: "/my-account/devices",

@@ -12,7 +12,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
         currency: "usd",
         product_data: {
           name: item.product.name,
-          images: process.env.NODE_ENV === 'development' ? ['https://m.media-amazon.com/images/I/71dHWxX7C0L._AC_UY218_.jpg']: item.product.photos.map(photo => `${process.env.NEXT_PUBLIC_WEBSITE}/img/products/${photo}`),
+          images: process.env.NODE_ENV === 'development' ? ['https://m.media-amazon.com/images/I/71dHWxX7C0L._AC_UY218_.jpg']: item.product.photos.map(photo => `${req.protocol}://${req.get('host')}/img/products/${photo}`),
         },
         unit_amount: (item.product.price).toFixed(2) * 100,
       },
@@ -24,8 +24,8 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
         line_items,
         mode: 'payment',
         customer_email: req.user.email,
-        success_url: `${process.env.NEXT_PUBLIC_WEBSITE}/shop?alert=your order has been placed&type=success`,
-        cancel_url: `${process.env.NEXT_PUBLIC_WEBSITE}/cart?alert=Order cancelled&type=danger`
+        success_url: `${req.protocol}://${req.get('host')}/shop?alert=your order has been placed&type=success`,
+        cancel_url: `${req.protocol}://${req.get('host')}/cart?alert=Order cancelled&type=danger`
     })
 
     return res.json({
