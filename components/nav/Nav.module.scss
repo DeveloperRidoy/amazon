@@ -70,7 +70,6 @@ a.logoContainer {
         width: 250px;
         padding: 10px;
         height: max-content;
-        overflow: hidden;
         background: white;
         color: black;
         box-shadow: 0 0 15px rgba($color: #000000, $alpha: .3);
@@ -82,6 +81,7 @@ a.logoContainer {
             right: 30px;
             height: 0;
             width: 0;
+            z-index: 5;
             border-top: 10px solid transparent;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
