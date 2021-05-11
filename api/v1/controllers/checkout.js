@@ -1,5 +1,6 @@
 const catchAsync = require("../../../utils/api/catchAsync");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const User = require('../../../mongodb/models/User');
 
 // @route          GET /api/v1/checkout/create-checkout-session 
 // @desc           Create a stripe checkout session
@@ -7,16 +8,22 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   const { cart, billingData, userId } = req.body;
   const line_items = cart.map((item) => ({
-    price_data: {
-      currency: "usd",
-      product_data: {
-        name: item.product.name,
-        metadata: {userId,...billingData}
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: item.product.name,
+          images: [
+            `${req.protocol}://${req.get("host")}/img/products/product.png`,
+          ],
+          description: item.product.summary,
+          metadata: { userId, ...billingData },
+        },
+        unit_amount: item.product.price.toFixed(2) * 100,
       },
-      unit_amount: item.product.price.toFixed(2) * 100,
-    },
-    quantity: item.quantity,
-  }));
+      quantity: item.quantity,
+    }))
+  
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items,
@@ -48,5 +55,5 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
     return res.json({ data: event });
   }
 
-  res.status(400).json({ message: "not a checkout session completion hook" });
+  return res.status(400).json({ message: "not a checkout session completion hook" });
 })
