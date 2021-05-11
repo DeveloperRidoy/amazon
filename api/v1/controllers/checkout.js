@@ -6,14 +6,14 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 // @accessibility  Private
 exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   const { cart } = req.body;
-  const imgs = [];
   const line_items = cart.map((item) => {
-    item.product.photos.forEach(photo => imgs.push(`${req.protocol}://${req.get('host')}/img/products/${photo}`));
+    const photo = item.product.photo;
     return {
       price_data: {
         currency: "usd",
         product_data: {
           name: item.product.name,
+          images: [`${req.protocol}://${req.get('host')}/img/products/${photo}`]
         },
         unit_amount: item.product.price.toFixed(2) * 100,
       },
@@ -35,8 +35,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   return res.json({
     status: 'success',
     message: 'checkout session initiated',
-    data: { sessionId: session.id },
-    imgs
+    data: { sessionId: session.id }
   })
 });
   
