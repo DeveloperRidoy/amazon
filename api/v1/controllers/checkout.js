@@ -15,7 +15,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
           process.env.NODE_ENV !== "production"
             ? ["https://m.media-amazon.com/images/I/71vvXGmdKWL._AC_UY218_.jpg"]
             : [
-                'https://amazon5130.herokuapp.com/img/products/acer-aspire-5.jpg'
+                `${req.secure ? 'https': 'http'}://${req.get('host')}/img/products/${item.product.coverPhoto}`
               ]
       },
       unit_amount: item.product.price.toFixed(2) * 100,
