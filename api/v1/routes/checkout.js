@@ -5,9 +5,7 @@ const { protect } = require("../middleware/global");
 const Router = express.Router();
 
 
-Router.use(protect);
-
-Router.post("/create-checkout-session", createCheckoutSession);
+Router.post("/create-checkout-session", protect, createCheckoutSession);
 Router.post("/place-order", placeOrder)
    
  
