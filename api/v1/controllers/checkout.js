@@ -11,7 +11,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
       currency: "usd",
       product_data: {
         name: item.product.name,
-        images:[`${req.protocol}://${req.get('host')}/img/products/${item.product.coverPhoto}`]
+        images:[`${req.protocol}://${req.get('host')}/img/products/${'acer-aspire-5.jpg'}`]
       },
       unit_amount: item.product.price.toFixed(2) * 100,
     },
