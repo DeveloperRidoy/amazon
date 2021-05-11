@@ -11,9 +11,14 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
       currency: "usd",
       product_data: {
         name: item.product.name,
-        images: [`${req.protocol}://${req.get('host')}/img/products/${item.product.coverPhoto || 'product.png'}`]
+        images:
+          process.env.NODE_ENV !== "production"
+            ? ["https://m.media-amazon.com/images/I/71vvXGmdKWL._AC_UY218_.jpg"]
+            : [
+                'https://amazon5130.herokuapp.com/img/products/acer-aspire-5.jpg'
+              ]
       },
-      unit_amount: (item.product.price).toFixed(2) * 100,
+      unit_amount: item.product.price.toFixed(2) * 100,
     },
     quantity: item.quantity,
   }));
