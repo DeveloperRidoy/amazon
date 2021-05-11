@@ -15,7 +15,7 @@ function Cart() {
 
   const otherProducts = state.products
     .filter((product) =>
-      cartState?.some((prod) => prod.product._id !== product._id)
+      cartState?.every((prod) => prod.product._id !== product._id)
     )
     .filter((product, i) => i <= 12);
 

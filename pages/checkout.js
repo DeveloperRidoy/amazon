@@ -4,6 +4,7 @@ import { FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
+import SubmitButton from '../components/Button/SubmitButton/SubmitButton';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -12,6 +13,8 @@ const stripePromise = loadStripe(
 function Checkout () {
 
   const { state, setState } = useContext(GlobalContext);
+
+  const [loading, setLoading] = useState(false)
 
   const initialData = {
     firstName: state.user?.billing?.firstName || "",
@@ -41,7 +44,7 @@ function Checkout () {
   const initiateCheckout = async (e) => {
     try {
       e.preventDefault();
-
+      setLoading(true);
       // save billing info if savePreference checked 
       billingData.saveReference && await axios.patch('/api/v1/users/update-me', {billing: billingData});
 
@@ -54,7 +57,7 @@ function Checkout () {
       const result = await stripe.redirectToCheckout({
         sessionId: res.data.data.sessionId,
       });
-
+      setLoading(false)
       // show error message on error
       if (result.error) {
         return setState({
@@ -63,6 +66,7 @@ function Checkout () {
         });
       }
     } catch (error) {
+      setLoading(false);
       setState({
         ...state,
         alert: {
@@ -306,9 +310,9 @@ function Checkout () {
                         .toFixed(2)}
                     </h5>
                   </div>
-                  <button type="submit" className="btn btn-dark col mt-4">
-                    <h3 className="mb-0">Place order</h3>
-                  </button>
+                  <SubmitButton className="btn bg-dark text-white col mt-4 d-flex align-items-center justify-content-center" loading={loading} spinColor="white">
+                    <h3 className="mb-0 mr-2">Place order</h3>
+                  </SubmitButton>
                 </div>
               </div>
             </div>
