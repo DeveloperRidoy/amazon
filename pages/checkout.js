@@ -51,7 +51,7 @@ function Checkout () {
       // create stipe checkout session
       const stripe = await stripePromise;
       const data = { cart: state.user.cart, billingData };
-      const res = await axios.post(`/api/v1/create-checkout-session`, data);
+      const res = await axios.post(`/api/v1/checkout/create-checkout-session`, data);
 
       // redirect to stripe checkout page
       const result = await stripe.redirectToCheckout({

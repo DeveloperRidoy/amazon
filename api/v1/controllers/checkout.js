@@ -1,16 +1,17 @@
 const catchAsync = require("../../../utils/api/catchAsync");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-// @route          GET /api/v1/create-checkout-session 
+// @route          GET /api/v1/checkout/create-checkout-session 
 // @desc           Create a stripe checkout session
 // @accessibility  Private
 exports.createCheckoutSession = catchAsync(async (req, res, next) => {
-  const { cart } = req.body;
+  const { cart, billingData } = req.body;
   const line_items = cart.map((item) => ({
     price_data: {
       currency: "usd",
       product_data: {
         name: item.product.name,
+        metadata: billingData
       },
       unit_amount: item.product.price.toFixed(2) * 100,
     },
@@ -21,6 +22,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
     line_items,
     mode: "payment",
     customer_email: req.user.email,
+    billing_address_collection: "required",
     success_url: `${req.protocol}://${req.get(
       "host"
     )}/shop?alert=your order has been placed&type=success`,
@@ -35,3 +37,11 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   })
 });
   
+
+// @route          GET /api/v1/checkout/place-order
+// @desc           place order on successful checkout
+// @accessibility  Private
+
+exports.placeOrder = catchAsync( async (req, res, next) => {
+  res.json({data: req.body})
+})

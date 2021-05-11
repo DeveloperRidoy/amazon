@@ -1,5 +1,5 @@
 const express = require("express");
-const { createCheckoutSession } = require("../controllers/checkout");
+const { createCheckoutSession, placeOrder } = require("../controllers/checkout");
 const { protect } = require("../middleware/global");
 
 const Router = express.Router();
@@ -7,10 +7,10 @@ const Router = express.Router();
 
 Router.use(protect);
 
-Router.route("/")
-    .post(createCheckoutSession)
-
+Router.post("/create-checkout-session", createCheckoutSession);
+Router.post("/place-order", placeOrder)
+   
  
 
 module.exports = Router;
- 
+    

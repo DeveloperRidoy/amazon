@@ -44,6 +44,7 @@ app.prepare()
       "categories",
       "countries",
       "colors",
+      "checkout"
     ];
 
     // handle api requests
@@ -52,10 +53,6 @@ app.prepare()
         `/api/v1/${route}`,
         require(`${__dirname}/api/v1/routes/${route}`)
       )
-    );
-    server.use(
-      "/api/v1/create-checkout-session",
-      require(`${__dirname}/api/v1/routes/checkout`)
     );
 
     // 404 response for api
