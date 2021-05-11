@@ -72,9 +72,9 @@ app.prepare()
     // start server
     server.listen(PORT, (err) => {
       if (err) throw err;
-      console.log(`Server running on PORT ${PORT}`);
-    });
-  })
+      console.log(`Server running on PORT ${PORT} environment: ${ process.env.NODE_ENV }`);
+    });   
+  })     
   .catch(err => {
     console.log('shutting down server on error')
     console.log(err);
