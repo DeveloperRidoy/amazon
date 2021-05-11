@@ -20,10 +20,10 @@ app.prepare()
     const server = express();
 
     // show api requests info in development mode
-    if(dev) {server.use(morgan("combined"))}
+    if(process.env.NODE_ENV !== 'production') {server.use(morgan("combined"))}
 
     // connnect to dataabase
-    connectDb();
+    connectDb(); 
 
     // compress response
     server.use(compression());
