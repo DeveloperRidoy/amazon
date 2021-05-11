@@ -6,20 +6,16 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 // @accessibility  Private
 exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   const { cart } = req.body;
-  const line_items = cart.map((item) => {
-    const photo = item.product.photo;
-    return {
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.product.name,
-          images: [`${req.protocol}://${req.get('host')}/img/products/${photo}`]
-        },
-        unit_amount: item.product.price.toFixed(2) * 100,
+  const line_items = cart.map((item) => ({
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: item.product.name,
       },
-      quantity: item.quantity,
-    };
-  });
+      unit_amount: item.product.price.toFixed(2) * 100,
+    },
+    quantity: item.quantity,
+  }));
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items,
