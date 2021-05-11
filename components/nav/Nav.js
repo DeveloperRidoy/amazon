@@ -39,7 +39,7 @@ const Nav = () => {
         alert: { type: Router.query.type, message: Router.query.alert },
       });
     }
-  }, [Router.query]);
+  }, []);
 
   useEffect(() => {
     if (typeof document !== "undefined") {

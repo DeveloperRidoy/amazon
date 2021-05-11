@@ -18,7 +18,7 @@ const initialFilter = {
 function Shop () {
   const Router = useRouter();
 
-  const { state, setState } = useContext(GlobalContext);
+  const { state } = useContext(GlobalContext);
 
   const [filteredProducts, setFilteredProducts] = useState(state.products);
 
