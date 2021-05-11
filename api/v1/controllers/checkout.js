@@ -11,20 +11,39 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
       currency: "usd",
       product_data: {
         name: item.product.name,
-        images:[`${req.protocol}://${req.get('host')}/img/products/${item.product.coverPhoto}`]
+        images:[`${req.protocol}://${req.get('host')}/img/products/acer-aspire-5.jpg`]
       },
       unit_amount: item.product.price.toFixed(2) * 100,
     },
     quantity: item.quantity
   }));
   const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items,
-      mode: 'payment',
-      customer_email: req.user.email,
-      success_url: `${req.protocol}://${req.get('host')}/shop?alert=your order has been placed&type=success`,
-      cancel_url: `${req.protocol}://${req.get('host')}/cart?alert=Order cancelled&type=danger`
-  })
+    payment_method_types: [
+      "card",
+      "alipay",
+      "ideal",
+      "fpx",
+      "bacs_debit",
+      "bancontact",
+      "giropay",
+      "p24",
+      "eps",
+      "sofort",
+      "sepa_debit",
+      "grabpay",
+      "afterpay_clearpay",
+      "acss_debit",
+    ],
+    line_items,
+    mode: "payment",
+    customer_email: req.user.email,
+    success_url: `${req.protocol}://${req.get(
+      "host"
+    )}/shop?alert=your order has been placed&type=success`,
+    cancel_url: `${req.protocol}://${req.get(
+      "host"
+    )}/cart?alert=Order cancelled&type=danger`,
+  });
   return res.json({
       status: 'success',
       message: 'checkout session initiated',
