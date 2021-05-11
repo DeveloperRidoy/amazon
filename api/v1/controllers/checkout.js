@@ -11,7 +11,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
       currency: "usd",
       product_data: {
         name: item.product.name,
-        images: process.env.NODE_ENV !== 'production' ? ['https://m.media-amazon.com/images/I/71dHWxX7C0L._AC_UY218_.jpg']: [`${req.protocol}://${req.get('host')}/img/products/${item.product.coverPhoto || 'product.png'}`]
+        images: [`${req.protocol}://${req.get('host')}/img/products/${item.product.coverPhoto || 'product.png'}`]
       },
       unit_amount: (item.product.price).toFixed(2) * 100,
     },
