@@ -50,19 +50,19 @@ function Checkout () {
       const data = { cart: state.user.cart, billingData };
       const res = await axios.post(`/api/v1/create-checkout-session`, data);
 
-      // // redirect to stripe checkout page
-      // const result = await stripe.redirectToCheckout({
-      //   sessionId: res.data.data.sessionId,
-      // });
+      // redirect to stripe checkout page
+      const result = await stripe.redirectToCheckout({
+        sessionId: res.data.data.sessionId,
+      });
 
-      // // show error message on error
-      // if (result.error) {
-      //   return setState({
-      //     ...state,
-      //     alert: { type: "danger", message: result.error.message },
-      //   });
-      // }
-      console.log(res.data.data);
+      // show error message on error
+      if (result.error) {
+        return setState({
+          ...state,
+          alert: { type: "danger", message: result.error.message },
+        });
+      }
+
     } catch (error) {
       setState({
         ...state,

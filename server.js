@@ -19,6 +19,9 @@ app.prepare()
   .then(() => {
     const server = express();
 
+    // trust proxy
+    server.enable('trust proxy');
+
     // show api requests info in development mode
     if(process.env.NODE_ENV !== 'production') {server.use(morgan("combined"))}
 
