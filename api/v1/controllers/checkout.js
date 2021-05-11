@@ -33,7 +33,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   return res.json({
       status: 'success',
       message: 'checkout session initiated',
-      data: {url: `${req.protocol}://${req.get('head')}`, cart}
+      data: {url: `${req.protocol}://${req.get('host')}`, cart}
   })
 });
   
