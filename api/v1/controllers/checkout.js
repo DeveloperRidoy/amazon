@@ -48,5 +48,5 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
     return res.json({ data: event });
   }
 
-  res.json({ message: "not a checkout session completion hook" });
+  res.status(400).json({ message: "not a checkout session completion hook" });
 })
