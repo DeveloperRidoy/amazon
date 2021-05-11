@@ -11,11 +11,11 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
       currency: "usd",
       product_data: {
         name: item.product.name,
-        images:[`${req.protocol}://${req.get('host')}/img/products/${'acer-aspire-5.jpg'}`]
+        images:[`${req.protocol}://${req.get('host')}/img/products/${item.product.coverPhoto}`]
       },
       unit_amount: item.product.price.toFixed(2) * 100,
     },
-    quantity: item.quantity,
+    quantity: item.quantity
   }));
   const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
