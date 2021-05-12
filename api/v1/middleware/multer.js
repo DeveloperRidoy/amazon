@@ -82,7 +82,7 @@ exports.resizePhotos = (height = 300, width = 300) => async (req, res, next) => 
 
     // process coverPhoto
     if (req.files.coverPhoto) {
-      req.body.coverPhoto = `${req.body.name}-${Date.now()}-cover.jpeg`;
+      req.body.coverPhoto = `${req.body.name.split(' ').join('-')}-${Date.now()}-cover.jpeg`;
       // resize cover photo
       await sharp(req.files.coverPhoto[0].buffer)
         .resize(height, width)
@@ -96,7 +96,7 @@ exports.resizePhotos = (height = 300, width = 300) => async (req, res, next) => 
       // resize photos
       req.body.photos = [];
       for (let i = 0; i <= req.files.photos.length - 1; i++) {
-        let name = `${req.body.name}-${Date.now()}-${i + 1}.jpeg`;
+        let name = `${req.body.name.split(' ').join('-')}-${Date.now()}-${i + 1}.jpeg`;
         await sharp(req.files.photos[i].buffer)
           .resize(height, width)
           .toFormat("jpeg")
