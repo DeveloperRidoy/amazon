@@ -53,6 +53,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
 exports.placeOrder = catchAsync( async (req, res, next) => {
   const event = req.body;
   if (event.type === 'checkout.session.completed') {
+    const expandedSesion = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_items']})
     return res.json({
       status: 'success',
       data : {event}
