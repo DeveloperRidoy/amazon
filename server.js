@@ -11,7 +11,7 @@ const morgan = require('morgan');
 // environmental variables
 dotenv.config({ path: `${__dirname}/.env.local` });
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV === 'development';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -23,7 +23,7 @@ app.prepare()
     server.enable('trust proxy');
 
     // show api requests info in development mode
-    if(process.env.NODE_ENV !== 'production') {server.use(morgan("combined"))}
+    if(process.env.NODE_ENV === 'development') {server.use(morgan("combined"))}
 
     // connnect to dataabase
     connectDb(); 
