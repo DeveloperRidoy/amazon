@@ -34,7 +34,7 @@ const Nav = () => {
       alert = { type: Router.query.type, message: Router.query.alert };
     }
 
-    if (Router.query.emptyCart && state.user?.cart?.lenght > 0) {
+    if (Router.query.emptyCart && state.user?.cart?.length > 0) {
       user = (await axios.patch('/api/v1/users/update-me', { cart: [] })).data.data.user;
     }
 

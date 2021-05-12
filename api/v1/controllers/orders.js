@@ -1,4 +1,4 @@
-const Order = require("../../../mongodb/models/order");
+const Order = require("../../../mongodb/models/Order");
 const {
   getDoc,
   addDoc,
