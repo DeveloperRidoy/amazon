@@ -55,7 +55,7 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
     const expandedSession = await stripe.checkout.sessions.retrieve(event.data.object.id, {
       expand: ["customer"],
     });
-    const line_items = await stripe.sessions.listLineItems(event.data.object.id);
+    const line_items = await stripe.checkout.sessions.listLineItems(event.data.object.id);
     return res.json({
       status: 'success',
       data : {session: expandedSession, line_items}
