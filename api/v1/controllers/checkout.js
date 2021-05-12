@@ -16,11 +16,11 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
           `${req.protocol}://${req.get("host")}/img/products/product.png`,
         ],
         description: item.product.summary,
+        metadata: { key: 'value' },
       },
       unit_amount: item.product.price.toFixed(2) * 100,
     },
     quantity: item.quantity,
-    metadata: { key: 'value'},
   }));
   
 
