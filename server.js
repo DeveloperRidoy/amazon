@@ -72,7 +72,7 @@ app.prepare()
     // start server
     server.listen(PORT, (err) => {
       if (err) throw err;
-      console.log(`Server running on PORT ${PORT} environment: ${ process.env.NODE_ENV }`);
+      console.log(`Server running on PORT ${PORT}`);
     });   
   })     
   .catch(err => {

@@ -27,19 +27,26 @@ const Nav = () => {
     searchCategory: "All",
   });
 
+  useEffect( async () => {
+    let alert = '';
+    let user = '';
+    if (Router.query.type && Router.query.alert) {
+      alert = { type: Router.query.type, message: Router.query.alert };
+    }
+
+    if (Router.query.emptyCart && state.user?.cart?.lenght > 0) {
+      user = (await axios.patch('/api/v1/users/update-me', { cart: [] })).data.data.user;
+    }
+
+    if (alert || user) {
+      setState({ ...state, alert: alert || {}, user: user || state.user });
+    }
+  }, [])
+
   useEffect(() => {
     setSearchForm({ ...searchForm, searchInput: "" });
     setSuggestions([]);
   }, [Router.route]);
-
-  useEffect(() => {
-    if (Router.query.alert && Router.query.type) {
-      setState({
-        ...state,
-        alert: { type: Router.query.type, message: Router.query.alert },
-      });
-    }
-  }, []);
 
   useEffect(() => {
     if (typeof document !== "undefined") {

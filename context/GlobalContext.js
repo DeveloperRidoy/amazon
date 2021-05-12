@@ -5,6 +5,8 @@ import Spinner from "../components/Spinners/Spinner";
 export const GlobalContext = createContext();
 
 const GlobalContextProvider = ({ children }) => {
+  
+  
   const [state, setState] = useState({
     alert: {
       type: null,
@@ -42,6 +44,7 @@ const GlobalContextProvider = ({ children }) => {
       const categoryRes = await axios.get(`/api/v1/categories`);
       const countryRes = await axios.get(`/api/v1/countries`);
       const colorRes = await axios.get(`/api/v1/colors`);
+      
       return setState({
         ...state,
         loading: false,
