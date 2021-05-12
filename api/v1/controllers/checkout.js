@@ -29,10 +29,10 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
     mode: "payment",
     customer_email: req.user.email,
     billing_address_collection: "required",
-    metadata: { userId, billingData, cart },
+    metadata: { userId, ...billingData },
     success_url: `${req.protocol}://${req.get(
       "host"
-    )}/shop?alert=your order has been placed&type=success`,
+    )}/shop?alert=your order has been placed&type=success&emptyCart=true`,
     cancel_url: `${req.protocol}://${req.get(
       "host"
     )}/cart?alert=Order cancelled&type=danger`,
@@ -53,13 +53,12 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   const event = req.body;
   if (event.type === 'checkout.session.completed') {
 
-    // empty user cart
-    await User.findOneAndUpdate({ email: event.customer_email }, { $set: { cart: [] } }, { new: true, useFindAndModify: false });
-    
+    const expandedSession = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_Items']});
+
     // return response
     return res.json({
       status: 'success',
-      data : {event}
+      data : {event: expandedSession}
     });
   }
 
