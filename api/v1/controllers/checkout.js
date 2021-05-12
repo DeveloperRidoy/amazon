@@ -8,20 +8,20 @@ const User = require('../../../mongodb/models/User');
 exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   const { cart, billingData, userId } = req.body;
   const line_items = cart.map((item) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.product.name,
-          images: [
-            `${req.protocol}://${req.get("host")}/img/products/product.png`,
-          ],
-          description: item.product.summary
-        },
-        unit_amount: item.product.price.toFixed(2) * 100,
-        metadata: {item}
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: item.product.name,
+        images: [
+          `${req.protocol}://${req.get("host")}/img/products/product.png`,
+        ],
+        description: item.product.summary,
       },
-      quantity: item.quantity,
-    }))
+      unit_amount: item.product.price.toFixed(2) * 100,
+    },
+    quantity: item.quantity,
+    metadata: { item },
+  }));
   
 
   const session = await stripe.checkout.sessions.create({
