@@ -1,6 +1,8 @@
 const catchAsync = require("../../../utils/api/catchAsync");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const User = require('../../../mongodb/models/User');
+const Order = require("../../../mongodb/models/Order");
+const Product = require("../../../mongodb/models/Product");
 
 // @route          GET /api/v1/checkout/create-checkout-session 
 // @desc           Create a stripe checkout session
@@ -16,6 +18,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
           `${req.protocol}://${req.get("host")}/img/products/product.png`,
         ],
         description: item.product.summary,
+        metadata: {id: item._id}
       },
       unit_amount_decimal: (item.product.price * 100).toFixed(2),
     },
@@ -51,16 +54,26 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
 
 exports.placeOrder = catchAsync( async (req, res, next) => {
   const event = req.body;
-  if (event.type === 'checkout.session.completed') {
 
-    const expandedSession = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_Items']});
-
-    // return response
-    return res.json({
-      status: 'success',
-      data : {event: expandedSession}
-    });
+  if (event.type !== 'checkout.session.completed') {
+    return res
+      .status(400)
+      .json({ message: "not a checkout session completion hook" });
   }
+  
+  const expandedEvent = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_items']});
+  const products = (await Product.find()).data.products;
+  await Order.create({
+    user: event.metadata.userId,
+    products: [event.line_items.data.map(item => ({product: item}))]
+  })
 
-  return res.status(400).json({ message: "not a checkout session completion hook" });
+  // return response
+  return res.json({
+    status: 'success',
+    data : {event: expandedEvent}
+  });
+  
+
+  
 })

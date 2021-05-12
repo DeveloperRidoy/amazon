@@ -44,7 +44,8 @@ app.prepare()
       "categories",
       "countries",
       "colors",
-      "checkout"
+      "checkout",
+      "orders"
     ];
 
     // handle api requests
