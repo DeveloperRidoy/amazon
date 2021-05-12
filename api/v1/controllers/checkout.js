@@ -12,6 +12,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
   const line_items = cart.map((item) => ({
     price_data: {
       currency: "usd",
+      product: item.product._id,
       product_data: {
         name: item.product.name,
         images: [
