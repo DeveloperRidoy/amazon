@@ -60,13 +60,9 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
       .status(400)
       .json({ message: "not a checkout session completion hook" });
   }
-  
+
   const expandedEvent = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_items']});
-  const products = (await Product.find()).data.products;
-  await Order.create({
-    user: event.metadata.userId,
-    products: [event.line_items.data.map(item => ({product: item}))]
-  })
+
 
   // return response
   return res.json({
