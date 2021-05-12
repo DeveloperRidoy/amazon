@@ -14,9 +14,9 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
       currency: "usd",
       product_data: {
         name: item.product.name,
-        images: item.product.photos.map(photo => `${req.protocol}://${req.get("host")}/img/products/${photo}`),
+        images: [`${req.protocol}://${req.get("host")}/img/products/${item.product.coverPhoto}`],
         description: item.product.summary,
-        metadata: {id: item._id}
+        metadata: { id: item._id },
       },
       unit_amount_decimal: (item.product.price * 100).toFixed(2),
     },
