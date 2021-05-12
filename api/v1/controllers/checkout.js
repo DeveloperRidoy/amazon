@@ -15,8 +15,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
       product_data: {
         name: item.product.name,
         images: [`${req.protocol}://${req.get("host")}/img/products/${item.product.coverPhoto}`],
-        description: item.product.summary,
-        metadata: { id: item._id },
+        description: item.product.summary
       },
       unit_amount_decimal: (item.product.price * 100).toFixed(2),
     },
@@ -59,13 +58,15 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
       .json({ message: "not a checkout session completion hook" });
   }
 
-  const expandedEvent = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_items', 'metadata']});
+  const expandedEvent = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_items']});
+
+  const products = (await Product.find());
 
 
   // return response
   return res.json({
     status: 'success',
-    data : {event: expandedEvent}
+    data : {event: expandedEvent, products}
   });
   
 
