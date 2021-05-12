@@ -31,8 +31,8 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
     line_items,
     mode: "payment",
     customer_email: req.user.email,
-    billing_address_collection: "required",
-    metadata: { userId, ...billingData },
+    client_reference_id: userId,
+    metadata: billingData,
     success_url: `${req.protocol}://${req.get(
       "host"
     )}/shop?alert=your order has been placed&type=success&emptyCart=true`,

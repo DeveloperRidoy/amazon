@@ -5,8 +5,7 @@ import Spinner from "../components/Spinners/Spinner";
 export const GlobalContext = createContext();
 
 const GlobalContextProvider = ({ children }) => {
-  
-  
+   
   const [state, setState] = useState({
     alert: {
       type: null,

@@ -30,10 +30,13 @@ const Nav = () => {
   useEffect( async () => {
     let alert = '';
     let user = '';
+
+    // set alert from query
     if (Router.query.type && Router.query.alert) {
       alert = { type: Router.query.type, message: Router.query.alert };
     }
 
+    // empty user cart from query
     if (Router.query.emptyCart && state.user?.cart?.length > 0) {
       user = (await axios.patch('/api/v1/users/update-me', { cart: [] })).data.data.user;
     }
