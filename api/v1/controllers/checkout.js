@@ -20,7 +20,7 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
       unit_amount: item.product.price.toFixed(2) * 100,
     },
     quantity: item.quantity,
-    metadata: { item },
+    metadata: { key: 'value'},
   }));
   
 
