@@ -54,7 +54,7 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   if (event.type === 'checkout.session.completed') {
     return res.json({
       status: 'success',
-      data : {data: event.body}
+      data : {event}
     });
   }
 
