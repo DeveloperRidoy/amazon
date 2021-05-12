@@ -53,9 +53,13 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   const event = req.body;
   if (event.type === 'checkout.session.completed') {
     const expandedSession = await stripe.checkout.sessions.retrieve(event.data.object.id, {
-      expand: ["customer", "metadata"],
+      expand: ["customer"],
     });
-    return res.json({ data: expandedSession });
+    const line_items = await stripe.sessions.listLineItems(event.data.object.id);
+    return res.json({
+      status: 'success',
+      data : {session: expandedSession, line_items}
+    });
   }
 
   return res.status(400).json({ message: "not a checkout session completion hook" });
