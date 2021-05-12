@@ -61,7 +61,7 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   const expandedEvent = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_items']});
 
   
-  const products = (await Product.find({$or: expandedEvent.line_items.data.map(item => ({photo: item.description})) }));
+  const products = (await Product.find({$or: expandedEvent.line_items.data.map(item => ({name: item.description})) }));
 
   
 
