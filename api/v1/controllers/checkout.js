@@ -1,6 +1,5 @@
 const catchAsync = require("../../../utils/api/catchAsync");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const User = require('../../../mongodb/models/User');
 const Order = require("../../../mongodb/models/Order");
 const Product = require("../../../mongodb/models/Product");
 
@@ -52,32 +51,33 @@ exports.createCheckoutSession = catchAsync(async (req, res, next) => {
 exports.placeOrder = catchAsync( async (req, res, next) => {
   const event = req.body;
 
+  // check if it's a successful checkout session 
   if (event.type !== 'checkout.session.completed') {
     return res
       .status(400)
       .json({ message: "not a checkout session completion hook" });
   }
 
+  // expand line_items to get products info
   const expandedEvent = await stripe.checkout.sessions.retrieve(event.data.object.id, {expand: ['line_items']});
 
-  
+  // collect necessary info to place order in database
   const products = (await Product.find({ $or: expandedEvent.line_items.data.map(item => ({ name: item.description })) })).map(item => {
     const product = expandedEvent.line_items.data.find(product => product.description === item.name);
     return {
       product: item._id,
       quantity: product.quantity,
       price: product.price.unit_amount_decimal,
-      totalPrice: product.price.amount_total
+      totalPrice: product.amount_total
     };
   });
   
+  // place order 
+  await Order.create({customer: expandedEvent.client_reference_id, products})
 
   // return response
   return res.json({
     status: 'success',
-    data : {event: expandedEvent, products}
+    message: 'Order received!'
   });
-  
-
-  
 })
