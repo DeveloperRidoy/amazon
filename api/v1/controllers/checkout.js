@@ -62,7 +62,7 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
 
   
   const products = (await Product.find({ $or: expandedEvent.line_items.data.map(item => ({ name: item.description })) })).map(item => {
-    const product = expandedEvent.data.line_items.data.find(product => product.description === item.name);
+    const product = expandedEvent.line_items.data.find(product => product.description === item.name);
     return {
       product: item._id,
       quantity: product.quantity,
