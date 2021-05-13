@@ -7,6 +7,18 @@ const OrderSchema = new mongoose.Schema([
       ref: "user",
       required: [true, "Order must have a user id"],
     },
+    date: {
+      type: Date,
+      required: [true, 'Order must have a date']
+    },
+    stripe_sessionId: {
+      type: String,
+      required: [true, 'Order must have a stripe_sessionId']
+    },
+    stripe_session_data_objectId: {
+      type: String,
+      required: [true, 'Order must have stripe_session_data_objectId']
+    },
     metadata: {
       firstName: {
         type: String,

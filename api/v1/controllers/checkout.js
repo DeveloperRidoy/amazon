@@ -73,7 +73,14 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   });
   
   // place order 
-  await Order.create({user: expandedEvent.client_reference_id, products, metadata: expandedEvent.metadata})
+  await Order.create({
+    user: expandedEvent.client_reference_id,
+    products,
+    metadata: expandedEvent.metadata,
+    date: expandedEvent.created * 1000,
+    stripe_sessionId: expandedEvent.id,
+    stripe_session_data_objectId: expandedEvent.data.object.id
+  })
 
   // return response
   return res.json({

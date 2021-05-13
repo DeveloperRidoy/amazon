@@ -20,6 +20,7 @@ const GlobalContextProvider = ({ children }) => {
       photo: null,
       _id: null,
     },
+    orders: [],
     products: [],
     categories: [],
     colors: [],
@@ -38,12 +39,13 @@ const GlobalContextProvider = ({ children }) => {
 
   useEffect(async () => {
     try {
-      const userRes = await axios.get(`/api/v1/users/auth`);
-      const productsRes = await axios.get(`/api/v1/products`);
-      const categoryRes = await axios.get(`/api/v1/categories`);
-      const countryRes = await axios.get(`/api/v1/countries`);
-      const colorRes = await axios.get(`/api/v1/colors`);
-      
+      const userRes = await axios.get('/api/v1/users/auth');
+      const productsRes = await axios.get('/api/v1/products');
+      const categoryRes = await axios.get('/api/v1/categories');
+      const countryRes = await axios.get('/api/v1/countries');
+      const colorRes = await axios.get('/api/v1/colors');
+      const orderRes = await axios.get('/api/v1/orders');
+
       return setState({
         ...state,
         loading: false,
@@ -53,6 +55,7 @@ const GlobalContextProvider = ({ children }) => {
         countries: countryRes.data.data.countries,
         loggedIn: userRes.data.status === "success" ? true : false,
         user: userRes.data.status === "success" ? userRes.data.data.user : null,
+        orders: orderRes.data.data.orders
       });
     } catch (error) {
       setState({
@@ -67,7 +70,7 @@ const GlobalContextProvider = ({ children }) => {
     <GlobalContext.Provider value={{ state, setState }}>
       {alert && alert.message && (
         <h4
-          className={`alert alert-${alert.type}`}
+          className={'alert alert-${alert.type}'}
           style={{
             position: "fixed",
             top: "10%",

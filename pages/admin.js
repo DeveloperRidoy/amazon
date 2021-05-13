@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { GlobalContext } from "../context/GlobalContext";
-import { FaUserCog, FaBoxOpen, FaUser, FaDollarSign } from "react-icons/fa";
+import { FaUserCog, FaBoxOpen, FaUser, FaDollarSign, FaCommentAlt } from "react-icons/fa";
 import {
   BsSearch,
   BsArrowsFullscreen,
@@ -40,6 +40,7 @@ function Admin() {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showAccountOptions, setShowAccountOptions] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [showMessages, setShowMessages] = useState(false);
   const [showSettings, setShowSettings] = useState({
     show: true,
     setting: PRODUCT_SETTINGS,
@@ -182,6 +183,29 @@ function Admin() {
                   setShowSettings({
                     ...showSettings,
                     show: true,
+                    setting: ORDER_SETTINGS,
+                  })
+                }
+              >
+                <div style={{ width: 15 }} className="mr-4">
+                  <FaDollarSign
+                    style={{
+                      background: "white",
+                      fontSize: "30px",
+                      padding: "5px",
+                      borderRadius: "5px",
+                      boxShadow: "0 0 15px rgba(0, 0, 0, .3)",
+                    }}
+                  />
+                </div>
+                {!adminBar.collapse && <h4 className="mb-0 ml-3">Orders</h4>}
+              </div>
+              <div
+                className="menu-item"
+                onClick={() =>
+                  setShowSettings({
+                    ...showSettings,
+                    show: true,
                     setting: PRODUCT_SETTINGS,
                   })
                 }
@@ -222,29 +246,6 @@ function Admin() {
                 </div>
                 {!adminBar.collapse && <h4 className="mb-0 ml-3">Users</h4>}
               </div>
-              <div
-                className="menu-item"
-                onClick={() =>
-                  setShowSettings({
-                    ...showSettings,
-                    show: true,
-                    setting: ORDER_SETTINGS,
-                  })
-                }
-              >
-                <div style={{ width: 15 }} className="mr-4">
-                  <FaDollarSign
-                    style={{
-                      background: "white",
-                      fontSize: "30px",
-                      padding: "5px",
-                      borderRadius: "5px",
-                      boxShadow: "0 0 15px rgba(0, 0, 0, .3)",
-                    }}
-                  />
-                </div>
-                {!adminBar.collapse && <h4 className="mb-0 ml-3">Orders</h4>}
-              </div>
             </div>
           </AdminBar>
           <Layout
@@ -258,6 +259,7 @@ function Admin() {
               showSearchBar && setShowSearchBar(!showSearchBar);
               showAccountOptions && setShowAccountOptions(false);
               showNotification && setShowNotification(false);
+              showMessages && setShowMessages(false);
             }}
           >
             <motion.div
@@ -301,7 +303,7 @@ function Admin() {
                 </SearchBar>
               </div>
               <div className="d-flex align-items-center">
-                <Bell>
+                <PopupContainer>
                   <BsBellFill
                     style={{
                       marginRight: "20px",
@@ -319,7 +321,26 @@ function Admin() {
                       <a className="mb-3">Notification</a>
                     </Link>
                   </motion.div>
-                </Bell>
+                </PopupContainer>
+                <PopupContainer>
+                  <FaCommentAlt
+                    style={{
+                      marginRight: "20px",
+                      fontSize: 20,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => setShowMessages(!showMessages)}
+                  />
+                  <motion.div
+                    className="popup"
+                    initial={{ scale: 0 }}
+                    animate={showMessages ? { scale: 1 } : { scale: 0 }}
+                  >
+                    <Link href="/my-account">
+                      <a className="mb-3">messages</a>
+                    </Link>
+                  </motion.div>
+                </PopupContainer>
                 <Account
                   onClick={() => {
                     setShowAccountOptions(!showAccountOptions);
@@ -489,7 +510,7 @@ const Account = styled.div`
   }
 `;
 
-const Bell = styled.div`
+const PopupContainer = styled.div`
   position: relative;
   ::before {
     position: absolute;
