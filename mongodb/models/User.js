@@ -11,9 +11,12 @@ const userSchema = new mongoose.Schema({
   firstName: String,
   email: {
     type: String,
-    required: true,
     unique: true,
     uniqueCaseInsensitive: true,
+    validation: {
+      validator: val => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(val),
+      message: '{VALUE} is not a valid email address'
+      },
     required: [true, "Please provide an email address"],
   },
   photo: String,
