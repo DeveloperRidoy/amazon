@@ -73,7 +73,7 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   });
   
   // place order 
-  await Order.create({customer: expandedEvent.client_reference_id, products})
+  await Order.create({user: expandedEvent.client_reference_id, products})
 
   // return response
   return res.json({
