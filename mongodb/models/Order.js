@@ -11,13 +11,9 @@ const OrderSchema = new mongoose.Schema([
       type: Date,
       required: [true, 'Order must have a date']
     },
-    stripe_sessionId: {
+    stripeSessionId: {
       type: String,
       required: [true, 'Order must have a stripe_sessionId']
-    },
-    stripe_session_data_objectId: {
-      type: String,
-      required: [true, 'Order must have stripe_session_data_objectId']
     },
     metadata: {
       firstName: {
