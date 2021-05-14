@@ -7,7 +7,8 @@
     "start": "node server.js",
     "dev": "next dev",
     "test": "next start",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "heroku-postbuild": "node server.js"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.14.0",

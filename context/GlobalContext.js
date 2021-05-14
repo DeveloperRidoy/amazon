@@ -70,7 +70,7 @@ const GlobalContextProvider = ({ children }) => {
     <GlobalContext.Provider value={{ state, setState }}>
       {alert && alert.message && (
         <h4
-          className={'alert alert-${alert.type}'}
+          className={`alert alert-${alert.type}`}
           style={{
             position: "fixed",
             top: "10%",

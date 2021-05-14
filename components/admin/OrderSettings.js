@@ -4,7 +4,7 @@ import { GlobalContext } from "../../context/GlobalContext"
 function OrderSettings () {
     
   const { state } = useContext(GlobalContext);
-
+  
   return (
       <div>
       {state.orders?.length > 0
