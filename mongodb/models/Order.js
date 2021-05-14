@@ -16,7 +16,11 @@ const OrderSchema = new mongoose.Schema([
       required: [true, 'Order must have a stripe_sessionId']
     },
     paymentStatus: {
-      type: Boolean,
+      type: String,
+      enum: {
+        values : ['paid', 'unpaid', 'no_pyament_required'],
+        message: 'payment status must be one of paid, unpaid or no_payment_required'
+      },
       required: [true, 'order must have a paymentStatus']
     },
     orderStatus: {
