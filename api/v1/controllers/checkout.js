@@ -58,34 +58,33 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
       .json({ message: "not a checkout session completion hook" });
   }
 
-  // expand line_items to get products info
+  // get all line_items to get products info
   const line_Items = await stripe.checkout.sessions.listLineItems(event.data.object.id, {limit: 100});
 
   // collect necessary info to place order in database
-  // const products = (await Product.find({ $or: expandedEvent.line_items.data.map(item => ({ name: item.description })) })).map(item => {
-  //   const product = expandedEvent.line_items.data.find(product => product.description === item.name);
-  //   return {
-  //     product: item._id,
-  //     quantity: product.quantity,
-  //     price: product.price.unit_amount_decimal,
-  //     totalPrice: product.amount_total
-  //   };
-  // });
+  const products = (await Product.find({ $or: line_Items.data.map(item => ({ name: item.description })) })).map(item => {
+    const product = line_Items.data.find(product => product.description === item.name);
+    return {
+      product: item._id,
+      quantity: product.quantity,
+      price: product.price.unit_amount_decimal,
+      totalPrice: product.amount_total
+    };
+  });
   
   // place order 
-  // await Order.create({
-  //   user: event.data.object.client_reference_id,
-  //   products,
-  //   metadata: event.data.object.metadata,
-  //   date: new Date(event.created * 1000),
-  //   stripeSessionId: event.data.object.id,
-  //   paymentStatus: event.data.object.payment_status,
-  // })
+  await Order.create({
+    user: event.data.object.client_reference_id,
+    products,
+    metadata: event.data.object.metadata,
+    date: new Date(event.created * 1000),
+    stripeSessionId: event.data.object.id,
+    paymentStatus: event.data.object.payment_status,
+  })
 
   // return response
   return res.json({
     status: 'success',
-    message: 'Order received!',
-    line_Items
+    message: 'Order received!'
   });
 })
