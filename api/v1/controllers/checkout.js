@@ -86,6 +86,6 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   return res.json({
     status: 'success',
     message: 'Order received!',
-    line_items
+    line_Items
   });
 })
