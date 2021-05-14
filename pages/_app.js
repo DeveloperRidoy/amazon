@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
           <Sidebar />
           <Backdrop />
         </SidebarContextProvider>
-        <div className="mx-auto" style={{ maxWidth: "1350px" }}>
+        <div className="mx-auto" style={{ maxWidth: "1350px", position: 'relative' }}>
           <Component {...pageProps} />
         </div>
         <Footer />

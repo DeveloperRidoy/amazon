@@ -9,7 +9,7 @@ const OrderSchema = new mongoose.Schema([
     },
     date: {
       type: Date,
-      required: [true, 'Order must have a date']
+      default: Date.now()
     },
     stripeSessionId: {
       type: String,
@@ -26,10 +26,14 @@ const OrderSchema = new mongoose.Schema([
     orderStatus: {
       type: String,
       enum: {
-        values: ['packaging', 'shipping', 'complete'],
-        message: 'orderstatus must be one of packaging, shipping or complete'
+        values: ['on hold', 'processing', 'shipping', 'complete', 'cancelled'],
+        message: 'orderstatus must be one of \'on hold\', \'processing\', \'shipping\', \'cancelled\' or \'complete\''
       },
-      default: 'packaging'
+      default: 'on hold'
+    },
+    totalAmount: {
+      type: Number,
+      required: [true, 'order must have have a totalAmount']
     },
     metadata: {
       firstName: {

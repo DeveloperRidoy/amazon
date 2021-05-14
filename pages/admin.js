@@ -43,11 +43,11 @@ function Admin() {
   const [showMessages, setShowMessages] = useState(false);
   const [showSettings, setShowSettings] = useState({
     show: true,
-    setting: PRODUCT_SETTINGS,
+    setting: ORDER_SETTINGS,
   });
   const [adminBar, setAdminBar] = useState({
     collapse: null,
-    width: 300,
+    width: 250,
     collapseWidth: 50,
     window: window.innerWidth,
   });
@@ -56,7 +56,7 @@ function Admin() {
     window.addEventListener("resize", () =>
       setAdminBar({
         ...adminBar,
-        width: window.innerWidth < 576 ? window.innerWidth : 300,
+        width: window.innerWidth < 576 ? window.innerWidth : 250,
         window: window.innerWidth,
       })
     );
@@ -151,7 +151,7 @@ function Admin() {
                     setAdminBar({
                       ...adminBar,
                       collapse: false,
-                      width: adminBar.window > 576 ? 300 : adminBar.window,
+                      width: adminBar.window > 576 ? 250 : adminBar.window,
                     })
                   }
                 />
@@ -179,6 +179,13 @@ function Admin() {
             <div className={`mt-3 h-100 px-2`}>
               <div
                 className="menu-item"
+                style={
+                  showSettings.setting === ORDER_SETTINGS
+                    ? {
+                        boxShadow: "0 0 15px rgba(0, 0, 0, 0.2)",
+                      }
+                    : {}
+                }
                 onClick={() =>
                   setShowSettings({
                     ...showSettings,
@@ -202,6 +209,13 @@ function Admin() {
               </div>
               <div
                 className="menu-item"
+                style={
+                  showSettings.setting === PRODUCT_SETTINGS
+                    ? {
+                        boxShadow: "0 0 15px rgba(0, 0, 0, 0.2)",
+                      }
+                    : {}
+                }
                 onClick={() =>
                   setShowSettings({
                     ...showSettings,
@@ -225,6 +239,13 @@ function Admin() {
               </div>
               <div
                 className="menu-item"
+                style={
+                  showSettings.setting === USER_SETTINGS
+                    ? {
+                        boxShadow: "0 0 15px rgba(0, 0, 0, 0.2)",
+                      }
+                    : {}
+                }
                 onClick={() =>
                   setShowSettings({
                     ...showSettings,
@@ -412,9 +433,6 @@ const AdminBar = styled(motion.div)`
     align-items: center;
     cursor: pointer;
     margin: 0 0 10px 0;
-    :hover {
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    }
   }
 `;
 
