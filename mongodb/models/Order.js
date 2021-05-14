@@ -15,6 +15,18 @@ const OrderSchema = new mongoose.Schema([
       type: String,
       required: [true, 'Order must have a stripe_sessionId']
     },
+    paymentStatus: {
+      type: Boolean,
+      required: [true, 'order must have a paymentStatus']
+    },
+    orderStatus: {
+      type: String,
+      enum: {
+        values: ['packaging', 'shipping', 'complete'],
+        message: 'orderstatus must be one of packaging, shipping or complete'
+      },
+      default: 'packaging'
+    },
     metadata: {
       firstName: {
         type: String,

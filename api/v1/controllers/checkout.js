@@ -79,6 +79,7 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
     metadata: expandedEvent.metadata,
     date: expandedEvent.created * 1000,
     stripeSessionId: event.object.id,
+    paymentStatus: event.data.object.payment_status,
   })
 
   // return response
