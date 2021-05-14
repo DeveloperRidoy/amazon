@@ -74,11 +74,11 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   
   // place order 
   await Order.create({
-    user: expandedEvent.client_reference_id,
+    user: event.data.object.client_reference_id,
     products,
-    metadata: expandedEvent.metadata,
-    date: expandedEvent.created * 1000,
-    stripeSessionId: event.object.id,
+    metadata: event.data.object.metadata,
+    date: new Date(event.created * 1000),
+    stripeSessionId: event.data.object.id,
     paymentStatus: event.data.object.payment_status,
   })
 
