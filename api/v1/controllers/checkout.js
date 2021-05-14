@@ -85,6 +85,7 @@ exports.placeOrder = catchAsync( async (req, res, next) => {
   // return response
   return res.json({
     status: 'success',
-    message: 'Order received!'
+    message: 'Order received!',
+    expandedEvent
   });
 })
