@@ -5,12 +5,17 @@ const {
   addOrder,
   updateOrder,
   deleteOrder,
+  deleteManyOrders,
+  updateManyOrders
 } = require("../controllers/orders");
 const Router = express.Router();
+const { protect } = require('../middleware/global');
 
 Router.route("/")
     .get(getAllOrders)
-    .post(addOrder);
+    .post(addOrder)
+    .delete(protect, deleteManyOrders)
+    .patch(protect, updateManyOrders)
 
 Router.route("/:id")
     .get(getOrder)

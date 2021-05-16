@@ -77,7 +77,7 @@ const Product = ({ product, setShowAddProduct, setProductData }) => {
           </h5>
           <div className="d-flex w-100 justify-content-end">
             <div
-              className="mr-3"
+              className="mr-3 d-block"
               tooltip="update product"
               onClick={updateAddPorductOptions}
             >

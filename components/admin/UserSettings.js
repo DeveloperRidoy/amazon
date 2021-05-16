@@ -1,14 +1,15 @@
 import axios from "axios";
-import { createRef, useContext, useState } from "react";
+import { createRef, useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-import { motion } from "framer-motion";
 import SubmitButton from "../Button/SubmitButton/SubmitButton";
 import User from "./User";
 import { LayoutRef } from "../../pages/admin";
 
 const initialData = {
   name: "",
-  role: "",
+  role: "USER",
+  _id: "",
+  searchType: "name",
 };
 
 function UserSettings(e) {
@@ -19,6 +20,8 @@ function UserSettings(e) {
   const [searchData, setSearchData] = useState(initialData);
 
   const nameRef = createRef(null);
+
+  const idRef = createRef(null);
 
   const [filteredUsers, setFilteredUsers] = useState({
     users: [],
@@ -34,22 +37,33 @@ function UserSettings(e) {
       [e.target.name]:
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
     });
-
+  
   const searchUser = async (e) => {
     try {
-      e.preventDefault();
+      e && e.preventDefault();
+
+      // focus the text input for better experience
+      searchData.searchType === "name"
+        ? nameRef.current.focus()
+        : idRef.current.focus();
+
       const data = { ...searchData };
 
       // delete unnecessary info
-      data.name === "" && delete data.name;
-      data.role === "" && delete data.role;
+      data.name === '' && delete data.name;
+      data.role === '' && delete data.role;
+      data._id === '' && delete data._id;
+      delete data.searchType;
 
-      // focus the text input for better experience
-      nameRef.current.focus();
+      // check if _id length is 24 
+      if (data._id && data._id.length !== 24) {
+        return setState({ ...state, alert: { type: 'danger', message: 'invalid id' } });
+      }
+
 
       // state update
       setLoading(true);
-      setSearchData({ ...searchData, name: "" });
+      setSearchData({ ...searchData, name: "", _id: "" });
       const res = await axios.post(`/api/v1/users/query`, data);
       setLoading(false);
       const breadCrumbs = [];
@@ -80,35 +94,70 @@ function UserSettings(e) {
     }
   };
 
+  // get all users on first load
+  useEffect(() => searchUser(), []);
+
   return (
     <div style={{ position: "relative" }}>
       <form
         onSubmit={searchUser}
-        className="col-md-7 bg-white shadow pb-1"
+        className="col-md-7 bg-white py-1 shadow mb-3"
         style={{
           position: "sticky",
           overflowY: "hidden",
-          top: 43,
+          top: 30,
           left: 0,
           zIndex: 2,
         }}
       >
         <div className="form-group">
-          <label htmlFor="name">
+          <label htmlFor={searchData.searchType === 'name' ? 'name': '_id'}>
             <h3>
               <b>Search users</b>
             </h3>
           </label>
           <div className="input-group">
-            <input
-              ref={nameRef}
-              type="text"
-              className="form-control form-control-lg"
-              name="name"
-              placeholder="user name..."
-              value={searchData.name}
-              onChange={inputchange}
-            />
+            <div className="mr-n1" style={{ width: 100 }}>
+              <select
+                name="searchType"
+                id="searchType"
+                className="form-control form-control-lg"
+                value={searchData.searchType}
+                onChange={e => {
+                  e.target.value === 'name'
+                    ? setSearchData({ ...searchData, _id: '', searchType: e.target.value })
+                    : setSearchData({ ...searchData, name: '', searchType: e.target.value });
+                }}
+              >
+                <option value="name">name</option>
+                <option value="id">id</option>
+              </select>
+            </div>
+            {searchData.searchType === "name" ? (
+              <input
+                ref={nameRef}
+                type="text"
+                className="form-control form-control-lg"
+                name="name"
+                id="name"
+                placeholder="search by name..."
+                value={searchData.name}
+                onChange={inputchange}
+              />
+            ) : (
+              searchData.searchType === "id" && (
+                <input
+                  ref={idRef}
+                  type="text"
+                  className="form-control form-control-lg"
+                  name="_id"
+                  id="_id"
+                  placeholder="search by id..."
+                  value={searchData._id}
+                  onChange={inputchange}
+                />
+              )
+            )}
             <div className="ml-n1">
               <select
                 name="role"
@@ -124,7 +173,9 @@ function UserSettings(e) {
             </div>
             <div className="input-group-append">
               <SubmitButton
-                disabled={!searchData.name && !searchData.role}
+                disabled={
+                  !searchData.name && !searchData.role && !searchData._id
+                }
                 className="btn bg-dark text-white"
                 loading={loading}
                 spinColor="white"
@@ -136,7 +187,7 @@ function UserSettings(e) {
         </div>
       </form>
       {filteredUsers.searched && filteredUsers.users.length > 0 ? (
-        <motion.div layout>
+        <div>
           <div>
             {filteredUsers.users.map((user, i) => {
               if (
@@ -179,7 +230,7 @@ function UserSettings(e) {
               </li>
             ))}
           </ol>
-        </motion.div>
+        </div>
       ) : (
         filteredUsers.searched &&
         filteredUsers.users?.length === 0 && (

@@ -14,6 +14,7 @@ function AddProduct({
   setShowAddProduct,
   productData,
   setProductData,
+  initialProductData
 }) {
   const { LayoutRef } = useContext(AdminContext);
   const { state, setState } = useContext(GlobalContext);
@@ -629,7 +630,10 @@ function AddProduct({
           </SubmitButton>
           <button
             className="btn btn-outline-dark ml-3"
-            onClick={() => setShowAddProduct(false)}
+            onClick={() => {
+              setShowAddProduct(false);
+              setProductData(initialProductData)
+            }}
           >
             Cancel
           </button>

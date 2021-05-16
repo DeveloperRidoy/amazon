@@ -60,8 +60,9 @@ a.logoContainer {
 }
 [tooltip]::before {
   content: attr(tooltip);
+  display: none;
   position: absolute;
-  top: -100%;
+  top: -35px;
   left: 50%;
   transform: translate(-50%, 0);
   opacity: 0;
@@ -75,11 +76,13 @@ a.logoContainer {
 }
 [tooltip]:hover::before, [tooltip]:hover::after {
   transform: translate(-50%, 0) scale(1);
+  display: block;
   opacity: 1;
 }
 [tooltip]::after {
+  display: none;
   position: absolute;
-  top: calc(-100% + 22px);
+  top: -13px;
   left: 50%;
   opacity: 0;
   transform: translate(-50%, 0);

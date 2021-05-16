@@ -68,6 +68,7 @@ function ProductSettings () {
             setShowAddProduct={setShowAddProduct}
             productData={productData}
             setProductData={setProductData}
+            initialProductData={initialProductData}
           />
         )}
         <div className="row row-cols-1 mx-0 mt-4" style={{ maxWidth: 1060 }}>

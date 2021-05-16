@@ -5,6 +5,8 @@ const {
   updateDoc,
   deleteDoc,
   getDocs,
+  deleteManyDocs,
+  updateManyDocs,
 } = require("../controllers/handlerFactory");
 
 // @route          GET /api/v1/orders/:id
@@ -31,3 +33,13 @@ exports.updateOrder = updateDoc(Order);
 // @desc           Delete order
 // @accessibility  Private
 exports.deleteOrder = deleteDoc(Order);
+
+// @route          DELETE /api/v1/orders/
+// @desc           Delete many orders
+// @accessibility  Private
+exports.deleteManyOrders = deleteManyDocs(Order);
+
+// @route          PATCH /api/v1/orders/
+// @desc           update many orders
+// @accessibility  Private
+exports.updateManyOrders = updateManyDocs(Order);

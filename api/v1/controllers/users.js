@@ -87,16 +87,21 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   })
 })
 
-// @route          GET /api/v1/users/query
+// @route          POST /api/v1/users/query
 // @desc           Get user by query
 // @accessibility  Private
 
 exports.getUsersByQuery = catchAsync(async (req, res, next) => {
-  const query = {};
-  Object.keys(req.body).forEach(key => query[key] = new RegExp(`${req.body[key]}`, 'i'));
+  let query = {};
+  if (req.body._id) {
+    query = req.body;
+  } else {
+    Object.keys(req.body).forEach(key => query[key] = new RegExp(`${req.body[key]}`, 'i'));
+  }
+  
   const data = await User.find(query);
   return res.json({
     status: 'success',
-    data: {[User.collection.name]: data}
+    data: {users: data}
   })
 })

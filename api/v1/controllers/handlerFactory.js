@@ -1,3 +1,4 @@
+const Order = require("../../../mongodb/models/Order");
 const catchAsync = require("../../../utils/api/catchAsync");
 const AppError = require("./appError");
 
@@ -62,10 +63,10 @@ exports.updateDoc = (Model) => catchAsync(async (req, res) => {
   
     return res.json({
         status: 'success',
-        message: `${docName} updated successfully`,
+        message: `${docName} updated`,
         data: {[docName]: updatedDoc}
     })
-   
+    
 })
 
 // delete a doc
@@ -76,6 +77,28 @@ exports.deleteDoc = (Model) => catchAsync(async (req, res) => {
     return res.json({
         status: 'success',
         message: `${docName} deleted`
+    })
+})
+
+// update all docs
+exports.updateManyDocs = (Model) => catchAsync(async (req, res) => {
+    const {query, data} = req.body
+    await Model.updateMany(query, data);
+    const updatedDocs = await Model.find();
+    return res.json({
+        status: 'success',
+        message: `${Model.collection.name} updated`,
+        data: {[Model.collection.name]: updatedDocs}
+    })
+})
+
+// delete all docs
+exports.deleteManyDocs = (Model) => catchAsync(async (req, res) => {
+    await Model.deleteMany(req.body);
+
+    return res.json({
+        status: 'success',
+        message: `${Model.collection.name} deleted`
     })
 })
 

@@ -102,8 +102,9 @@ const OrderSchema = new mongoose.Schema([
       },
     ],
   },
-]);
+], {toJSON: {virtuals: true}, toObject: {virtuals: true}});
 
+OrderSchema.virtual('date_ms').get(function () { return this.date.getTime() });
 
 const Order = mongoose.model('order', OrderSchema);
 
