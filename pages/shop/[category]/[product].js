@@ -12,7 +12,7 @@ function ProductPage () {
   );
   const similarProducts = state.products.filter((item) => item.slug !== Router.query.product && item.category.name === Router.query.category).filter((product, i) => i <= 4);
 
-  useEffect(() => setProduct(state.products.find(product => product.slug === Router.query.product)), [Router.query.product])
+  useEffect(() => setProduct(state.products.find(product => product.slug === Router.query.product)), [Router.query.product, state.products])
     return (
       <div>
         <ol className="breadcrumb">

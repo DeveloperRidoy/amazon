@@ -6,27 +6,34 @@ import { useRouter } from 'next/router';
 function ProductPreview ({ product }) {
     const Router = useRouter();
     return (
-        <motion.div
-            className="col mb-3 d-flex align-items-center justify-content-center"
-            layout
+      <motion.div
+        className="col mb-3 d-flex align-items-center justify-content-center"
+        layout
+      >
+        <StyledProduct
+          className="p-3 col-lg-10 shadow-lg"
+          onClick={() =>
+            Router.push(`/shop/${product.category.name}/${product.slug}`)
+          }
         >
-            <StyledProduct
-                className="p-3 col-lg-10 shadow-lg"
-                onClick={() => Router.push(`/shop/${product.category.name}/${product.slug}`)}
-            >
-                <img
-                    src={`/img/products/${product.coverPhoto || "product.png"}`}
-                    height="150px"
-                    width="150px"
-                />
-                <h5>{product.name}</h5>
-                <div className="d-flex">
-                    <Star count={product.ratingsAverage} />
-                    ({product.ratingsAverage}/{product.ratingsCount})
-                </div>
-                <h5 className="mt-1">Price: ${product.price}</h5>
-            </StyledProduct>
-        </motion.div>
+          <img
+            src={`/img/products/${product.coverPhoto || "product.png"}`}
+            height="150px"
+            width="150px"
+          />
+          <h5>{product.name}</h5>
+          <div className="d-flex">
+            <Star count={product.ratingsAverage} />({product.ratingsAverage}/
+            {product.ratingsCount >= 1000
+              ? (product.ratingsCount % 1000) !== 0
+                ? (product.ratingsCount / 1000).toFixed(1) + 'k'
+                : (product.ratingsCount / 1000) + 'k'
+              : product.ratingsCount}
+            )
+          </div>
+          <h5 className="mt-1">Price: ${product.price}</h5>
+        </StyledProduct>
+      </motion.div>
     );
 }
 

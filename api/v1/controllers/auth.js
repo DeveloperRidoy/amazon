@@ -22,6 +22,17 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 })
 
+// @route          POST /api/v1/users/add-user
+// @desc           admin adds user
+// @accessibility  private
+exports.addUser = catchAsync(async (req, res, next) => {
+  const user = await User.create(req.body);
+  res.json({
+    status: 'success',
+    message: "User added",
+    data: {user}
+  })
+})
 
 // @route          POST /api/v1/users/login
 // @desc           login user

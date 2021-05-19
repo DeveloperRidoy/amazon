@@ -10,7 +10,7 @@ function Order({ order, selectedOrders, setSelectedOrders }) {
     const [orderData, setOrderData] = useState({ orderStatus: order.orderStatus });
     const [loading, setLoading] = useState(false);
     const [expand, setExpand] = useState(false);
-
+    
     const deleteOrder = async (id) => {
     try {
       if (!confirm("delete this order?")) return;
@@ -91,7 +91,7 @@ function Order({ order, selectedOrders, setSelectedOrders }) {
           />
         </th>
         <td>
-          <b>#{order._id}</b> by <a href="#">{order.metadata.firstName}</a>
+          <b>#{order._id}</b> by {order.metadata.firstName}
         </td>
         <td>{order.paymentStatus}</td>
         <td>
@@ -119,7 +119,7 @@ function Order({ order, selectedOrders, setSelectedOrders }) {
         </td>
         <td>
           <div className="d-flex">
-            <div tooltip="apply">
+            <div tooltip="apply changes">
               <SubmitButton
                 className="btn bg-dark text-white mr-1"
                 spinColor="white"
@@ -151,7 +151,6 @@ function Order({ order, selectedOrders, setSelectedOrders }) {
       </tr>
       {expand && (
         <tr className="shadow">
-          {console.log(order)}
           <td colSpan="100%">
             <h5>
               <b>Customer</b>
@@ -166,35 +165,63 @@ function Order({ order, selectedOrders, setSelectedOrders }) {
             <h5 className="mt-3">
               <b>Products</b>
             </h5>
-            {state.products
-              ?.filter((product) =>
-                order.products.some((item) => item.product === product._id)
-              )
-              .map((product) => ( 
-                <table key={product._id} className="table mb-2">
-                  <thead>
-                    <tr>
-                      <th>Product</th>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                      <th>TotalPrice</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
+            <table className="table mb-2">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>TotalPrice</th>
+                </tr>
+              </thead>
+              <tbody>
+                {state.products
+                  ?.filter((product) =>
+                    order.products.some((item) => item.product === product._id)
+                  )
+                  .map((product) => (
+                    <tr key={product._id} className="font-weight-bold">
                       <td>
-                        <img src={`/img/products/${product.coverPhoto}`} alt={product.name} style={{height: 50, width: 50}} className="shadow border"/>
+                        <img
+                          src={`/img/products/${product.coverPhoto}`}
+                          alt={product.name}
+                          style={{ height: 50, width: 50 }}
+                          className="shadow border"
+                        />
                       </td>
                       <td>{product.name}</td>
-                      <td>${order.products.find(item => item.product === product._id).price/100}</td>
-                      <td>{order.products.find(item => item.product === product._id).quantity}</td>
-                      <td>${order.products.find(item => item.product === product._id).totalPrice}</td>
+                      <td>
+                        $
+                        {order.products.find(
+                          (item) => item.product === product._id
+                        ).price / 100}
+                      </td>
+                      <td>
+                        {
+                          order.products.find(
+                            (item) => item.product === product._id
+                          ).quantity
+                        }
+                      </td>
+                      <td>
+                        $
+                        {
+                          order.products.find(
+                            (item) => item.product === product._id
+                          ).totalPrice / 100
+                        }
+                      </td>
                     </tr>
-                  </tbody>
-                </table>
-              ))}
-            <button className="btn btn-dark d-block ml-auto" onClick={() => setExpand(false)}>close</button>
+                  ))}
+              </tbody>
+            </table>
+            <button
+              className="btn btn-dark d-block ml-auto"
+              onClick={() => setExpand(false)}
+            >
+              close
+            </button>
           </td>
         </tr>
       )}

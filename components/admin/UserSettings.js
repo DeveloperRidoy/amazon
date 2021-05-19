@@ -4,6 +4,8 @@ import { GlobalContext } from "../../context/GlobalContext";
 import SubmitButton from "../Button/SubmitButton/SubmitButton";
 import User from "./User";
 import { LayoutRef } from "../../pages/admin";
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
 
 const initialData = {
   name: "",
@@ -12,16 +14,31 @@ const initialData = {
   searchType: "name",
 };
 
-function UserSettings(e) {
+const initialUserData = {
+  name: "",
+  email: "",
+  role: "USER",
+  password: "",
+  confirmPassword: "",
+  phone: ""
+}
+
+function UserSettings() {
   const { state, setState } = useContext(GlobalContext);
 
   const [loading, setLoading] = useState(false);
+
+  const [addUserLoading, setAddUserLoading] = useState(false);
 
   const [searchData, setSearchData] = useState(initialData);
 
   const nameRef = createRef(null);
 
   const idRef = createRef(null);
+
+  const [showAddUser, setShowAddUser] = useState(false);
+
+  const [userData, setUserData] = useState(initialUserData);
 
   const [filteredUsers, setFilteredUsers] = useState({
     users: [],
@@ -31,9 +48,16 @@ function UserSettings(e) {
     breadCrumbs: [],
   });
 
-  const inputchange = (e) =>
+  const searchInputChange = (e) =>
     setSearchData({
       ...searchData,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    });
+  
+  const userInputChange = (e) =>
+    setUserData({
+      ...userData,
       [e.target.name]:
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
     });
@@ -94,11 +118,136 @@ function UserSettings(e) {
     }
   };
 
+  // add user
+  const addUser = async e => {
+    try {
+      e.preventDefault();
+      setAddUserLoading(true);
+      await axios.post('/api/v1/users/add-user', userData);
+      setAddUserLoading(false);
+      setState({ ...state, alert: { type: 'success', message: 'User added' } });
+      setShowAddUser(false);
+      setUserData(initialUserData)
+    } catch (error) {
+      setAddUserLoading(false);
+      setState({...state, alert: {type: 'danger', message: error.response?.data?.message || error.message || 'Network Error'}})
+    }
+  }
+
   // get all users on first load
   useEffect(() => searchUser(), []);
 
   return (
     <div style={{ position: "relative" }}>
+      <motion.button
+        className="btn text-white mb-3"
+        style={{ background: "#2C3E50" }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => {
+          setShowAddUser(!showAddUser);
+          showAddUser && setUserData(initialUserData);
+        }}
+      >
+        <h4 className="mb-0">{showAddUser ? "Cancel" : "+Add User"}</h4>
+      </motion.button>
+      {showAddUser && (
+        <Form onSubmit={addUser} className="p-3 shadow mb-3 col-md-6">
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="form-control"
+              value={userData.name}
+              onChange={userInputChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              className="form-control"
+              value={userData.email}
+              onChange={userInputChange}
+              autoComplete="email"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="role">Role</label>
+            <select
+              name="role"
+              id="role"
+              className="form-control"
+              value={userData.role}
+              onChange={userInputChange}
+              required
+            >
+              <option value="USER">User</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="phone">Phone</label>
+            <input
+              type="number"
+              name="phone"
+              id="phone"
+              className="form-control"
+              value={userData.phone}
+              onChange={userInputChange}
+              minLength="8"
+              maxLength="11"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              className="form-control"
+              value={userData.passsword}
+              onChange={userInputChange}
+              autoComplete="new-password"
+              minLength="8"
+              maxLength="16"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="name">Confrim password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              className="form-control"
+              value={userData.confirmPassword}
+              onChange={userInputChange}
+              autoComplete="new-password"
+              required
+            />
+          </div>
+          <div className="d-flex">
+            <SubmitButton
+              className="btn bg-dark text-white mr-2"
+              loading={addUserLoading}
+              spinColor="white"
+            >
+              Submit
+            </SubmitButton>
+            <button
+              className="btn btn-outline-dark"
+              onClick={() => { setShowAddUser(false); setUserData(initialUserData)}}
+            >
+              Cancel</button>
+          </div>
+        </Form>
+      )}
       <form
         onSubmit={searchUser}
         className="col-md-7 bg-white py-1 shadow mb-3"
@@ -111,7 +260,7 @@ function UserSettings(e) {
         }}
       >
         <div className="form-group">
-          <label htmlFor={searchData.searchType === 'name' ? 'name': '_id'}>
+          <label htmlFor={searchData.searchType === "name" ? "name" : "_id"}>
             <h3>
               <b>Search users</b>
             </h3>
@@ -123,10 +272,18 @@ function UserSettings(e) {
                 id="searchType"
                 className="form-control form-control-lg"
                 value={searchData.searchType}
-                onChange={e => {
-                  e.target.value === 'name'
-                    ? setSearchData({ ...searchData, _id: '', searchType: e.target.value })
-                    : setSearchData({ ...searchData, name: '', searchType: e.target.value });
+                onChange={(e) => {
+                  e.target.value === "name"
+                    ? setSearchData({
+                        ...searchData,
+                        _id: "",
+                        searchType: e.target.value,
+                      })
+                    : setSearchData({
+                        ...searchData,
+                        name: "",
+                        searchType: e.target.value,
+                      });
                 }}
               >
                 <option value="name">name</option>
@@ -142,7 +299,7 @@ function UserSettings(e) {
                 id="name"
                 placeholder="search by name..."
                 value={searchData.name}
-                onChange={inputchange}
+                onChange={searchInputChange}
               />
             ) : (
               searchData.searchType === "id" && (
@@ -154,7 +311,7 @@ function UserSettings(e) {
                   id="_id"
                   placeholder="search by id..."
                   value={searchData._id}
-                  onChange={inputchange}
+                  onChange={searchInputChange}
                 />
               )
             )}
@@ -164,7 +321,7 @@ function UserSettings(e) {
                 id="role"
                 className="form-control form-control-lg"
                 value={searchData.role}
-                onChange={inputchange}
+                onChange={searchInputChange}
               >
                 <option value="">any</option>
                 <option value="ADMIN">admin</option>
@@ -242,3 +399,9 @@ function UserSettings(e) {
 }
 
 export default UserSettings;
+
+const Form = styled.form`
+  label {
+    font-weight: bold;
+  }
+`

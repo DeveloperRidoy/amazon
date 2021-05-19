@@ -117,6 +117,12 @@ const productSchema = new mongoose.Schema(
   }
 );
 
+productSchema.virtual('reviews', {
+  ref: 'review',
+  foreignField: 'product',
+  localField: '_id'
+})
+
 productSchema.pre('save', function (next) {
   this.slug = this.name.toLowerCase().split(' ').join('-');
   next()
@@ -127,7 +133,7 @@ productSchema.plugin(uniqueValidator, {
 })
 
 productSchema.pre(/^find/, function (next) {
-  this.select('-__v').populate(['category', 'colors', 'shippingCountries']);
+  this.select('-__V').populate(['category', 'colors', 'shippingCountries', 'reviews']);
   next();
 })
 

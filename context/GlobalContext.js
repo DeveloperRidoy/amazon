@@ -55,7 +55,7 @@ const GlobalContextProvider = ({ children }) => {
         countries: countryRes.data.data.countries,
         loggedIn: userRes.data.status === "success" ? true : false,
         user: userRes.data.status === "success" ? userRes.data.data.user : null,
-        orders: orderRes.data.data.orders
+        orders: orderRes.data.data.orders,
       });
     } catch (error) {
       setState({

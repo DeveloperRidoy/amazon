@@ -5,22 +5,41 @@ import SubmitButton from "../Button/SubmitButton/SubmitButton";
 import styled from 'styled-components';
 import { cloneDeep } from 'lodash';
 import axios from "axios";
-import Order from "./Order";
 import { motion } from "framer-motion";
+import Order from './Order';
 
 function OrderSettings () {
-    
+  
   const { state, setState } = useContext(GlobalContext);
-  const [filteredOrders, setFilteredOrders] = useState({orders: cloneDeep(state.orders),status: "",});
+  const [pagination, setPagination] = useState({
+    startIndex: 0,
+    limit: 10,
+    pageNo: 1,
+    pages: Math.ceil(cloneDeep(state.orders).length / 10)
+  });
+  const [filteredOrders, setFilteredOrders] = useState({
+    orders: cloneDeep(state.orders).filter(
+      (order, i) =>
+        i >= pagination.startIndex &&
+        i < pagination.startIndex + pagination.limit
+    ),
+    status: "",
+  });
   const [selectedOrders, setSelectedOrders] = useState({orders:[], showAll: false});
   const [searchOrderId, setSearchOrderId] = useState('');
   const [bulkAction, setBulkAction] = useState({action: '', loading: false});
+  const [searchData, setSearchData] = useState({orderDate: '', customerNameOrId: ''})
 
-  useEffect(() => setFilteredOrders({...filteredOrders, orders: cloneDeep(state.orders)}) , [state.orders])
+  useEffect(() => {
+    setFilteredOrders({
+      ...filteredOrders,
+      orders: cloneDeep(state.orders).filter((order, i) => i >= pagination.startIndex && i < (pagination.startIndex + pagination.limit))
+    });
+  }, [state.orders, pagination]);
 
-  const applyBulkaction = async () => {
+  const applyBulkaction = async (e) => {
     try {
-
+      e.preventDefault();
       // for delete action
       if (bulkAction.action === "delete") {
         if (!confirm("delete these orders?")) return;
@@ -57,7 +76,60 @@ function OrderSettings () {
       setState({...state, alert: {type: 'danger', message: error.response?.data?.message || error.message || 'Network Error'}})
     }
   }
+  const changePage = (action, e) => {
+    e && e.preventDefault();
+    // change page with clicking button
+    if (action) {
+      action === 'next'
+        ? setPagination({ ...pagination, startIndex: pagination.startIndex + pagination.limit, pageNo: pagination.pageNo + 1 })
+        : setPagination({ ...pagination, startIndex: pagination.startIndex - pagination.limit, pageNo: pagination.pageNo - 1 })
+      return;
+    }
 
+    // change page on input
+    setPagination({...pagination, startIndex: (pagination.pageNo * pagination.limit) - pagination.limit })
+  }
+
+  const filterOrdersBySearchData = (e) => {
+    e.preventDefault()
+    setFilteredOrders({
+      ...filteredOrders,
+      orders: state.orders.filter((order) =>
+        searchData.customerNameOrId && !searchData.orderDate
+          ? order.user.trim() === searchData.customerNameOrId.trim() ||
+            `${order.metadata.firstName} ${order.metadata.lastName}`
+              .split(" ")
+              .join("")
+              .toLocaleLowerCase()
+              .includes(
+                searchData.customerNameOrId
+                  .split(" ")
+                  .join("")
+                  .toLocaleLowerCase()
+              )
+          : searchData.orderDate && !searchData.customerNameOrId
+          ? new Date(order.date).toLocaleDateString() ===
+            new Date(searchData.orderDate).toLocaleDateString()
+          : searchData.orderDate && searchData.customerNameOrId
+          ? (order.user.trim() === searchData.customerNameOrId.trim() &&
+              new Date(order.date).toLocaleDateString() ===
+                new Date(searchData.orderDate).toLocaleDateString()) ||
+            (`${order.metadata.firstName} ${order.metadata.lastName}`
+              .split(" ")
+              .join("")
+              .toLocaleLowerCase()
+              .includes(
+                searchData.customerNameOrId
+                  .split(" ")
+                  .join("")
+                  .toLocaleLowerCase()
+              ) &&
+              new Date(order.date).toLocaleDateString() ===
+                new Date(searchData.orderDate).toLocaleDateString())
+          : false
+      ),
+    });
+  }
   return (
     <div>
       {state.orders?.length > 0 ? (
@@ -120,6 +192,29 @@ function OrderSettings () {
                   {
                     state.orders.filter(
                       (order) => order.orderStatus === "processing"
+                    ).length
+                  }
+                  )
+                </h6>
+              </button>
+              <button
+                className={`btn btn-${
+                  filteredOrders.status === "shipping" ? "" : "outline-"
+                }dark mb-2 mr-2`}
+                onClick={() =>
+                  setFilteredOrders({
+                    orders: cloneDeep(state.orders).filter(
+                      (order) => order.orderStatus === "shipping"
+                    ),
+                    status: "shipping",
+                  })
+                }
+              >
+                <h6 className="mb-0">
+                  Shipping(
+                  {
+                    state.orders.filter(
+                      (order) => order.orderStatus === "shipping"
                     ).length
                   }
                   )
@@ -202,7 +297,7 @@ function OrderSettings () {
             </div>
           </div>
           <div className="d-md-flex">
-            <div className="d-flex mb-2" style={{ width: 180 }}>
+            <form className="d-flex mb-2" style={{ width: 180 }} onSubmit={applyBulkaction}>
               <div className="input-group">
                 <select
                   name="action"
@@ -226,54 +321,79 @@ function OrderSettings () {
                     className="btn bg-dark text-white"
                     spinColor="white"
                     loading={bulkAction.loading}
-                    disabled={selectedOrders.orders.length === 0 || bulkAction.action === ''}
+                    disabled={
+                      selectedOrders.orders.length === 0 ||
+                      bulkAction.action === ""
+                    }
                     tooltip={
                       selectedOrders.orders.length === 0
                         ? "select orders to update"
                         : null
                     }
-                    onClick={applyBulkaction}
                   >
                     Apply
                   </SubmitButton>
                 </div>
               </div>
-            </div>
-            <form className="col-md-5 input-group mb-2 ml-md-3 px-0">
+            </form>
+            <form className="col-md-5 input-group mb-2 ml-md-3 px-0" onSubmit={filterOrdersBySearchData}>
               <input
                 type="date"
-                name="date"
-                id="date"
+                name="orderDate"
+                id="orderDate"
                 className="form-control"
+                value={searchData.orderDate}
+                onChange={e => setSearchData({...searchData, orderDate: e.target.value})}
               />
               <input
                 type="text"
-                name="customer"
-                id="customer"
+                name="customerNameOrId"
+                id="customerNameOrId"
                 className="form-control"
-                placeholder="Search for a customer..."
+                placeholder="Customer name or id..."
+                value={searchData.customerNameOrId}
+                onChange={e => setSearchData({...searchData, customerNameOrId: e.target.value})}
               />
               <div className="input-group-append">
-                <button className="btn btn-dark" onClick={applyBulkaction}>
+                <button className="btn btn-dark" disabled={!searchData.customerNameOrId && !searchData.orderDate}>
                   Filter
                 </button>
               </div>
             </form>
             <div className="col d-flex justify-content-md-end align-items-center px-0">
-              <p className="mb-0 mr-1">140 items</p>
-              <button className="btn btn-outline-dark mr-1">
+              <p className="mb-0 mr-1">{filteredOrders.orders.length} items</p>
+              <button
+                className="btn btn-dark mr-1"
+                disabled={pagination.pageNo === 1}
+                onClick={() => changePage("prev")}
+              >
                 <BsChevronLeft />
               </button>
               <div style={{ width: 40 }} className="mr-1">
-                <InputNoArrows
-                  type="number"
-                  name="orderIndex"
-                  id="orderIndex"
-                  className="form-control text-center"
-                />
+                <form onSubmit={(e) => changePage(null, e)}>
+                  <InputNoArrows
+                    type="number"
+                    name="orderIndex"
+                    id="orderIndex"
+                    className="form-control text-center"
+                    value={pagination.pageNo}
+                    onChange={(e) => {
+                      if (e.target.value <= 0) e.target.value = 0;
+                      if (e.target.value > pagination.pages)
+                        e.target.value = pagination.pages;
+                      if (e.target.value.startsWith("0"))
+                        e.target.value = e.target.value.slice(1);
+                      setPagination({ ...pagination, pageNo: e.target.value });
+                    }}
+                  />
+                </form>
               </div>
-              <p className="mb-0 mr-1">of 7</p>
-              <button className="btn btn-outline-dark">
+              <p className="mb-0 mr-1">of {pagination.pages}</p>
+              <button
+                className="btn btn-dark"
+                disabled={pagination.pageNo >= pagination.pages}
+                onClick={() => changePage("next")}
+              >
                 <BsChevronRight />
               </button>
             </div>
@@ -348,3 +468,20 @@ const Table = styled(motion.table)`
     color: black;
   }
 `
+
+// 0 2  1  (0 + 2)/2 = 1   = 1
+// 1 2  1  (1+ 2)/2  = 1.3 = 1
+// 2 2  2  (2 + 2)/2 = 2   = 2 
+// 3 2  2  (3+2 )/2  = 2.5 = 2
+// 4 2  3  (2 + 2)/2 = 3   = 3 
+// 5 2  3  (2 + 2)/2 = 3.5 = 3 
+// 6 2  4  (6 +2 )/2 = 4   = 4
+// 7 2  4  (7 +2 )/2 = 4.5 = 4
+// 8 2  5  (8 +2 )/2 = 5   = 5
+// 9 2  5  (9 + 2)/2 = 5.5 = 5 
+
+// 1 0  (1*2 -2) ==> startIndex = (page * limit - limit)
+// 2 2  (2*2 -2)
+// 3 4  (3*2 -2)
+// 4 6  (4*2 -2)
+// 5 8  (5*2 -2)

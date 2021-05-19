@@ -9,6 +9,7 @@ import SubmitButton from "../Button/SubmitButton/SubmitButton";
 import Link from "next/link";
 
 function Product({ product }) {
+
   const initialState = {
     stock: product.stock,
     quantity: 0,
@@ -26,6 +27,15 @@ function Product({ product }) {
   const [currentPhoto, setCurrentPhoto] = useState({ photo: "" });
 
   const [productInfo, setProductInfo] = useState(initialState);
+
+  const [showDescription, setShowDescription] = useState(true);
+
+  const [reviewData, setReviewData] = useState({
+    rating: 1,
+    review: '',
+    product: product._id,
+    loading: false,
+  })
 
   const inputChange = (e) =>
     setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
@@ -88,6 +98,59 @@ function Product({ product }) {
       });
     }
   };
+
+  // check if user is eligible to review
+  const canReview = () => {
+    const orderCompleted = state.orders.some(order => order.orderStatus === 'complete' && order.user === state.user._id && order.products.find(prod => prod.product === product._id));
+    
+    const alreadyReviewed = product.reviews.some(review => review.user._id === state.user._id);
+
+    return orderCompleted && !alreadyReviewed ? true : false;
+  }
+
+  // submit review
+  const submitReview = async (e) => {
+    e.preventDefault();
+    try {
+      e.preventDefault()
+      setReviewData({ ...reviewData, loading: true });
+      await axios.post('/api/v1/reviews', reviewData);
+
+      setReviewData({ ...reviewData, loading: false });
+    
+      const updatedProduct = {
+        ...product,
+        ratingsCount: product.ratingsCount + 1,
+        ratingsAverage:
+          product.ratingsAverage === 1 && product.ratingsCount === 0
+            ? reviewData.rating
+            : (product.ratingsAverage + reviewData.rating) /
+              (product.ratingsCount + 1),
+        reviews: [
+          ...product.reviews,
+          {
+            _id: state.user._id,
+            createdAt: new Date(),
+            user: state.user,
+            ...reviewData,
+          },
+        ],
+      };
+
+      setState({ ...state, alert: { type: 'success', message: 'review added' }, products: state.products.map(prod => prod._id === product._id ? product = updatedProduct : prod) });
+
+    } catch (error) {
+      setReviewData({ ...reviewData, loading: false });
+      setState({
+        ...state,
+        alert: {
+          type: "danger",
+          message:
+            error.response?.data?.message || error.message || "Network Error",
+        },
+      });
+    }
+  }
 
   return (
     <div className="col row px-0 pb-5">
@@ -162,168 +225,263 @@ function Product({ product }) {
               <b>For</b>: {product.gender}
             </h5>
           )}
-          <h5>
-            <b>About this item</b>
-          </h5>
-          <p className="border-bottom pb-3 mb-4" style={{ fontSize: 15 }}>
-            {product.description}
-          </p>
-          <h5>
-            <b>Stock:</b>
-            {productInfo.stock}
-          </h5>
-          <form onSubmit={addToCart}>
-            <div className="d-flex align-items-center">
-              <h5 className="mb-0">
-                <b>Select color:</b>
-              </h5>
-              <div className="d-flex">
-                {product.colors.map((color) => (
-                  <label
-                    htmlFor={color._id}
-                    className="mx-2 border border-dark"
-                    style={{
-                      background: color.name,
-                      cursor: "pointer",
-                      position: "relative",
-                      height: 25,
-                      width: 25,
-                    }}
-                    key={color._id}
-                    onClick={() =>
-                      setProductInfo({ ...productInfo, color: color._id })
-                    }
-                  >
-                    <input
-                      type="radio"
-                      name="color"
-                      id={color._id}
-                      className="form-check-input ml-1 mt-2"
-                      style={{
-                        height: "13px",
-                        width: "13px",
-                        opacity: productInfo.color === color._id ? 1 : 0,
-                        position: "absolute",
-                        top: -12,
-                        right: -5,
-                      }}
+          <div className="d-flex">
+            <button
+              className={`btn btn-${
+                showDescription ? "" : "outline-"
+              }dark ml-5 mr-2`}
+              onClick={() => !showDescription && setShowDescription(true)}
+            >
+              <h5 className="mb-0">Description</h5>
+            </button>
+            <button
+              className={`btn btn-${showDescription ? "outline-" : ""}dark`}
+              onClick={() => {
+                showDescription && setShowDescription(false);
+              }}
+            >
+              <h5 className="mb-0">Reviews({product.reviews.length})</h5>
+            </button>
+          </div>
+          <div className="border p-3 mb-3">
+            {showDescription ? (
+              <p style={{ fontSize: 15 }}>{product.description}</p>
+            ) : (
+              <div>
+                {product.reviews.length > 0 ? (
+                  <div>
+                    <h5 className="mb-3">
+                      <b>
+                        {product.reviews.length} reviews for {product.name}
+                      </b>
+                    </h5>
+                    {product.reviews.map((review) => (
+                      <div
+                        key={review._id}
+                        className="d-flex align-items-start justify-content-between"
+                      >
+                        <div className="d-flex align-items-start">
+                          <img
+                            src={`/img/users/${
+                              review.user?.photo || "user.jpg"
+                            }`}
+                            alt={review.user?.name}
+                            style={{
+                              heigth: 40,
+                              width: 40,
+                            }}
+                            className="rounded-circle mr-3"
+                          />
+                          <div>
+                            <h5>
+                              <b>{review.user?.firstName}</b> -{" "}
+                              {new Date(review.createdAt).toDateString()}
+                            </h5>
+                            <p style={{ fontSize: 15 }}>{review.review}</p>
+                          </div>
+                        </div>
+                        <Star count={review.rating} />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <h3>No reviews yet.</h3>
+                )}
+                {state.user && canReview() && (
+                  <form onSubmit={submitReview}>
+                    <label htmlFor="review" className="font-weight-bold">
+                      Give a reveiw
+                    </label>
+                    <div className="d-flex">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <StyledStar
+                          key={star}
+                          style={{
+                            backgroundPosition: `-5px ${
+                              reviewData.rating >= star ? "-366px" : "-426px"
+                            }`,
+                          }}
+                          onClick={() => setReviewData({...reviewData, rating: star})}
+                        />
+                      ))}
+                    </div>
+                    <textarea
+                      name="review"
+                      id="review"
+                      rows="3"
+                      placeholder="your review here"
+                      className="form-control my-3"
+                      style={{ fontSize: 15 }}
+                      value={reviewData.review}
+                      onChange={e => setReviewData({...reviewData, review: e.target.value})}
                       required
-                    />
-                  </label>
-                ))}
+                    ></textarea>
+                    <SubmitButton loading={reviewData.loading}>
+                      Submit
+                    </SubmitButton>
+                  </form>
+                )}
               </div>
-            </div>
-            {product.sizes.length > 0 && (
+            )}
+          </div>
+          <div>
+            <h5>
+              <b>Stock:</b>
+              {productInfo.stock}
+            </h5>
+            <form onSubmit={addToCart}>
               <div className="d-flex align-items-center">
                 <h5 className="mb-0">
-                  <b>Select size:</b>
+                  <b>Select color:</b>
                 </h5>
                 <div className="d-flex">
-                  {product.sizes.map((size, i) => (
+                  {product.colors.map((color) => (
                     <label
-                      htmlFor={size + i}
-                      className="mx-2 d-flex align-items-center justify-content-center"
+                      htmlFor={color._id}
+                      className="mx-2 border border-dark"
                       style={{
+                        background: color.name,
                         cursor: "pointer",
-                        border: "1px solid black",
+                        position: "relative",
                         height: 25,
-                        width: 30,
-                        background:
-                          productInfo.size === size ? "black" : "white",
-                        color: productInfo.size === size ? "white" : "black",
+                        width: 25,
                       }}
-                      key={i}
-                      onClick={() => setProductInfo({ ...productInfo, size })}
+                      key={color._id}
+                      onClick={() =>
+                        setProductInfo({ ...productInfo, color: color._id })
+                      }
                     >
-                      <h5 className="mb-0">{size}</h5>
                       <input
                         type="radio"
-                        name="size"
-                        id={size + i}
+                        name="color"
+                        id={color._id}
                         className="form-check-input ml-1 mt-2"
-                        style={{ height: "1px", width: "1px", opacity: 0 }}
+                        style={{
+                          height: "13px",
+                          width: "13px",
+                          opacity: productInfo.color === color._id ? 1 : 0,
+                          position: "absolute",
+                          top: -12,
+                          right: -5,
+                        }}
                         required
                       />
                     </label>
                   ))}
                 </div>
               </div>
-            )}
-            <div className="d-flex align-items-center">
-              <div className="d-flex align-items-center">
-                <button
-                  type="button"
-                  className="btn btn-outline-dark"
-                  disabled={productInfo.quantity === 0}
-                  onClick={() =>
-                    setProductInfo({
-                      ...productInfo,
-                      stock: productInfo.stock + 1,
-                      quantity: productInfo.quantity - 1,
-                    })
-                  }
-                >
-                  <FaMinus />
-                </button>
-                <div
-                  className="d-flex align-items-center justify-content-center"
-                  style={{ width: 40 }}
-                >
-                  <InputArrowsHidden
-                    type="number"
-                    name="quantity"
-                    min="0"
-                    max={productInfo.stock}
-                    className="form-control"
-                    required
-                    value={productInfo.quantity}
-                    onChange={(e) => {
-                      if (e.target.value === 0) {
-                        e.target.setCustomValidity(
-                          "please select atleast one item"
-                        );
-                      }
-                      inputChange(e);
-                    }}
-                  />
+              {product.sizes.length > 0 && (
+                <div className="d-flex align-items-center">
+                  <h5 className="mb-0">
+                    <b>Select size:</b>
+                  </h5>
+                  <div className="d-flex">
+                    {product.sizes.map((size, i) => (
+                      <label
+                        htmlFor={size + i}
+                        className="mx-2 d-flex align-items-center justify-content-center"
+                        style={{
+                          cursor: "pointer",
+                          border: "1px solid black",
+                          height: 25,
+                          width: 30,
+                          background:
+                            productInfo.size === size ? "black" : "white",
+                          color: productInfo.size === size ? "white" : "black",
+                        }}
+                        key={i}
+                        onClick={() => setProductInfo({ ...productInfo, size })}
+                      >
+                        <h5 className="mb-0">{size}</h5>
+                        <input
+                          type="radio"
+                          name="size"
+                          id={size + i}
+                          className="form-check-input ml-1 mt-2"
+                          style={{ height: "1px", width: "1px", opacity: 0 }}
+                          required
+                        />
+                      </label>
+                    ))}
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  disabled={productInfo.stock === 0}
-                  className="btn btn-outline-dark"
-                  onClick={() =>
-                    setProductInfo({
-                      ...productInfo,
-                      stock: productInfo.stock - 1,
-                      quantity: productInfo.quantity + 1,
-                    })
-                  }
-                >
-                  <FaPlus />
-                </button>
-              </div>
-              <div className="ml-3 d-flex align-items-center">
-                <SubmitButton loading={productInfo.loading}>
-                  <h5 className="mb-0">Add to cart</h5>
-                </SubmitButton>
-                {productInfo.viewCart ? (
-                  <Link href="/cart">
-                    <a className="btn btn-dark ml-3">
-                      View cart <FaArrowRight />
-                    </a>
-                  </Link>
-                ) : (
-                  productInfo.viewLogin && (
-                    <Link href="/login">
+              )}
+              <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center">
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark"
+                    disabled={productInfo.quantity === 0}
+                    onClick={() =>
+                      setProductInfo({
+                        ...productInfo,
+                        stock: productInfo.stock + 1,
+                        quantity: productInfo.quantity - 1,
+                      })
+                    }
+                  >
+                    <FaMinus />
+                  </button>
+                  <div
+                    className="d-flex align-items-center justify-content-center"
+                    style={{ width: 40 }}
+                  >
+                    <InputArrowsHidden
+                      type="number"
+                      name="quantity"
+                      min="0"
+                      max={productInfo.stock}
+                      className="form-control"
+                      required
+                      value={productInfo.quantity}
+                      onChange={(e) => {
+                        if (e.target.value === 0) {
+                          e.target.setCustomValidity(
+                            "please select atleast one item"
+                          );
+                        }
+                        inputChange(e);
+                      }}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    disabled={productInfo.stock === 0}
+                    className="btn btn-outline-dark"
+                    onClick={() =>
+                      setProductInfo({
+                        ...productInfo,
+                        stock: productInfo.stock - 1,
+                        quantity: productInfo.quantity + 1,
+                      })
+                    }
+                  >
+                    <FaPlus />
+                  </button>
+                </div>
+                <div className="ml-3 d-flex align-items-center">
+                  <SubmitButton loading={productInfo.loading}>
+                    <h5 className="mb-0">Add to cart</h5>
+                  </SubmitButton>
+                  {productInfo.viewCart ? (
+                    <Link href="/cart">
                       <a className="btn btn-dark ml-3">
-                        Login <FaArrowRight />
+                        View cart <FaArrowRight />
                       </a>
                     </Link>
-                  )
-                )}
+                  ) : (
+                    productInfo.viewLogin && (
+                      <Link href="/login">
+                        <a className="btn btn-dark ml-3">
+                          Login <FaArrowRight />
+                        </a>
+                      </Link>
+                    )
+                  )}
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -357,4 +515,11 @@ const PhotoContainer = styled.div`
     top: 0;
     left: 0;
   }
+`;
+
+const StyledStar = styled.span`
+  background-image: url(/images2.png);
+  height: 16px;
+  width: 17px;
+  cursor: pointer;
 `;

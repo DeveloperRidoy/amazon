@@ -385,7 +385,7 @@ const Nav = () => {
               </div>
             )}
           </button>
-          <Link href={Router.asPath}>
+          <Link href={`${state.loggedIn ? '/my-account/orders': '/login'}`}>
             <a className="col">
               <div>Returns</div>
               <div>

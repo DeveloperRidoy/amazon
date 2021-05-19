@@ -83,6 +83,8 @@ const userSchema = new mongoose.Schema({
     },
   ],
   billing: {
+    type: Object,
+    required: false,
     firstName: {
       type: String,
       required: [true, "please provide first name"],

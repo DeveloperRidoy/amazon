@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { PencilRuler, TrashAlt } from "../icons";
 import SubmitButton from "../Button/SubmitButton/SubmitButton";
 import axios from "axios";
+import { readFile } from "../../utils/fileReader";
 
 const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
   const { state, setState } = useContext(GlobalContext);
@@ -12,35 +13,43 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const [data, setdata] = useState({
+  const [data, setData] = useState({
     name: user.name,
     email: user.email,
     password: "",
     photo: user.photo,
     role: user.role,
+    photoPreview: ""
   });
 
   const inputChange = (e) =>
-    setdata({
+    setData({
       ...data,
       [e.target.name]:
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
     });
 
+  // update user
   const updateUser = async (e) => {
     try {
       e.preventDefault();
       const info = { ...data };
-      !info.password && delete info.password;
 
+      // remove unnecessary data
+      !info.password && delete info.password;
+      delete info.photoPreview
+
+      // create formdata to parse file 
+      const formData = new FormData();
+      Object.keys(info).forEach(key => formData.append(key, info[key]));
       setLoading(true);
-      const res = await axios.patch(`/api/v1/users/${user._id}`, info);
-      setdata({ ...data, password: "" });
+      const res = await axios.patch(`/api/v1/users/${user._id}`, formData);
       setLoading(false);
       setExpand(false);
       setState({
         ...state,
         user: user._id === state.user._id ? res.data.data.user : state.user,
+        alert: {type: 'success', message: res.data.data.message},
         loggedIn: !info.password && !user._id !== state.user._id,
       });
       setFilteredUsers({
@@ -62,6 +71,7 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
     }
   };
 
+  // delete user
   const deleteUser = async () => {
     try {
       if (!confirm("Permanently delete this user?")) return;
@@ -95,6 +105,11 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
     }
   };
 
+  // upload photo
+  const uploadPhoto = async (e) => {
+    const photoPreview = await readFile(e.target.files[0]);
+    setData({ ...data, photoPreview, photo: e.target.files[0] });
+  }
   return (
     <div className="d-flex align-items-center p-3 mb-3 shadow">
       {!expand ? (
@@ -139,7 +154,7 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
         <StyledForm onSubmit={updateUser} className="col">
           <div className="form-group d-flex align-items-center">
             <img
-              src={`/img/users/${user.photo || "user.jpg"}`}
+              src={ data.photoPreview || `/img/users/${user.photo || "user.jpg"}`}
               alt={user.name}
               style={{ height: 50, width: 50, borderRadius: "50%" }}
             />
@@ -148,6 +163,7 @@ const User = ({ user, i, setFilteredUsers, filteredUsers }) => {
               name="photo"
               id="photo"
               style={{ height: 0.1, width: 0.1, opacity: 0 }}
+              onChange={uploadPhoto}
             />
             <label htmlFor="photo" className="btn btn-outline-dark mb-0 ml-3">
               Upload photo

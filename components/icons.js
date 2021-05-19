@@ -4,19 +4,19 @@ import { motion } from 'framer-motion';
 
 // star
 export const Star = ({ count = 1 }) => {
-    const stars = [];
-    for (let i = 1; i <= count; i++) {stars.push(i)};
+    const stars = [1, 2, 3, 4, 5];
     return (
       <span className="d-flex">
-            {stars.map((i) => <StyledStar key={i}/>)}
+        {stars.map((i) => (
+          <StyledStar key={i} style={{ backgroundPosition: `-5px ${i <= count ? '-366px': '-426px'}` }} />
+        ))}
       </span>
     );
 }
 const StyledStar = styled.span`
   background-image: url(/images2.png);
   height: 16px;
-  width: 17px;
-  background-position: -5px -366px;
+  width: 17px
 `;
 
 // custom font_awesome icon

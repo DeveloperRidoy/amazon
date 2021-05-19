@@ -14,7 +14,7 @@ exports.getDocs = (Model) => catchAsync(async (req, res) => {
         skip = limit * (page - 1);
     }
    
-    const docs = await Model.find().limit(limit).skip(skip)
+    const docs = await Model.find(req.body).limit(limit).skip(skip)
 
     return res.json({
         status: 'success',
