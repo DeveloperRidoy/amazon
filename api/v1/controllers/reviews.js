@@ -1,12 +1,8 @@
-const { findOneAndDelete } = require("../../../mongodb/models/review");
 const Review = require("../../../mongodb/models/review");
 const catchAsync = require("../../../utils/api/catchAsync");
 const AppError = require("./appError");
 const {
-  deleteDoc,
   getDoc,
-  addDoc,
-  updateDoc,
   getDocs,
 } = require("./handlerFactory");
 
