@@ -1,4 +1,4 @@
-const Review = require("../../../mongodb/models/review");
+const Review = require("../../../mongodb/models/Review");
 const catchAsync = require("../../../utils/api/catchAsync");
 const AppError = require("./appError");
 const {

@@ -71,6 +71,7 @@ reviewSchema.pre(/^find/, function (next) {
 // static method...example: await Review.sayHello()
 // reviewSchema.statics.sayHello = () => console.log('hello');
 // instance method..example: await Review.findOne({...}).exec( async (err, Review) => await Review.sayHello())
+// reviewSchema.methods.sayHello = () => console.log('hello');
 // all instance of this model has access to the instance method
 
 

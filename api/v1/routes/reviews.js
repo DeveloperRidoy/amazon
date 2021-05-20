@@ -1,8 +1,7 @@
 const express = require('express');
-const { protect, restrictTo } = require('../middleware/global');
+const { protect } = require('../middleware/global');
 const Router = express.Router();
 const {getAllReviews, getReview, updateReview, addReview, deleteReview} = require('../controllers/reviews');
-const { USER } = require('../../../utils/variables');
 
 
 // routes
