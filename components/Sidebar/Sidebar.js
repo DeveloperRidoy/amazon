@@ -6,18 +6,13 @@ import { SidebarContext } from "../../context/SidebarContext";
 import Spinner from "../Spinners/Spinner";
 import styles from "./Sidebar.module.scss";
 import SidebarItem from "./SidebarItem/SidebarItem";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
-function Sidebar () {
+function Sidebar() {
   const Router = useRouter();
   const { sidebarSettings, setSidebarSettings } = useContext(SidebarContext);
-  const {
-    show,
-    showSubmenu,
-    currentSubmenu,
-    loading,
-    sidebarMenu,
-  } = sidebarSettings;
+  const { show, showSubmenu, currentSubmenu, loading, sidebarMenu } =
+    sidebarSettings;
   const { state } = useContext(GlobalContext);
 
   useEffect(() => {

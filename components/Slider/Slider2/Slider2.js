@@ -4,7 +4,7 @@ import {BsChevronRight, BsChevronLeft} from 'react-icons/bs'
 import { useRef } from 'react';
 import { useRouter } from 'next/router';
 
-function Slider2 ({ title = "title", centerText, linkButton, link, linkText = "See more", images }) {
+function Slider2 ({ title = "title", centerText, linkButton, link="/shop", linkText = "See more", images }) {
   const Router = useRouter();
   const imagesContainerRef = useRef(null);
 
@@ -46,7 +46,7 @@ function Slider2 ({ title = "title", centerText, linkButton, link, linkText = "S
         {images &&
           images.length > 0 &&
           images.map((img, i) => (
-            <Link href={img.link || Router.asPath} key={i}>
+            <Link href={img.link || "/shop"} key={i}>
               <a>
                 <img src={img.src} alt={img.alt || `image ${i + 1}`} />
               </a>

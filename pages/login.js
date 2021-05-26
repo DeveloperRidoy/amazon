@@ -102,11 +102,11 @@ function index() {
           <SubmitButton loading={loading}>Log in</SubmitButton>
           <p className="mt-3">
             By continuing, you agree to Amazon's{" "}
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a>Conditions of Use</a>
             </Link>{" "}
             and{" "}
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a>Privacy Notice</a>
             </Link>
             .
@@ -122,9 +122,9 @@ function index() {
           </RegisterLink>
         </Link>
         <div className="w-75 border-top pt-3 mt-4 d-flex justify-content-around">
-          <Link href={Router.asPath}>Conditions of Use</Link>
-          <Link href={Router.asPath}>Privacy Notice</Link>
-          <Link href={Router.asPath}>Help</Link>
+          <Link href="/shop">Conditions of Use</Link>
+          <Link href="/shop">Privacy Notice</Link>
+          <Link href="/shop">Help</Link>
         </div>
         <p className="mt-3 mb-auto text-disabled ">
           © 1996-2021, Amazon.com, Inc. or its affiliates

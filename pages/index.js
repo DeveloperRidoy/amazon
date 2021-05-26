@@ -46,42 +46,59 @@ export default function Home() {
                   />
                   <h3 className="col">Hi, {state.user.firstName}</h3>
                 </div>
+
                 <p>Recommendations for you</p>
                 <div className="row row-cols-2 text-center">
-                  <div className="col">
-                    <img
-                      src="/img/categories/pc.jpg"
-                      alt="computer"
-                      className="col"
-                    />
-                    <span>Computer & Accessories</span>
-                  </div>
-                  <div className="col">
-                    <img
-                      src="/img/categories/ps5.jpg"
-                      alt="ps5"
-                      className="col"
-                    />
-                    <span>Video Games</span>
-                  </div>
-                  <div className="col">
-                    <img
-                      src="/img/categories/babyToys.jpg"
-                      alt="baby toys"
-                      className="col"
-                    />
-                    <span>Baby Toys</span>
-                  </div>
-                  <div className="col">
-                    <img
-                      src="/img/categories/toys&games.jpg"
-                      alt="toys & games"
-                      className="col"
-                    />
-                    <span>Toys & Games</span>
-                  </div>
+                  <Link href="/shop">
+                    <a>
+                      <div className="col">
+                        <img
+                          src="/img/categories/pc.jpg"
+                          alt="computer"
+                          className="col"
+                        />
+                        <span>Computer & Accessories</span>
+                      </div>
+                    </a>
+                  </Link>
+                  <Link href="/shop">
+                    <a>
+                      <div className="col">
+                        <img
+                          src="/img/categories/ps5.jpg"
+                          alt="ps5"
+                          className="col"
+                        />
+                        <span>Video Games</span>
+                      </div>
+                    </a>
+                  </Link>
+                  <Link href="/shop">
+                    <a>
+                      <div className="col">
+                        <img
+                          src="/img/categories/babyToys.jpg"
+                          alt="baby toys"
+                          className="col"
+                        />
+                        <span>Baby Toys</span>
+                      </div>
+                    </a>
+                  </Link>
+                  <Link href="/shop">
+                    <a>
+                      <div className="col">
+                        <img
+                          src="/img/categories/toys&games.jpg"
+                          alt="toys & games"
+                          className="col"
+                        />
+                        <span>Toys & Games</span>
+                      </div>
+                    </a>
+                  </Link>
                 </div>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a>
                     <h5 style={{ marginTop: "35px" }}>Shop now</h5>
                   </a>
@@ -89,10 +106,10 @@ export default function Home() {
               </div>
             </div>
           )}
-          <Card text="Beauty picks" link={Router.asPath} img="beauty" />
+          <Card text="Beauty picks" link="/shop" img="beauty" />
           <Card
             text="Get fit at home"
-            link={Router.asPath}
+            link="/shop"
             img="fitness"
             linkText="Explore now"
           />
@@ -109,7 +126,11 @@ export default function Home() {
                   <span>Computer & Accessories</span>
                 </div>
                 <div className="col">
-                  <img src="/img/categories/ps5.jpg" alt="ps5" className="col" />
+                  <img
+                    src="/img/categories/ps5.jpg"
+                    alt="ps5"
+                    className="col"
+                  />
                   <span>Video Games</span>
                 </div>
                 <div className="col">
@@ -129,7 +150,7 @@ export default function Home() {
                   <span>Toys & Games</span>
                 </div>
               </div>
-              <Link href={Router.asPath}>
+              <Link href="/shop">
                 <a>
                   <h5 style={{ marginTop: "82px" }}>Shop now</h5>
                 </a>
@@ -181,24 +202,24 @@ export default function Home() {
           )}
           <Card
             text="Shop top categories"
-            link={Router.asPath}
+            link="/shop"
             img="hobby"
             linkText="See more"
           />
           <Card
             text="Computers & Accessories"
-            link={Router.asPath}
+            link="/shop"
             img="pc&accessories"
           />
           <Card
             text="AmazonBasics"
-            link={Router.asPath}
+            link="/shop"
             img="amazonBasics"
             linkText="See more"
           />
           <Card
             text="Find your ideal TV"
-            link={Router.asPath}
+            link="/shop"
             img="tv"
             linkText="See more"
           />
@@ -206,39 +227,39 @@ export default function Home() {
         <div className="p-3 my-2 bg-white">
           <div className="mb-2">
             <h2 className="d-inline text-dark">Discover Amazon</h2>
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a className="ml-3">
                 <h5 className="d-inline">Click to learn more</h5>
               </a>
             </Link>
           </div>
           <div className="d-flex" style={{ overflowX: "scroll" }}>
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a>
                 <img src="/img/globe.png" alt="globe" />
               </a>
             </Link>
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a>
                 <img src="/img/money.png" alt="money" />
               </a>
             </Link>
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a>
                 <img src="/img/card.png" alt="card" />
               </a>
             </Link>
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a>
                 <img src="/img/box.png" alt="box" />
               </a>
             </Link>
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a>
                 <img src="/img/track.png" alt="track" />
               </a>
             </Link>
-            <Link href={Router.asPath}>
+            <Link href="/shop">
               <a>
                 <img src="/img/query.png" alt="customer care" />
               </a>
@@ -268,6 +289,7 @@ export default function Home() {
         <Slider2
           title="Best Sellers in Kitchen"
           linkText="Shop now"
+          link="/shop"
           images={[
             { src: "/img/categories/beauty/1.jpg" },
             { src: "/img/categories/beauty/2.jpg" },
@@ -288,19 +310,19 @@ export default function Home() {
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
           <Card
             text="Shop Laptops & Tablets"
-            link={Router.asPath}
+            link="/shop"
             img="laptop"
           />
-          <Card text="Explore home bedding" link={Router.asPath} img="bed" />
+          <Card text="Explore home bedding" link="/shop" img="bed" />
           <Card
             text="Create with strip lights"
-            link={Router.asPath}
+            link="/shop"
             img="stripeLights"
             linkText="Shop now"
           />
           <Card
             text="Shop Laptops & Tablets"
-            link={Router.asPath}
+            link="/shop"
             img="laptop"
           />
         </div>

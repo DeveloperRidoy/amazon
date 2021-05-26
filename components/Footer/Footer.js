@@ -30,22 +30,22 @@ function Footer() {
             <div className="col-8 d-flex flex-column d-sm-block">
               <h5 className="mb-3">Get to Know Us</h5>
               <div className="d-flex flex-wrap flex-row flex-sm-column">
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Careers</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Blog</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">About Amazon</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Investor Relations</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Amazon Devices</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Amazon Tours</a>
                 </Link>
               </div>
@@ -55,28 +55,28 @@ function Footer() {
             <div className="col-8 d-flex flex-column d-sm-block">
               <h5 className="mb-3">Make Money with Us</h5>
               <div className="d-flex flex-wrap flex-row flex-sm-column">
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Sell products on Amazon</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Sell on Amazon Business</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Sell apps on Amazon</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Become an Affiliate</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Advertise Your Products</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Self-Publish-with-Us</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Host an Amazon Hub</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">› See More Make Money with Us</a>
                 </Link>
               </div>
@@ -86,16 +86,16 @@ function Footer() {
             <div className="col-8 d-flex flex-column d-sm-block">
               <h5 className="mb-3">Amazon Payment Products</h5>
               <div className="d-flex flex-wrap flex-row flex-sm-column">
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Amazon Payment Cards</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Shop with Points</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Reload Your Balance</a>
                 </Link>
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a className="mb-1">Amazon Currency Converter</a>
                 </Link>
               </div>
@@ -105,43 +105,43 @@ function Footer() {
             <div className="col-8 d-flex flex-column d-sm-block">
               <h5 className="mb-3">Let Us Help You</h5>
               <div className="d-flex flex-wrap flex-row flex-sm-column justify-content-start align-items-start">
-                <Link href={Router.asPath}>
-                  <a href={Router.asPath} className="mb-1">
+                <Link href="/shop">
+                  <a href="/shop" className="mb-1">
                     Amazon and COVID-19
                   </a>
                 </Link>
-                <Link href={Router.asPath}>
-                  <a href={Router.asPath} className="mb-1">
+                <Link href="/shop">
+                  <a href="/shop" className="mb-1">
                     Your Account
                   </a>
                 </Link>
-                <Link href={Router.asPath}>
-                  <a href={Router.asPath} className="mb-1">
+                <Link href="/shop">
+                  <a href="/shop" className="mb-1">
                     Your Orders
                   </a>
                 </Link>
-                <Link href={Router.asPath}>
-                  <a href={Router.asPath} className="mb-1">
+                <Link href="/shop">
+                  <a href="/shop" className="mb-1">
                     Shipping Rates & Policies
                   </a>
                 </Link>
-                <Link href={Router.asPath}>
-                  <a href={Router.asPath} className="mb-1">
+                <Link href="/shop">
+                  <a href="/shop" className="mb-1">
                     Returns & Replacements
                   </a>
                 </Link>
-                <Link href={Router.asPath}>
-                  <a href={Router.asPath} className="mb-1">
+                <Link href="/shop">
+                  <a href="/shop" className="mb-1">
                     Managing Your Content & Devices
                   </a>
                 </Link>
-                <Link href={Router.asPath}>
-                  <a href={Router.asPath} className="mb-1">
+                <Link href="/shop">
+                  <a href="/shop" className="mb-1">
                     Amazon Assistant
                   </a>
                 </Link>
-                <Link href={Router.asPath}>
-                  <a href={Router.asPath} className="mb-1">
+                <Link href="/shop">
+                  <a href="/shop" className="mb-1">
                     Help
                   </a>
                 </Link>
@@ -158,7 +158,7 @@ function Footer() {
           className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-center"
           style={{ maxWidth: "600px", margin: "0 auto" }}
         >
-          <Link href={Router.asPath}>
+          <Link href="/shop">
             <a className={`${styles.logoContainer} mb-3 mb-sm-0`}>
               <div className={styles.logo}></div>
             </a>
@@ -201,14 +201,14 @@ function Footer() {
           style={{ maxWidth: "700px", margin: "0 auto", fontSize: "13px" }}
           className="d-flex flex-column flex-sm-row justify-content-around"
         >
-          <Link href={Router.asPath}>
-            <a href={Router.asPath}>Conditions of Use</a>
+          <Link href="/shop">
+            <a href="/shop">Conditions of Use</a>
           </Link>
-          <Link href={Router.asPath}>
-            <a href={Router.asPath}>Privacy Notice</a>
+          <Link href="/shop">
+            <a href="/shop">Privacy Notice</a>
           </Link>
-          <Link href={Router.asPath}>
-            <a href={Router.asPath}>Interest-Based ads</a>
+          <Link href="/shop">
+            <a href="/shop">Interest-Based ads</a>
           </Link>
           <span>&copy 1996-2021, Amazon.com, Inc. or its affiliates</span>
         </div>

@@ -27,9 +27,9 @@ const Nav = () => {
     searchCategory: "All",
   });
 
-  useEffect( async () => {
-    let alert = '';
-    let user = '';
+  useEffect(async () => {
+    let alert = "";
+    let user = "";
 
     // set alert from query
     if (Router.query.type && Router.query.alert) {
@@ -38,13 +38,14 @@ const Nav = () => {
 
     // empty user cart from query
     if (Router.query.emptyCart && state.user?.cart?.length > 0) {
-      user = (await axios.patch('/api/v1/users/update-me', { cart: [] })).data.data.user;
+      user = (await axios.patch("/api/v1/users/update-me", { cart: [] })).data
+        .data.user;
     }
 
     if (alert || user) {
       setState({ ...state, alert: alert || {}, user: user || state.user });
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     setSearchForm({ ...searchForm, searchInput: "" });
@@ -203,7 +204,7 @@ const Nav = () => {
               <div className={styles.logo}></div>
             </a>
           </Link>
-          <Link href={Router.asPath}>
+          <Link href="/shop">
             <a className="col d-flex align-items-end">
               <div className={styles.location}></div>
               <div>
@@ -294,38 +295,38 @@ const Nav = () => {
             <div className={styles.lngChangeOptions}>
               <p>
                 Change Language
-                <Link href={Router.asPath}>
+                <Link href="/shop">
                   <a style={{ color: "#1aa8d6" }}>learn more</a>
                 </Link>
               </p>
               <ul className="list-group">
                 <li className="list-group-item">
-                  <Link href={Router.asPath}>
+                  <Link href="/shop">
                     <a>english</a>
                   </Link>
                 </li>
                 <li className="list-group-item">
-                  <Link href={Router.asPath}>
+                  <Link href="/shop">
                     <a>bangla</a>
                   </Link>
                 </li>
                 <li className="list-group-item">
-                  <Link href={Router.asPath}>
+                  <Link href="/shop">
                     <a>arabic</a>
                   </Link>
                 </li>
                 <li className="list-group-item">
-                  <Link href={Router.asPath}>
+                  <Link href="/shop">
                     <a>australian</a>
                   </Link>
                 </li>
                 <li className="list-group-item">
-                  <Link href={Router.asPath}>
+                  <Link href="/shop">
                     <a>spanish</a>
                   </Link>
                 </li>
                 <li className="list-group-item">
-                  <Link href={Router.asPath}>
+                  <Link href="/shop">
                     <a>chinese</a>
                   </Link>
                 </li>
@@ -377,7 +378,7 @@ const Nav = () => {
                     </Link>
                   </li>
                   <li className="list-group-item" onClick={logout}>
-                    <Link href={Router.asPath}>
+                    <Link href="/shop">
                       <a>Logout</a>
                     </Link>
                   </li>
@@ -385,7 +386,7 @@ const Nav = () => {
               </div>
             )}
           </button>
-          <Link href={`${state.loggedIn ? '/my-account/orders': '/login'}`}>
+          <Link href={`${state.loggedIn ? "/my-account/orders" : "/login"}`}>
             <a className="col">
               <div>Returns</div>
               <div>
@@ -567,23 +568,23 @@ const Nav = () => {
           <Link href="/shop">
             <a> Shop</a>
           </Link>
-          <Link href={Router.asPath}>
+          <Link href="/shop">
             <a> Todays Deals</a>
           </Link>
-          <Link href={Router.asPath}>
+          <Link href="/shop">
             <a> Customer Service</a>
           </Link>
-          <Link href={Router.asPath}>
+          <Link href="/shop">
             <a> Gift Cards</a>
           </Link>
-          <Link href={Router.asPath}>
+          <Link href="/shop">
             <a> Sell</a>
           </Link>
-          <Link href={Router.asPath}>
+          <Link href="/shop">
             <a> Registry</a>
           </Link>
         </div>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a>Amazon's response to COVID-19</a>
         </Link>
       </section>
@@ -600,49 +601,49 @@ const Nav = () => {
         <Link href="/shop">
           <a> Shop</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Todays Deals</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Customer Service</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Gift Cards</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Sell</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Registry</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Todays Deals</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Customer Service</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Gift Cards</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Sell</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Registry</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Todays Deals</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Customer Service</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Gift Cards</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Sell</a>
         </Link>
-        <Link href={Router.asPath}>
+        <Link href="/shop">
           <a className="mx-3"> Registry</a>
         </Link>
       </section>
